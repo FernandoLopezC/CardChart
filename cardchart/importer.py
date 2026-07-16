@@ -56,7 +56,9 @@ def apply_csv_row(card, row):
 
 
 def enrich_from_scryfall(card):
-    response = requests.get(f"https://api.scryfall.com/cards/{card.scryfall_id}", timeout=20)
+    headers = {"User-Agent":"CardChart/0.1",
+               "Accept": "application/json;q=0.9,*/*;q=0.8"}
+    response = requests.get(f"https://api.scryfall.com/cards/{card.scryfall_id}", timeout=20, headers=headers)
     response.raise_for_status()
     data = response.json()
 

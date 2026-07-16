@@ -1,6 +1,9 @@
+import os
 from pathlib import Path
 
 from flask import Flask
+
+import uuid
 
 from .models import db
 from .routes import bp
@@ -13,6 +16,8 @@ def create_app():
 
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{instance_path / 'cardchart.sqlite'}"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+    app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY") or uuid.uuid4().hex
 
     db.init_app(app)
     app.register_blueprint(bp)
