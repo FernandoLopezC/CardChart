@@ -19,3 +19,9 @@ th, td { padding: .75rem; border-bottom: 1px solid #eee; text-align: left; }
 .flash { padding: .75rem 1rem; border-radius: 8px; background: #e9f6e9; }
 .flash.error { background: #f9dddd; }
 @media (max-width: 700px) { .detail { grid-template-columns: 1fr; } }
+.flash.warning { background: #fff3cd; }
+.import-progress { margin-top: 1rem; color: #666; }
+.progress-bar { height: .75rem; overflow: hidden; border-radius: 999px; background: #eee; }
+.progress-bar span { display: block; width: 45%; height: 100%; border-radius: inherit; background: #7149a8; animation: import-progress 1.2s ease-in-out infinite alternate; }
+button:disabled { cursor: wait; opacity: .7; }
+@keyframes import-progress { from { transform: translateX(-80%); } to { transform: translateX(180%); } }
