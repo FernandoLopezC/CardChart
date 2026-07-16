@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Collection</h1>
+<div class="grid">
+  {% for card in cards %}
+    <article class="card-tile">
+      {% if card.image_url %}<img src="{{ card.image_url }}" alt="{{ card.name }}">{% endif %}
+      <h2><a href="{{ url_for('main.card_detail', card_id=card.id) }}">{{ card.name }}</a></h2>
+      <p>{{ card.set_name }} #{{ card.collector_number }}</p>
+      <p>{{ card.finish_display }} · Qty {{ card.quantity }}</p>
+      {% set prices = card.latest_prices %}
+      <dl>
+        <dt>eBay UK sold</dt><dd>{{ "£%.2f"|format(prices.ebay_uk_sold.price_gbp) if prices.ebay_uk_sold else "Not checked" }}</dd>
+        <dt>Cardmarket UK</dt><dd>{{ "£%.2f"|format(prices.cardmarket_uk.price_gbp) if prices.cardmarket_uk else "Not checked" }}</dd>
+      </dl>
+    </article>
+  {% else %}
+    <p>No cards imported yet. <a href="{{ url_for('main.upload') }}">Import a CSV</a>.</p>
+  {% endfor %}
+</div>
+{% endblock %}
