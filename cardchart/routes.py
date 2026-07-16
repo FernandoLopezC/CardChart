@@ -22,8 +22,16 @@ def upload():
             return redirect(url_for("main.upload"))
 
         try:
-            count = import_cards(file)
-            flash(f"Imported {count} cards.", "success")
+            result = import_cards(file)
+            flash(
+                f"Imported {result.imported} cards; enriched {result.enriched} with Scryfall data; "
+                f"used {result.fallbacks} fallback lookups.",
+                "success",
+            )
+            for warning in result.warnings[:5]:
+                flash(warning, "warning")
+            if len(result.warnings) > 5:
+                flash(f"{len(result.warnings) - 5} more import warnings were hidden.", "warning")
             return redirect(url_for("main.index"))
         except Exception as exc:
             db.session.rollback()
