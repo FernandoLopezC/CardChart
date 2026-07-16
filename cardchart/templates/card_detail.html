@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="detail">
+  {% if card.image_url %}<img src="{{ card.image_url }}" alt="{{ card.name }}">{% endif %}
+  <div>
+    <h1>{{ card.name }}</h1>
+    <p>{{ card.set_name }} ({{ card.set_code }}) #{{ card.collector_number }}</p>
+    <p>{{ card.rarity }} · {{ card.finish_display }} · Quantity {{ card.quantity }}</p>
+    <p><a href="{{ card.scryfall_uri }}">View on Scryfall</a></p>
+    <form method="post" action="{{ url_for('main.refresh_prices', card_id=card.id) }}">
+      <button type="submit">Refresh prices</button>
+    </form>
+  </div>
+</section>
+
+<h2>Price history</h2>
+<table>
+  <thead><tr><th>Checked</th><th>Source</th><th>Price</th><th>Listing</th></tr></thead>
+  <tbody>
+    {% for price in prices %}
+      <tr>
+        <td>{{ price.checked_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td>{{ price.source }}</td>
+        <td>£{{ "%.2f"|format(price.price_gbp) }}</td>
+        <td><a href="{{ price.source_url }}">{{ price.title }}</a></td>
+      </tr>
+    {% else %}
+      <tr><td colspan="4">No price checks yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

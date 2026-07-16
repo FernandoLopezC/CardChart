@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Import collection CSV</h1>
+<form method="post" enctype="multipart/form-data" class="panel">
+  <label for="csv_file">CSV file</label>
+  <input id="csv_file" name="csv_file" type="file" accept=".csv" required>
+  <button type="submit">Import</button>
+</form>
+{% endblock %}
