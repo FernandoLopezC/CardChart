@@ -1,9 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Import collection CSV</h1>
-<form method="post" enctype="multipart/form-data" class="panel">
+<form method="post" enctype="multipart/form-data" class="panel import-form" data-import-form>
   <label for="csv_file">CSV file</label>
   <input id="csv_file" name="csv_file" type="file" accept=".csv" required>
   <button type="submit">Import</button>
+  <div class="import-progress" data-import-progress hidden>
+    <div class="progress-bar" aria-hidden="true"><span></span></div>
+    <p>Importing cards and checking Scryfall. This can take a moment if requests are throttled.</p>
+  </div>
 </form>
+<script>
+  const importForm = document.querySelector("[data-import-form]");
+  const importProgress = document.querySelector("[data-import-progress]");
+
+  importForm.addEventListener("submit", () => {
+    importProgress.hidden = false;
+    importForm.querySelector("button").disabled = true;
+  });
+</script>
 {% endblock %}
