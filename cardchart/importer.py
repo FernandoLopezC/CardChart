@@ -28,10 +28,16 @@ def import_cards(file_storage):
     imported = 0
     for row in rows:
         scryfall_id = row["Card Scryfall ID"].strip()
+        if scryfall_id is None:
+            continue
         if not scryfall_id:
             continue
 
-        card = Card.query.filter_by(scryfall_id=scryfall_id).first() or Card(scryfall_id=scryfall_id)
+        with db.session.no_autoflush:
+            card = Card.query.filter_by(scryfall_id=scryfall_id).first()
+
+        if card is None:
+            card = Card(scryfall_id=scryfall_id)
         apply_csv_row(card, row)
         enrich_from_scryfall(card)
         db.session.add(card)
@@ -64,6 +70,8 @@ def enrich_from_scryfall(card):
 
     card.scryfall_uri = data.get("scryfall_uri")
     card.image_url = get_image_url(data)
+    if data.get("cardmarket_id"):
+        card.cardmarket_id = int(data.get("cardmarket_id"))
 
 
 def get_image_url(data):

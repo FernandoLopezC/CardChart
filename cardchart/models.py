@@ -19,6 +19,7 @@ class Card(db.Model):
     quantity = db.Column(db.Integer, nullable=False, default=1)
     image_url = db.Column(db.String(500))
     scryfall_uri = db.Column(db.String(500))
+    cardmarket_id = db.Column(db.Integer, nullable=True)
     cardmarket_url = db.Column(db.String(500))
     ebay_query = db.Column(db.String(300))
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))

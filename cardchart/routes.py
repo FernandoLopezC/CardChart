@@ -26,6 +26,7 @@ def upload():
             flash(f"Imported {count} cards.", "success")
             return redirect(url_for("main.index"))
         except Exception as exc:
+            db.session.rollback()
             flash(str(exc), "error")
 
     return render_template("upload.html")
