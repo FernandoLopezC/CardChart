@@ -37,6 +37,7 @@ class ImportResult:
         self.enriched = 0
         self.fallbacks = 0
         self.warnings = []
+        self.cards_by_scryfall_id = {}
 
 
 def import_cards(file_storage):
@@ -79,8 +80,7 @@ def import_card(row, line_number, result, bulk_lookup=None):
         scryfall_data = fetch_by_set_and_collector(row, result, line_number)
 
     scryfall_id = (scryfall_data or {}).get("id") or lookup_key or build_csv_fallback_id(row)
-    with db.session.no_autoflush:
-        card = Card.query.filter_by(scryfall_id=scryfall_id).first()
+    card, scryfall_id = find_card_for_row(scryfall_id, row, result)
 
     if card is None:
         card = Card(scryfall_id=scryfall_id)
@@ -93,7 +93,31 @@ def import_card(row, line_number, result, bulk_lookup=None):
         result.warnings.append(f"Line {line_number}: imported CSV details without Scryfall enrichment.")
 
     db.session.add(card)
+    result.cards_by_scryfall_id[scryfall_id] = card
     result.imported += 1
+
+
+def find_card_for_row(scryfall_id, row, result):
+    finish = row["Finish"].strip()
+    finish_id = build_finish_scryfall_id(scryfall_id, finish)
+
+    card = result.cards_by_scryfall_id.get(scryfall_id)
+    if card is not None:
+        if card.finish == finish:
+            return card, scryfall_id
+        return result.cards_by_scryfall_id.get(finish_id), finish_id
+
+    with db.session.no_autoflush:
+        card = Card.query.filter_by(scryfall_id=scryfall_id).first()
+        if card is None or card.finish == finish:
+            return card, scryfall_id
+
+        finish_card = Card.query.filter_by(scryfall_id=finish_id).first()
+        return finish_card, finish_id
+
+
+def build_finish_scryfall_id(scryfall_id, finish):
+    return f"{scryfall_id}:{slugify(finish) or 'unknown'}"
 
 
 def find_in_bulk_lookup(row, lookup_key, bulk_lookup):
