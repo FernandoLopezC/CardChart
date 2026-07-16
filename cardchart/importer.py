@@ -8,6 +8,7 @@ from slugify import slugify
 
 from .models import Card, db
 from .scrapers import build_ebay_query, build_cardmarket_url
+from .scryfall_bulk import load_bulk_lookup
 
 REQUIRED_HEADERS = [
     "Card Scryfall ID",
@@ -27,6 +28,7 @@ SCRYFALL_HEADERS = {
 }
 MAX_SCRYFALL_ATTEMPTS = 3
 DEFAULT_THROTTLE_SECONDS = 1
+BULK_IMPORT_MIN_ROWS = 100
 
 
 class ImportResult:
@@ -43,22 +45,37 @@ def import_cards(file_storage):
     if missing_headers:
         raise ValueError(f"Missing CSV headers: {', '.join(missing_headers)}")
 
+    import_rows = list(rows)
     result = ImportResult()
-    for line_number, row in enumerate(rows, start=2):
-        import_card(row, line_number, result)
+    bulk_lookup = load_scryfall_bulk_lookup(result, len(import_rows))
+    for line_number, row in enumerate(import_rows, start=2):
+        import_card(row, line_number, result, bulk_lookup)
 
     db.session.commit()
     return result
 
 
-def import_card(row, line_number, result):
-    lookup_key = row.get("Card Scryfall ID", "").strip()
-    scryfall_data = None
+def load_scryfall_bulk_lookup(result, row_count):
+    refresh = row_count >= BULK_IMPORT_MIN_ROWS
+    try:
+        return load_bulk_lookup(refresh=refresh)
+    except requests.RequestException as exc:
+        result.warnings.append(f"Scryfall bulk data was unavailable ({exc}); using live lookups instead.")
+    except (OSError, ValueError) as exc:
+        result.warnings.append(f"Scryfall bulk cache could not be loaded ({exc}); using live lookups instead.")
+    return None
 
-    if lookup_key:
-        scryfall_data = fetch_scryfall_card(f"https://api.scryfall.com/cards/{lookup_key}", result, line_number)
-    else:
+
+def import_card(row, line_number, result, bulk_lookup=None):
+    lookup_key = row.get("Card Scryfall ID", "").strip()
+    if not lookup_key:
         result.fallbacks += 1
+
+    scryfall_data = find_in_bulk_lookup(row, lookup_key, bulk_lookup)
+
+    if not scryfall_data and lookup_key:
+        scryfall_data = fetch_scryfall_card(f"https://api.scryfall.com/cards/{lookup_key}", result, line_number)
+    elif not scryfall_data:
         scryfall_data = fetch_by_set_and_collector(row, result, line_number)
 
     scryfall_id = (scryfall_data or {}).get("id") or lookup_key or build_csv_fallback_id(row)
@@ -77,6 +94,23 @@ def import_card(row, line_number, result):
 
     db.session.add(card)
     result.imported += 1
+
+
+def find_in_bulk_lookup(row, lookup_key, bulk_lookup):
+    if bulk_lookup is None:
+        return None
+
+    if lookup_key:
+        card = bulk_lookup.find_by_id(lookup_key)
+        if card:
+            return card
+
+    set_code = row["Set Code"].strip()
+    collector_number = row["Collector Number"].strip()
+    if not set_code or not collector_number:
+        return None
+
+    return bulk_lookup.find_by_set_and_collector(set_code, collector_number)
 
 
 def fetch_by_set_and_collector(row, result, line_number):
