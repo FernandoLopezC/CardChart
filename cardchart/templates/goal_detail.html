@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-heading">
+  <p class="eyebrow">{{ goal.state }}</p>
+  <h1>{{ goal.name }}</h1>
+  <p>{{ goal.description }}</p>
+  <p><strong>{{ goal.owned_count }} of {{ goal.total_count }}</strong> owned · {{ goal.percentage }}%</p>
+  <div class="progress" role="progressbar" aria-valuenow="{{ goal.percentage }}" aria-valuemin="0" aria-valuemax="100"><span style="width: {{ goal.percentage }}%"></span></div>
+</header>
+<nav class="filters" aria-label="Checklist filters">
+  {% for value in ("all", "missing", "owned") %}
+    <a href="{{ url_for('main.goal_detail', slug=goal.slug, filter=value) }}" {% if selected_filter == value %}aria-current="page"{% endif %}>{{ value|title }}</a>
+  {% endfor %}
+</nav>
+<div class="checklist">
+  {% for card in cards %}
+    <article class="checklist-card {{ 'owned' if card.is_owned else 'missing' }}">
+      {% if card.image_url %}<img src="{{ card.image_url }}" alt="{{ card.name }}">{% else %}<div class="placeholder" aria-hidden="true">CC</div>{% endif %}
+      <div>
+        <span class="status">{{ "Owned" if card.is_owned else "Missing" }}</span>
+        <h2>{{ card.name }}</h2>
+        {% for printing in card.printings if printing.quantity > 0 %}
+          <p>{{ printing.set_code|upper }} #{{ printing.collector_number }} · {{ printing.language }} · {{ printing.finish }} · Qty {{ printing.quantity }}</p>
+        {% endfor %}
+        <a href="{{ url_for('main.edit_goal_card', slug=goal.slug, goal_card_id=card.id) }}">Edit ownership</a>
+      </div>
+    </article>
+  {% else %}
+    <p>No {{ selected_filter if selected_filter != 'all' else '' }} checklist entries.</p>
+  {% endfor %}
+</div>
+{% endblock %}

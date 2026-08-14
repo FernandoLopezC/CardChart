@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Edit {{ goal_card.name }}</h1>
+<p><a href="{{ url_for('main.goal_detail', slug=goal.slug) }}">Back to {{ goal.name }}</a></p>
+<form class="panel ownership-form" method="post" action="{{ url_for('main.update_goal_card', slug=goal.slug, goal_card_id=goal_card.id) }}">
+  <fieldset><legend>Collection status</legend>
+    <label><input type="radio" name="status" value="missing" {{ 'checked' if not printing }}> Missing</label>
+    <label><input type="radio" name="status" value="owned" {{ 'checked' if printing }}> Owned</label>
+  </fieldset>
+  <label for="card_id">Imported card</label>
+  <select id="card_id" name="card_id"><option value="">None</option>{% for card in inventory %}<option value="{{ card.id }}" {{ 'selected' if printing and printing.card_id == card.id }}>{{ card.name }} — {{ card.set_code|upper }} #{{ card.collector_number }} ({{ card.finish }})</option>{% endfor %}</select>
+  <label for="scryfall_id">Canonical Scryfall printing ID</label><input id="scryfall_id" name="scryfall_id" value="{{ printing.scryfall_id if printing else '' }}">
+  <label for="set_code">Set code</label><input id="set_code" name="set_code" value="{{ printing.set_code if printing else goal_card.expected_set_code or '' }}">
+  <label for="collector_number">Collector number</label><input id="collector_number" name="collector_number" value="{{ printing.collector_number if printing else goal_card.expected_collector_number or '' }}">
+  <label for="language">Language</label><input id="language" name="language" value="{{ printing.language if printing else 'en' }}">
+  <label for="finish">Finish</label><input id="finish" name="finish" value="{{ printing.finish if printing else 'nonfoil' }}">
+  <label for="quantity">Quantity</label><input id="quantity" name="quantity" type="number" min="1" value="{{ printing.quantity if printing else 1 }}" required>
+  <label for="acquired_at">Acquisition date</label><input id="acquired_at" name="acquired_at" type="date" value="{{ printing.acquired_at.isoformat() if printing and printing.acquired_at else '' }}">
+  <label for="notes">Notes</label><textarea id="notes" name="notes">{{ printing.notes if printing and printing.notes else '' }}</textarea>
+  <button type="submit">Save ownership</button>
+</form>
+{% endblock %}

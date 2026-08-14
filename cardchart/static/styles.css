@@ -2,6 +2,7 @@ body { margin: 0; font-family: Arial, sans-serif; background: #f7f4ef; color: #2
 a { color: #7149a8; }
 .site-header { display: flex; justify-content: space-between; padding: 1rem 2rem; background: #25211d; }
 .site-header a { color: white; text-decoration: none; }
+.site-header nav { display: flex; gap: 1rem; }
 .brand { font-weight: 700; }
 .container { max-width: 1180px; margin: 0 auto; padding: 2rem; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
@@ -25,3 +26,25 @@ th, td { padding: .75rem; border-bottom: 1px solid #eee; text-align: left; }
 .progress-bar span { display: block; width: 45%; height: 100%; border-radius: inherit; background: #7149a8; animation: import-progress 1.2s ease-in-out infinite alternate; }
 button:disabled { cursor: wait; opacity: .7; }
 @keyframes import-progress { from { transform: translateX(-80%); } to { transform: translateX(180%); } }
+.page-heading { max-width: 760px; margin-bottom: 2rem; }
+.page-heading h1 { font-size: clamp(2rem, 5vw, 3.6rem); margin: .2rem 0; }
+.eyebrow { color: #7149a8; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.goal-grid, .checklist { display: grid; gap: 1rem; }
+.goal-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.goal-tile, .checklist-card { background: white; border-radius: 14px; padding: 1.25rem; box-shadow: 0 2px 10px #0001; }
+.goal-tile img { width: 100%; border-radius: 10px; }
+.status { display: inline-block; color: #7149a8; font-size: .8rem; font-weight: 700; text-transform: uppercase; }
+.progress { height: .7rem; overflow: hidden; border-radius: 999px; background: #e6e0d8; }
+.progress span { display: block; height: 100%; background: #4f8b62; }
+.button-link { display: inline-block; margin-top: 1rem; font-weight: 700; }
+.filters { display: flex; gap: .5rem; margin-bottom: 1.5rem; }
+.filters a { padding: .55rem 1rem; border-radius: 999px; background: white; text-decoration: none; }
+.filters a[aria-current="page"] { background: #7149a8; color: white; }
+.checklist-card { display: grid; grid-template-columns: 100px 1fr; gap: 1rem; border-left: 5px solid #b95b5b; }
+.checklist-card.owned { border-left-color: #4f8b62; }
+.checklist-card img, .placeholder { width: 100px; min-height: 140px; border-radius: 8px; object-fit: cover; }
+.placeholder { display: grid; place-items: center; background: #e6e0d8; color: #777; font-weight: 700; }
+.ownership-form { max-width: 620px; }
+.ownership-form label:not(fieldset label) { display: block; margin-top: 1rem; font-weight: 700; }
+.ownership-form input:not([type="radio"]), .ownership-form select, .ownership-form textarea { box-sizing: border-box; width: 100%; padding: .6rem; }
+.ownership-form textarea { min-height: 7rem; margin-bottom: 1rem; }

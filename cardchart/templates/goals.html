@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-heading">
+  <p class="eyebrow">Collection goals</p>
+  <h1>Build the collection you want</h1>
+  <p>Track deliberately curated card checklists, one printing at a time.</p>
+</header>
+<div class="goal-grid">
+  {% for goal in goals %}
+    <article class="goal-tile">
+      {% if goal.image_url %}<img src="{{ goal.image_url }}" alt="">{% endif %}
+      <div>
+        <span class="status">{{ goal.state }}</span>
+        <h2><a href="{{ url_for('main.goal_detail', slug=goal.slug) }}">{{ goal.name }}</a></h2>
+        <p>{{ goal.description }}</p>
+        <p><strong>{{ goal.owned_count }} of {{ goal.total_count }}</strong> owned · {{ goal.percentage }}%</p>
+        <div class="progress" role="progressbar" aria-label="{{ goal.name }} progress" aria-valuenow="{{ goal.percentage }}" aria-valuemin="0" aria-valuemax="100">
+          <span style="width: {{ goal.percentage }}%"></span>
+        </div>
+        <a class="button-link" href="{{ url_for('main.goal_detail', slug=goal.slug) }}">View checklist</a>
+      </div>
+    </article>
+  {% else %}
+    <p>No goals initialized. Run <code>flask --app cardchart init-db</code>.</p>
+  {% endfor %}
+</div>
+{% endblock %}
