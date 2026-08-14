@@ -1,8 +1,10 @@
 # CardChart
 
-CardChart is a small Flask app for tracking Magic: The Gathering collection values with UK-focused pricing sources.
+CardChart is a small Flask app for tracking curated Magic: The Gathering collection goals and imported physical cards.
 
-It imports cards from CSV using Scryfall IDs, stores the collection in a local SQLite database, shows Scryfall images, and has scraper hooks for eBay UK sold listings and Cardmarket UK listings.
+It keeps desired cards visible even when they are missing and associates exact owned printings with each checklist entry. CSV import uses Scryfall IDs and can explicitly match accepted goal printings. Existing UK-focused pricing tools remain available as legacy inventory behavior.
+
+See [product direction](docs/product-direction.md) for product and data-model intent and [remaining tasks](docs/remaining-tasks.md) for genuine blockers and decisions.
 
 ## Setup
 
@@ -15,6 +17,8 @@ flask --app cardchart run
 ```
 
 Open http://127.0.0.1:5000.
+
+The root page opens the goals dashboard. Imported cards remain available at `/inventory`.
 
 ## CSV format
 

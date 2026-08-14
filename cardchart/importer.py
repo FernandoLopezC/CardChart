@@ -6,7 +6,7 @@ from urllib.parse import quote
 import requests
 from slugify import slugify
 
-from .models import Card, db
+from .models import Card, GoalCard, GoalCardPrinting, db
 from .scrapers import build_ebay_query, build_cardmarket_url
 from .scryfall_bulk import load_bulk_lookup
 
@@ -38,6 +38,7 @@ class ImportResult:
         self.fallbacks = 0
         self.warnings = []
         self.cards_by_scryfall_id = {}
+        self.goal_matches = 0
 
 
 def import_cards(file_storage):
@@ -79,7 +80,8 @@ def import_card(row, line_number, result, bulk_lookup=None):
     elif not scryfall_data:
         scryfall_data = fetch_by_set_and_collector(row, result, line_number)
 
-    scryfall_id = (scryfall_data or {}).get("id") or lookup_key or build_csv_fallback_id(row)
+    canonical_scryfall_id = (scryfall_data or {}).get("id")
+    scryfall_id = canonical_scryfall_id or lookup_key or build_csv_fallback_id(row)
     card, scryfall_id = find_card_for_row(scryfall_id, row, result)
 
     if card is None:
@@ -93,8 +95,46 @@ def import_card(row, line_number, result, bulk_lookup=None):
         result.warnings.append(f"Line {line_number}: imported CSV details without Scryfall enrichment.")
 
     db.session.add(card)
+    if canonical_scryfall_id and match_goal_printing(card, canonical_scryfall_id, row, scryfall_data):
+        result.goal_matches += 1
     result.cards_by_scryfall_id[scryfall_id] = card
     result.imported += 1
+
+
+def match_goal_printing(card, canonical_scryfall_id, row, scryfall_data):
+    matches = [
+        goal_card
+        for goal_card in GoalCard.query.all()
+        if canonical_scryfall_id in goal_card.accepted_printing_ids
+    ]
+    if len(matches) != 1:
+        return False
+
+    goal_card = matches[0]
+    finish = row["Finish"].strip()
+    language = scryfall_data.get("lang") or "en"
+    printing = GoalCardPrinting.query.filter_by(
+        goal_card_id=goal_card.id,
+        scryfall_id=canonical_scryfall_id,
+        finish=finish,
+        language=language,
+    ).first()
+    if printing is None:
+        printing = GoalCardPrinting(
+            goal_card=goal_card,
+            scryfall_id=canonical_scryfall_id,
+            finish=finish,
+            language=language,
+        )
+        db.session.add(printing)
+
+    printing.card = card
+    printing.set_code = scryfall_data.get("set") or row["Set Code"].strip()
+    printing.collector_number = (
+        scryfall_data.get("collector_number") or row["Collector Number"].strip()
+    )
+    printing.quantity = int(row["Quantity"] or 1)
+    return True
 
 
 def find_card_for_row(scryfall_id, row, result):

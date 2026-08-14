@@ -8,8 +8,12 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="{{ url_for('main.index') }}">CardChart</a>
-    <nav><a href="{{ url_for('main.upload') }}">Import CSV</a></nav>
+    <a class="brand" href="{{ url_for('main.goals') }}">CardChart</a>
+    <nav>
+      <a href="{{ url_for('main.goals') }}">Goals</a>
+      <a href="{{ url_for('main.inventory') }}">Inventory</a>
+      <a href="{{ url_for('main.upload') }}">Import CSV</a>
+    </nav>
   </header>
   <main class="container">
     {% for category, message in get_flashed_messages(with_categories=true) %}

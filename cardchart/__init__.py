@@ -25,6 +25,9 @@ def create_app():
     @app.cli.command("init-db")
     def init_db_command():
         db.create_all()
+        from .goal_definitions import synchronize_goals
+
+        synchronize_goals()
         print("Initialized the database.")
 
     return app
