@@ -1,32 +1,106 @@
 {% extends "base.html" %}
 {% block content %}
-<header class="page-heading">
+<header class="page-heading goal-detail-heading">
   <p class="eyebrow">{{ goal.state }}</p>
   <h1>{{ goal.name }}</h1>
   <p>{{ goal.description }}</p>
-  <p><strong>{{ goal.owned_count }} of {{ goal.total_count }}</strong> owned · {{ goal.percentage }}%</p>
+  <div class="goal-progress-summary">
+    <strong>{{ goal.percentage }}%</strong>
+    <span>{{ goal.owned_count }} of {{ goal.total_count }} owned</span>
+  </div>
   <div class="progress" role="progressbar" aria-valuenow="{{ goal.percentage }}" aria-valuemin="0" aria-valuemax="100"><span style="width: {{ goal.percentage }}%"></span></div>
-</header>
-<nav class="filters" aria-label="Checklist filters">
-  {% for value in ("all", "missing", "owned") %}
-    <a href="{{ url_for('main.goal_detail', slug=goal.slug, filter=value) }}" {% if selected_filter == value %}aria-current="page"{% endif %}>{{ value|title }}</a>
-  {% endfor %}
-</nav>
-<div class="checklist">
-  {% for card in cards %}
-    <article class="checklist-card {{ 'owned' if card.is_owned else 'missing' }}">
-      {% if card.image_url %}<img src="{{ card.image_url }}" alt="{{ card.name }}">{% else %}<div class="placeholder" aria-hidden="true">CC</div>{% endif %}
+  <div class="goal-price-summary" aria-label="Collection guide values">
+    {% for key, label in (("owned", "Owned value"), ("missing", "Missing cost")) %}
+      {% set total = price_summary[key] %}
       <div>
-        <span class="status">{{ "Owned" if card.is_owned else "Missing" }}</span>
+        <span>{{ label }}</span>
+        <strong>{% if total.gbp %}≈ £{{ total.gbp }}{% else %}Unavailable{% endif %}</strong>
+        <small>{{ total.priced_count }} of {{ total.card_count }} card{{ '' if total.card_count == 1 else 's' }} priced</small>
+      </div>
+    {% endfor %}
+  </div>
+  <p class="price-note">Owned value uses each recorded printing, finish, and quantity. Missing cost uses the cheapest accepted {{ goal.scryfall_set_code|upper }} version—never printings from another set. Approximate GBP guide prices use Scryfall EUR data{% if rate_info %} and the ECB reference rate from {{ rate_info.rate_date }}{% endif %}.</p>
+  {% set missing_count = goal.total_count - goal.owned_count %}
+  {% if missing_count %}<a class="wants-export-link" href="{{ url_for('main.export_cardmarket_wants', slug=goal.slug) }}">Export {{ missing_count }} missing card{{ '' if missing_count == 1 else 's' }} for Cardmarket</a>{% endif %}
+</header>
+<div class="collection-toolbar">
+  <nav class="filters" aria-label="Checklist filters">
+    {% for value in ("all", "missing", "owned") %}
+      <a href="{{ url_for('main.goal_detail', slug=goal.slug, filter=value) }}" {% if selected_filter == value %}aria-current="page"{% endif %}>{{ value|title }}</a>
+    {% endfor %}
+  </nav>
+  <span>{{ total_cards }} card{{ '' if total_cards == 1 else 's' }} · Page {{ page }} of {{ total_pages }}</span>
+</div>
+<div class="collection-grid">
+  {% for view in card_views %}
+    {% set card = view.card %}
+    <article class="collection-card {{ 'owned' if card.is_owned else 'missing' }}">
+      <div class="card-image-wrap">
+        {% if not card.is_owned and view.selected_price.cardmarket_url %}<a class="cardmarket-image-link" href="{{ view.selected_price.cardmarket_url }}" target="_blank" rel="noopener noreferrer" aria-label="View {{ card.name }} on Cardmarket">{% endif %}
+        {% if card.image_url %}<img src="{{ card.image_url }}" alt="{{ card.name }}" loading="lazy">{% else %}<div class="placeholder" aria-hidden="true">CC</div>{% endif %}
+        {% if not card.is_owned and view.selected_price.cardmarket_url %}</a>{% endif %}
+        <span class="card-status">{{ "Owned" if card.is_owned else "Missing" }}</span>
+      </div>
+      <div class="collection-card-body">
         <h2>{{ card.name }}</h2>
-        {% for printing in card.printings if printing.quantity > 0 %}
-          <p>{{ printing.set_code|upper }} #{{ printing.collector_number }} · {{ printing.language }} · {{ printing.finish }} · Qty {{ printing.quantity }}</p>
-        {% endfor %}
-        <a href="{{ url_for('main.edit_goal_card', slug=goal.slug, goal_card_id=card.id) }}">Edit ownership</a>
+        <form class="quick-ownership-form" method="post" action="{{ url_for('main.quick_update_goal_card', slug=goal.slug, goal_card_id=card.id) }}">
+          <input type="hidden" name="filter" value="{{ selected_filter }}">
+          <input type="hidden" name="page" value="{{ page }}">
+          <label>Version
+            <select name="version">
+              {% for version in view.versions %}
+                {% set version_price = view.version_prices[version.key] %}
+                <option value="{{ version.key }}" data-gbp="{{ version_price.gbp or '' }}" data-eur="{{ version_price.eur or '' }}" data-cardmarket-url="{{ version_price.cardmarket_url or '' }}" {{ 'selected' if version.key == view.selected_version.key }}>{{ version.label }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>Status
+            <select name="status">
+              <option value="missing" {{ 'selected' if not card.is_owned }}>Missing</option>
+              <option value="owned" {{ 'selected' if card.is_owned }}>Owned</option>
+            </select>
+          </label>
+          <button type="submit">Save</button>
+        </form>
+        <p class="guide-price" data-price>{% if view.selected_price.gbp %}≈ £{{ view.selected_price.gbp }}{% if view.selected_price.eur %} <small>(€{{ view.selected_price.eur }})</small>{% endif %}{% else %}Price unavailable{% endif %}</p>
+        <a class="details-link" href="{{ url_for('main.edit_goal_card', slug=goal.slug, goal_card_id=card.id) }}">More details</a>
       </div>
     </article>
   {% else %}
     <p>No {{ selected_filter if selected_filter != 'all' else '' }} checklist entries.</p>
   {% endfor %}
 </div>
+{% if total_pages > 1 %}
+  <nav class="pagination" aria-label="Checklist pages">
+    {% if page > 1 %}<a href="{{ url_for('main.goal_detail', slug=goal.slug, filter=selected_filter, page=page - 1) }}">Previous</a>{% endif %}
+    {% for page_number in range(1, total_pages + 1) %}
+      <a href="{{ url_for('main.goal_detail', slug=goal.slug, filter=selected_filter, page=page_number) }}" {% if page_number == page %}aria-current="page"{% endif %}>{{ page_number }}</a>
+    {% endfor %}
+    {% if page < total_pages %}<a href="{{ url_for('main.goal_detail', slug=goal.slug, filter=selected_filter, page=page + 1) }}">Next</a>{% endif %}
+  </nav>
+{% endif %}
+<script>
+  document.querySelectorAll(".collection-card").forEach((card) => {
+    const versionSelect = card.querySelector('select[name="version"]');
+    const price = card.querySelector("[data-price]");
+    const cardmarketLink = card.querySelector(".cardmarket-image-link");
+    if (!versionSelect || !price) return;
+
+    versionSelect.addEventListener("change", () => {
+      const option = versionSelect.selectedOptions[0];
+      const gbp = option.dataset.gbp;
+      const eur = option.dataset.eur;
+      price.textContent = gbp ? `≈ £${gbp}${eur ? ` (€${eur})` : ""}` : "Price unavailable";
+      if (cardmarketLink) {
+        if (option.dataset.cardmarketUrl) {
+          cardmarketLink.href = option.dataset.cardmarketUrl;
+          cardmarketLink.removeAttribute("aria-disabled");
+        } else {
+          cardmarketLink.removeAttribute("href");
+          cardmarketLink.setAttribute("aria-disabled", "true");
+        }
+      }
+    });
+  });
+</script>
 {% endblock %}

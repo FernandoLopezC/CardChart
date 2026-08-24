@@ -1,8 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Inventory</h1>
+<header class="page-heading inventory-heading">
+  <h1>Inventory</h1>
+  <div class="inventory-value-summary">
+    <span>Inventory guide value</span>
+    <strong>{% if inventory_total %}≈ £{{ inventory_total }}{% else %}Unavailable{% endif %}</strong>
+    <small>{{ priced_count }} of {{ inventory_count }} inventory line{{ '' if inventory_count == 1 else 's' }} priced</small>
+  </div>
+  <p class="price-note">Uses each exact Scryfall printing and finish, multiplied by quantity{% if rate_info %}, with the ECB reference rate from {{ rate_info.rate_date }}{% endif %}.</p>
+</header>
+<form class="inventory-controls" method="get" action="{{ url_for('main.inventory') }}">
+  <label>Search
+    <input type="search" name="q" value="{{ search_query }}" placeholder="Name, set, number, or finish">
+  </label>
+  <label>Sort
+    <select name="sort">
+      {% for value, label in sort_options %}<option value="{{ value }}" {{ 'selected' if selected_sort == value }}>{{ label }}</option>{% endfor %}
+    </select>
+  </label>
+  <button type="submit">Apply</button>
+  {% if search_query or selected_sort != "name-asc" %}<a href="{{ url_for('main.inventory') }}">Clear</a>{% endif %}
+</form>
+<div class="inventory-results-summary">{{ total_results }} matching card{{ '' if total_results == 1 else 's' }} · Page {{ page }} of {{ total_pages }}</div>
 <div class="grid">
-  {% for card in cards %}
+  {% for view in card_views %}
+    {% set card = view.card %}
     <article class="card-tile">
       {% if card.image_url %}<img src="{{ card.image_url }}" alt="{{ card.name }}">{% endif %}
       <h2><a href="{{ url_for('main.card_detail', card_id=card.id) }}">{{ card.name }}</a></h2>
@@ -10,12 +32,23 @@
       <p>{{ card.finish_display }} · Qty {{ card.quantity }}</p>
       {% set prices = card.latest_prices %}
       <dl>
+        <dt>Scryfall guide</dt><dd>{% if view.price.gbp %}≈ £{{ view.price.gbp }}{% if view.price.eur %} (€{{ view.price.eur }}){% endif %}{% else %}Unavailable{% endif %}</dd>
+        <dt>Line value</dt><dd>{% if view.line_gbp %}≈ £{{ view.line_gbp }}{% else %}Unavailable{% endif %}</dd>
         <dt>eBay UK sold</dt><dd>{{ "£%.2f"|format(prices.ebay_uk_sold.price_gbp) if prices.ebay_uk_sold else "Not checked" }}</dd>
         <dt>Cardmarket UK</dt><dd>{{ "£%.2f"|format(prices.cardmarket_uk.price_gbp) if prices.cardmarket_uk else "Not checked" }}</dd>
       </dl>
     </article>
   {% else %}
-    <p>No cards imported yet. <a href="{{ url_for('main.upload') }}">Import a CSV</a>.</p>
+    {% if inventory_count %}<p>No inventory cards match this search.</p>{% else %}<p>No cards imported yet. <a href="{{ url_for('main.upload') }}">Import a CSV</a>.</p>{% endif %}
   {% endfor %}
 </div>
+{% if total_pages > 1 %}
+  <nav class="pagination" aria-label="Inventory pages">
+    {% if page > 1 %}<a href="{{ url_for('main.inventory', q=search_query, sort=selected_sort, page=page - 1) }}">Previous</a>{% endif %}
+    {% for page_number in range(1, total_pages + 1) %}
+      <a href="{{ url_for('main.inventory', q=search_query, sort=selected_sort, page=page_number) }}" {% if page_number == page %}aria-current="page"{% endif %}>{{ page_number }}</a>
+    {% endfor %}
+    {% if page < total_pages %}<a href="{{ url_for('main.inventory', q=search_query, sort=selected_sort, page=page + 1) }}">Next</a>{% endif %}
+  </nav>
+{% endif %}
 {% endblock %}

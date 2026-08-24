@@ -4,6 +4,7 @@
   <p class="eyebrow">Collection goals</p>
   <h1>Build the collection you want</h1>
   <p>Track deliberately curated card checklists, one printing at a time.</p>
+  <a class="primary-action" href="{{ url_for('main.new_goal') }}">Add goal</a>
 </header>
 <div class="goal-grid">
   {% for goal in goals %}
@@ -21,7 +22,7 @@
       </div>
     </article>
   {% else %}
-    <p>No goals initialized. Run <code>flask --app cardchart init-db</code>.</p>
+    <p>No goals initialized. Add your first curated goal.</p>
   {% endfor %}
 </div>
 {% endblock %}
