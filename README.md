@@ -6,7 +6,7 @@ It keeps desired cards visible even when they are missing and associates exact o
 
 The initial maintained goal manifests include 40 Middle-earth Classic Artist checklist entries and 65 Japanese Mystical Archive entries. Additional reviewed manifests created through the wizard load through the same registry. Each entry accepts only its verified Scryfall printing UUIDs and finishes, including paired special-foil printings where applicable.
 
-See [product direction](docs/product-direction.md) for product and data-model intent and [remaining tasks](docs/remaining-tasks.md) for genuine blockers and decisions.
+Start with the [documentation index](docs/README.md) to locate change owners, constraints, and verification commands. See [product direction](docs/product-direction.md) for product and data-model intent and [remaining tasks](docs/remaining-tasks.md) for genuine blockers and decisions.
 
 ## Setup
 
