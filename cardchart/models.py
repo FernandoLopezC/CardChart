@@ -134,3 +134,42 @@ class GoalCardPrinting(db.Model):
 
     goal_card = db.relationship("GoalCard", back_populates="printings")
     card = db.relationship("Card", back_populates="goal_printings")
+
+
+class ReconciliationBatch(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    source = db.Column(db.String(30), nullable=False)
+    source_account = db.Column(db.String(100), nullable=False, default="")
+    kind = db.Column(db.String(20), nullable=False)
+    basis = db.Column(db.String(30), nullable=False, default="")
+    observed_on = db.Column(db.Date, nullable=False)
+    reference = db.Column(db.String(200), nullable=False, default="")
+    filename = db.Column(db.String(200), nullable=False)
+    content_hash = db.Column(db.String(64), nullable=False)
+    state = db.Column(db.String(20), nullable=False, default="mapping")
+    raw_json = db.Column(db.Text, nullable=False)
+    mapping_json = db.Column(db.Text, nullable=False, default="{}")
+    rows_json = db.Column(db.Text, nullable=False, default="[]")
+    preview_json = db.Column(db.Text, nullable=False, default="{}")
+    preview_token = db.Column(db.String(40))
+    results_json = db.Column(db.Text, nullable=False, default="[]")
+    created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+
+
+class ReconciliationEntry(db.Model):
+    __table_args__ = (db.UniqueConstraint("source_scope", "event_key"),)
+
+    id = db.Column(db.Integer, primary_key=True)
+    batch_id = db.Column(db.Integer, db.ForeignKey("reconciliation_batch.id"), nullable=False)
+    card_id = db.Column(db.Integer, db.ForeignKey("card.id"), nullable=False)
+    source_scope = db.Column(db.String(150), nullable=False)
+    kind = db.Column(db.String(20), nullable=False)
+    line_id = db.Column(db.String(200), nullable=False, default="")
+    printing_key = db.Column(db.String(64), nullable=False)
+    event_key = db.Column(db.String(64), nullable=False)
+    signature = db.Column(db.String(64), nullable=False)
+    reference = db.Column(db.String(200), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    before_quantity = db.Column(db.Integer, nullable=False)
+    after_quantity = db.Column(db.Integer, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))

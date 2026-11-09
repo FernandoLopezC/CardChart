@@ -1,8 +1,8 @@
 body { margin: 0; font-family: Arial, sans-serif; background: #f7f4ef; color: #25211d; }
 a { color: #7149a8; }
-.site-header { display: flex; justify-content: space-between; padding: 1rem 2rem; background: #25211d; }
+.site-header { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: space-between; padding: 1rem 2rem; background: #25211d; }
 .site-header a { color: white; text-decoration: none; }
-.site-header nav { display: flex; gap: 1rem; }
+.site-header nav { display: flex; flex-wrap: wrap; gap: 1rem; }
 .brand { font-weight: 700; }
 .container { max-width: 1180px; margin: 0 auto; padding: 2rem; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }

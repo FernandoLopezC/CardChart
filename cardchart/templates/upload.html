@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Import collection CSV</h1>
+<p>Combining Collectr, Deckcheck, eBay or buylist exports? <a href="{{ url_for('reconciliation.index') }}">Reconcile exports</a> to review quantities and recognise previously recorded activity.</p>
 <form method="post" enctype="multipart/form-data" class="panel import-form" data-import-form>
   <label for="csv_file">CSV file</label>
   <input id="csv_file" name="csv_file" type="file" accept=".csv" required>

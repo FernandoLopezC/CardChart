@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='reconciliation.css') }}"><script defer src="{{ url_for('static', filename='reconciliation.js') }}"></script>{% endblock %}
+{% block content %}
+<header class="reconcile-heading">
+  <p class="reconcile-breadcrumb"><a href="{{ url_for('reconciliation.index') }}">Reconciliation</a> / Review</p>
+  <h1>{{ 'Reconciliation saved' if batch.state == 'applied' else 'Review matched rows' }}</h1>
+  <p>{{ batch.source|title }} · {{ batch.kind|title }} · observed {{ batch.observed_on }}{% if batch.reference %} · reference {{ batch.reference }}{% endif %}</p>
+</header>
+
+{% if batch.state == 'applied' %}
+  <div class="reconcile-notice"><strong>This reconciliation has been applied.</strong> The table below shows the saved inventory results.</div>
+  {% if results %}<div class="reconcile-table-wrap"><table class="reconcile-table">
+    <caption>Inventory changes recorded for this reconciliation</caption>
+    <thead><tr><th scope="col">Card</th><th scope="col">Before</th><th scope="col">After</th><th scope="col">Reference</th><th scope="col">Action</th></tr></thead>
+    <tbody>{% for result in results %}<tr><td>{{ result.name }}</td><td>{{ result.before }}</td><td>{{ result.after }}</td><td>{{ result.reference or '—' }}</td><td>{{ result.action }}</td></tr>{% endfor %}</tbody>
+  </table></div>{% else %}<p class="reconcile-empty">No inventory changes were recorded for this batch.</p>{% endif %}
+  <div class="reconcile-actions"><a class="reconcile-button-link" href="{{ url_for('reconciliation.index') }}">Upload another file</a><a href="{{ url_for('reconciliation.export_inventory') }}">Export inventory CSV</a></div>
+{% else %}
+  <div class="reconcile-notice"><strong>Review each row before applying.</strong> Snapshots replace the selected printing's count with the reported total; they are never added to counts from another tracker. A disposal subtracts its reported amount only when you selected “No, deduct them” during upload. “Already removed” records the transaction without changing counts.</div>
+  <form class="reconcile-review-form" data-kind="{{ batch.kind }}" data-basis="{{ batch.basis }}" method="post" action="{{ url_for('reconciliation.review', batch_id=batch.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="preview_token" value="{{ preview_token }}">
+    <div class="reconcile-table-wrap"><table class="reconcile-table review-table">
+      <caption>Rows from {{ batch.filename }}. Duplicate transactions are already recorded and cannot be applied again.</caption>
+      <thead><tr><th scope="col">Apply</th><th scope="col">CSV row</th><th scope="col">Card and match</th><th scope="col">Inventory printing</th><th scope="col">Current</th><th scope="col">CSV quantity</th><th scope="col">Proposed</th><th scope="col">Review note</th></tr></thead>
+      <tbody>{% for row in rows %}
+        {% set row_label = 'row-' ~ row.index %}
+        <tr data-reconcile-row data-new-identity="{{ row.metadata.scryfall_id ~ ':' ~ row.finish if row.metadata else '' }}" data-quantity="{{ row.quantity }}" class="{% if row.blocked %}row-blocked{% endif %}{% if row.duplicate %} row-duplicate{% endif %}">
+          <td><label class="reconcile-check" for="apply_{{ row.index }}"><input id="apply_{{ row.index }}" type="checkbox" name="apply_{{ row.index }}" value="yes" {% if row.duplicate %}disabled{% endif %}><span class="visually-hidden">Apply CSV row {{ row.index }}</span></label>{% if row.duplicate %}<span class="reconcile-state">Already applied</span>{% endif %}</td>
+          <td>{{ row.line or row.index }}</td>
+          <td><strong>{{ row.name or 'Unidentified card' }}</strong>
+            {% if row.finish %}<small>{{ row.finish|title }}</small>{% endif %}
+            {% if row.match_label %}<small>{{ row.match_label }}</small>{% endif %}
+            {% if row.metadata %}<small>{{ row.metadata.set_name or row.metadata.set_code }}{% if row.metadata.collector_number %} #{{ row.metadata.collector_number }}{% endif %}</small>{% endif %}
+          </td>
+          <td><label class="visually-hidden" for="card_{{ row.index }}">Inventory printing for CSV row {{ row.index }}</label>
+            <select id="card_{{ row.index }}" name="card_{{ row.index }}">
+              <option value="">{% if row.metadata %}New printing from cached Scryfall data{% else %}Choose a printing…{% endif %}</option>
+              {% for item in inventory %}<option value="{{ item.id }}" data-quantity="{{ item.quantity }}" {% if row.card_id|string == item.id|string %}selected{% endif %}>{{ item.label }} · Qty {{ item.quantity }}</option>{% endfor %}
+            </select>
+            {% if not row.card_id and not row.metadata and not row.duplicate %}<details>
+              <summary>Match a printing outside inventory</summary>
+              <label for="printing_{{ row.index }}">Scryfall printing ID</label><input id="printing_{{ row.index }}" name="printing_{{ row.index }}" type="text" autocomplete="off">
+              <label for="printing_finish_{{ row.index }}">Finish</label><select id="printing_finish_{{ row.index }}" name="printing_finish_{{ row.index }}">{% for finish in ['nonfoil', 'foil', 'etched'] %}<option value="{{ finish }}" {{ 'selected' if row.finish == finish }}>{{ finish|title }}</option>{% endfor %}</select>
+              <small>Use Update printing matches, then review the resolved printing before applying.</small>
+            </details>{% endif %}
+          </td>
+          <td data-current>{{ row.current_quantity if row.current_quantity is not none else '—' }}</td>
+          <td>{% if batch.kind == 'snapshot' %}<label class="visually-hidden" for="quantity_{{ row.index }}">Snapshot quantity for CSV row {{ row.index }}</label><input id="quantity_{{ row.index }}" class="reconcile-quantity" type="number" name="quantity_{{ row.index }}" min="0" max="1000000" step="1" value="{{ row.quantity }}">{% else %}{{ row.quantity }}{% endif %}</td>
+          <td data-proposed>{% if batch.kind == 'snapshot' %}Set to entered total{% elif batch.basis == 'already_reflected' %}No count change{% elif row.proposed_quantity is not none %}{{ row.proposed_quantity }}{% else %}Review required{% endif %}</td>
+          <td>{% if row.duplicate %}<span>Duplicate transaction. It was recorded previously.</span>{% elif row.message %}<span>{{ row.message }}</span>{% elif row.blocked %}<span>Review required before this row can be applied.</span>{% else %}<span>{{ row.match_label or 'Matched by printing identity' }}</span>{% endif %}</td>
+        </tr>
+      {% else %}<tr><td colspan="8">No rows are available to review.</td></tr>{% endfor %}</tbody>
+    </table></div>
+    <div class="reconcile-confirmation">
+      <label class="reconcile-check" for="confirmed"><input id="confirmed" name="confirmed" type="checkbox" value="yes" required>
+        {% if batch.kind == 'snapshot' %}I reviewed these rows as total counts, not sums from multiple trackers.{% elif batch.basis == 'already_reflected' %}I reviewed these completed disposals and confirm their quantities are already removed from the source counts.{% else %}I reviewed these completed disposals and confirm selected amounts should be deducted from current counts.{% endif %}
+      </label>
+      <p>Only select rows you intend to apply. Ambiguous matches can be resolved by choosing the exact printing. Duplicate transactions stay disabled.</p>
+      <p>For snapshots, select one row per printing and enter a combined total if the file splits copies across several rows. New printings need a local Scryfall bulk cache. Split mixed lots and review physical returns separately.</p>
+    </div>
+    <div class="reconcile-actions"><a href="{{ url_for('reconciliation.index') }}">Back to import history</a><button type="submit" name="action" value="match" formnovalidate class="secondary-button">Update printing matches</button><button type="submit" name="action" value="apply">Apply selected rows</button></div>
+  </form>
+{% endif %}
+{% endblock %}

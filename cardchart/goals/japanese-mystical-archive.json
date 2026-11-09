@@ -1,0 +1,1579 @@
+{
+  "schema_version": 1,
+  "position": 2,
+  "slug": "japanese-mystical-archive",
+  "title": "Japanese Mystical Archive",
+  "description": "A curated checklist of Japanese Mystical Archive cards associated with SOA.",
+  "defaults": {
+    "set_code": "soa",
+    "language": "ja"
+  },
+  "image_url": "https://cards.scryfall.io/normal/front/5/f/5f0c0b37-056f-4c49-b5d7-e25534117e17.jpg?1783903913",
+  "cardmarket": {
+    "expansion": "Secrets of Strixhaven: Mystical Archive",
+    "default_version": "V.2",
+    "wants_list_version_key": "nonfoil"
+  },
+  "entries": [
+    {
+      "key": "soa-66",
+      "name": "Akroma's Will",
+      "oracle_id": "fd949f82-fc10-4e37-8aa9-6c7569fe3c55",
+      "collector_number": "66",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/5/f/5f0c0b37-056f-4c49-b5d7-e25534117e17.jpg?1783903913",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "5f0c0b37-056f-4c49-b5d7-e25534117e17",
+          "collector_number": "66",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "988b5c67-1521-4bff-aff5-b3536c20aa5c",
+          "collector_number": "131",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-67",
+      "name": "Angel's Grace",
+      "oracle_id": "66ca8a60-e028-4a5f-8177-860b888cb9d1",
+      "collector_number": "67",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/d/c/dcc07492-9eea-4aec-be42-a0adb9a5ff50.jpg?1783903915",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "dcc07492-9eea-4aec-be42-a0adb9a5ff50",
+          "collector_number": "67",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "35dd15a9-d330-4d79-9917-1329444d6598",
+          "collector_number": "132",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-68",
+      "name": "Armageddon",
+      "oracle_id": "c9ed8b01-959a-47d6-891e-0abbdccf6e4f",
+      "collector_number": "68",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/c/f/cf980fc6-84ed-4c79-ba66-ecc6146a8085.jpg?1783903913",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "cf980fc6-84ed-4c79-ba66-ecc6146a8085",
+          "collector_number": "68",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "669c1805-c97a-40c8-ab36-df4e3dc88ca9",
+          "collector_number": "133",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-69",
+      "name": "Duty Beyond Death",
+      "oracle_id": "67e6ce99-4883-4713-9822-cb2334765b5b",
+      "collector_number": "69",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/c/8/c841be3a-bcfe-4ce5-9580-26b56a675df7.jpg?1783903913",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "c841be3a-bcfe-4ce5-9580-26b56a675df7",
+          "collector_number": "69",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "f1fc0d82-b001-403a-9ca0-7c58bafed982",
+          "collector_number": "134",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-70",
+      "name": "Helping Hand",
+      "oracle_id": "170a5dbc-6a43-4715-9501-178b1eb7b08c",
+      "collector_number": "70",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/f/8/f8c32407-5a49-4eec-a3ce-cfe72797a9c9.jpg?1783903913",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "f8c32407-5a49-4eec-a3ce-cfe72797a9c9",
+          "collector_number": "70",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "cf530c7e-2be4-4afc-983c-72be4b2e6d6e",
+          "collector_number": "135",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-71",
+      "name": "Hop to It",
+      "oracle_id": "e8a9350a-07c1-47ed-8c4f-88e4b3b17545",
+      "collector_number": "71",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/d/c/dc7b153e-e036-42ef-8479-f9deebb6a2d6.jpg?1783903911",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "dc7b153e-e036-42ef-8479-f9deebb6a2d6",
+          "collector_number": "71",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "4cc6e994-3e82-4869-9e62-f956f0d493e2",
+          "collector_number": "136",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-72",
+      "name": "Prismatic Ending",
+      "oracle_id": "2cb98ca9-d7bb-416b-a17e-ee5f8e4d78f2",
+      "collector_number": "72",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/0/e/0ecd4e81-65a9-4ffc-98f3-a2c84d84b573.jpg?1783903911",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "0ecd4e81-65a9-4ffc-98f3-a2c84d84b573",
+          "collector_number": "72",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "94ba4cdd-ae38-4d42-a11b-98482fc67280",
+          "collector_number": "137",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-73",
+      "name": "Repel Calamity",
+      "oracle_id": "ba58f508-8036-496c-8a2f-c1e410165e93",
+      "collector_number": "73",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/f/5/f562d7c8-e9c2-49df-84f5-b59344774320.jpg?1783903911",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "f562d7c8-e9c2-49df-84f5-b59344774320",
+          "collector_number": "73",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "1c282a95-9396-4b99-8eb0-d2af55fa6828",
+          "collector_number": "138",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-74",
+      "name": "Reprieve",
+      "oracle_id": "f0449cbd-855c-4c20-a1f5-f76a395d8d39",
+      "collector_number": "74",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/d/6/d69ea723-fb66-4e6e-bf9f-6a457bfeec5f.jpg?1783903911",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "d69ea723-fb66-4e6e-bf9f-6a457bfeec5f",
+          "collector_number": "74",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "c7fef194-e067-4f25-8b4a-0e37d35bb2c7",
+          "collector_number": "139",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-75",
+      "name": "Requisition Raid",
+      "oracle_id": "09669283-eb14-46a2-b37a-51d7a52da891",
+      "collector_number": "75",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/4/6/46f1ecab-2e69-47cb-afe8-4d5bb51d3ebe.jpg?1783903911",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "46f1ecab-2e69-47cb-afe8-4d5bb51d3ebe",
+          "collector_number": "75",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "0aece8ee-8a7c-476f-bfee-be42adb7a84f",
+          "collector_number": "140",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-76",
+      "name": "Return to the Ranks",
+      "oracle_id": "0d4ee553-f206-4e70-a7b2-a3670440aee7",
+      "collector_number": "76",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/a/4/a49a4ea6-4823-4d48-a411-f3763d60f865.jpg?1783903910",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "a49a4ea6-4823-4d48-a411-f3763d60f865",
+          "collector_number": "76",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "ce926b04-ce59-49fe-bc33-cdfcb9714342",
+          "collector_number": "141",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-77",
+      "name": "Winds of Abandon",
+      "oracle_id": "499a4715-6776-461b-bee4-22ed172d455e",
+      "collector_number": "77",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/5/8/58d879ad-8b06-4569-b3af-a280e60e4e8f.jpg?1783903909",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "58d879ad-8b06-4569-b3af-a280e60e4e8f",
+          "collector_number": "77",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "2b9cc977-6cb0-4a69-adb6-212e4fd81c58",
+          "collector_number": "142",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-78",
+      "name": "Brain Freeze",
+      "oracle_id": "464c0150-3dbc-403b-9ada-fef25ab1f29d",
+      "collector_number": "78",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/3/f/3f77b203-8574-4a5f-91f1-b7caf3301739.jpg?1783903908",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "3f77b203-8574-4a5f-91f1-b7caf3301739",
+          "collector_number": "78",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "a66d7e4c-f268-4596-b2ff-f215ec162cbc",
+          "collector_number": "143",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-79",
+      "name": "Cyclonic Rift",
+      "oracle_id": "d75b9c82-1b49-4c3e-a1b5-aeef57d6644b",
+      "collector_number": "79",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/6/5/65c6b4f4-2aef-4150-9a7f-70ca5f337766.jpg?1783903913",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "65c6b4f4-2aef-4150-9a7f-70ca5f337766",
+          "collector_number": "79",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "f779109e-331f-44ae-9dfb-e435a2bc6b7f",
+          "collector_number": "144",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-80",
+      "name": "Daze",
+      "oracle_id": "70486bee-6ee7-41ea-b834-8caf4699302b",
+      "collector_number": "80",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/d/3/d3c3964f-8449-4f5f-b24e-627511f2e6d8.jpg?1783903908",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "d3c3964f-8449-4f5f-b24e-627511f2e6d8",
+          "collector_number": "80",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "61968d99-6571-49ce-bcf1-2aaac3a10f45",
+          "collector_number": "145",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-81",
+      "name": "Deduce",
+      "oracle_id": "eeae4161-9f35-45df-8b3c-c55e37f49cd1",
+      "collector_number": "81",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/5/a/5a8c7ae4-186b-45c5-a7b0-4b7eaf5b0f42.jpg?1783903908",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "5a8c7ae4-186b-45c5-a7b0-4b7eaf5b0f42",
+          "collector_number": "81",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "0d9f7563-0c3e-4bfe-b61a-8e6a6d2411b4",
+          "collector_number": "146",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-82",
+      "name": "Disdainful Stroke",
+      "oracle_id": "11e02134-7b1a-46a4-a89e-7539dd1efada",
+      "collector_number": "82",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/4/7/47927ea9-19b1-46e9-a501-12ac37715071.jpg?1783903908",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "47927ea9-19b1-46e9-a501-12ac37715071",
+          "collector_number": "82",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "cc5cf8b1-935c-4624-9ca8-635eee190dd7",
+          "collector_number": "147",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-83",
+      "name": "Flusterstorm",
+      "oracle_id": "86bf58f2-7f25-4e10-b797-25e0e8e67769",
+      "collector_number": "83",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/9/d/9df19f7c-2922-4d71-999a-818ae69045c3.jpg?1783903906",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "9df19f7c-2922-4d71-999a-818ae69045c3",
+          "collector_number": "83",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "0f6e9e94-fcfc-4d2a-9751-347c743961d8",
+          "collector_number": "148",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-84",
+      "name": "Force of Will",
+      "oracle_id": "956381ba-6d37-4a8a-846c-bad79222dbee",
+      "collector_number": "84",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/2/4/24bfbb10-409f-4885-b792-73958250a65d.jpg?1783903906",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "24bfbb10-409f-4885-b792-73958250a65d",
+          "collector_number": "84",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "b8a31dc0-8f4a-441f-bb8a-6ebfb22e5cfd",
+          "collector_number": "149",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-85",
+      "name": "Pongify",
+      "oracle_id": "05849bd6-8f38-4031-be2b-e2aa03beb8cc",
+      "collector_number": "85",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/8/9/89d595e6-3629-4f9b-8f55-8a91ff1d6f36.jpg?1783903907",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "89d595e6-3629-4f9b-8f55-8a91ff1d6f36",
+          "collector_number": "85",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "b952b12c-5e28-4e42-b9c4-67527518b0a8",
+          "collector_number": "150",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-86",
+      "name": "Preordain",
+      "oracle_id": "ac641490-ca14-48d7-8cc4-b69ce984befa",
+      "collector_number": "86",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/f/4/f40fc56b-84ae-4797-95bf-4bdd2bc5bf75.jpg?1783903907",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "f40fc56b-84ae-4797-95bf-4bdd2bc5bf75",
+          "collector_number": "86",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "98763383-da03-4355-b227-ef77475537cc",
+          "collector_number": "151",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-87",
+      "name": "Sleight of Hand",
+      "oracle_id": "05a039ad-1689-4d13-b393-6c1219583b5d",
+      "collector_number": "87",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/1/1/11a91b7a-108e-43b6-a08d-56f824e807dd.jpg?1783903909",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "11a91b7a-108e-43b6-a08d-56f824e807dd",
+          "collector_number": "87",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "b820a24b-acc9-4117-8e1b-74ab19002f77",
+          "collector_number": "152",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-88",
+      "name": "Spell Pierce",
+      "oracle_id": "d64b0848-0193-4025-ba62-63ecd8fb9f50",
+      "collector_number": "88",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/4/b/4b22792d-8113-4fc3-9b09-90988dc52feb.jpg?1783903905",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "4b22792d-8113-4fc3-9b09-90988dc52feb",
+          "collector_number": "88",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "d3820242-f519-49a0-8c00-cb492b5c93ac",
+          "collector_number": "153",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-89",
+      "name": "Stock Up",
+      "oracle_id": "2251e34e-4ce8-4452-9dc6-d8cce8583996",
+      "collector_number": "89",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/6/e/6ec11b1a-0b42-4ecb-8f0b-81d18bf5627f.jpg?1783903910",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "6ec11b1a-0b42-4ecb-8f0b-81d18bf5627f",
+          "collector_number": "89",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "20460489-3e66-44da-8003-ca28b1f3831b",
+          "collector_number": "154",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-90",
+      "name": "Ad Nauseam",
+      "oracle_id": "981b0e21-e5e6-4a1e-bfde-679d56623f7f",
+      "collector_number": "90",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/4/3/43842b53-4d63-45e7-8247-751a7f09fb35.jpg?1783903905",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "43842b53-4d63-45e7-8247-751a7f09fb35",
+          "collector_number": "90",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "68f7db06-8a4c-4654-9209-6bc6c5d7f492",
+          "collector_number": "155",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-91",
+      "name": "Bitter Triumph",
+      "oracle_id": "776341cb-d2ec-423f-9250-92dc8bd8d503",
+      "collector_number": "91",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/b/b/bbd32228-41dc-48d9-8394-d84b367097ae.jpg?1783903906",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "bbd32228-41dc-48d9-8394-d84b367097ae",
+          "collector_number": "91",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "7bb7a9e7-8ed9-415e-abe2-f1e1a362d569",
+          "collector_number": "156",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-92",
+      "name": "Culling the Weak",
+      "oracle_id": "6385fd0d-256d-4400-9319-afa8170024db",
+      "collector_number": "92",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/a/4/a4db7d4c-eb99-41e3-bdf1-4ecd4b877f07.jpg?1783903904",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "a4db7d4c-eb99-41e3-bdf1-4ecd4b877f07",
+          "collector_number": "92",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "8470477f-166c-45e3-80ae-cc14ae85f2c9",
+          "collector_number": "157",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-93",
+      "name": "Dismember",
+      "oracle_id": "fd74f8eb-0253-42dd-8277-186d4934da38",
+      "collector_number": "93",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/9/3/9382c445-bc7c-4c98-b9d8-477d77a4e523.jpg?1783903904",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "9382c445-bc7c-4c98-b9d8-477d77a4e523",
+          "collector_number": "93",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "93020a11-731d-413d-984c-f2ae217542c4",
+          "collector_number": "158",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-94",
+      "name": "Feed the Swarm",
+      "oracle_id": "5825997b-10d7-4a36-972c-a80ddd90b8ed",
+      "collector_number": "94",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/7/1/712c609e-5989-4e38-898f-83e0a913c977.jpg?1783903903",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "712c609e-5989-4e38-898f-83e0a913c977",
+          "collector_number": "94",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "446a6f55-8b25-45ff-95e2-c8ab33484551",
+          "collector_number": "159",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-95",
+      "name": "Living End",
+      "oracle_id": "3939fbe0-3be4-41ef-828d-c93f2cb33b4f",
+      "collector_number": "95",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/c/2/c26e52ad-ae75-446d-9f45-a42af5e23a60.jpg?1783903902",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "c26e52ad-ae75-446d-9f45-a42af5e23a60",
+          "collector_number": "95",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "b1cee39d-5de0-45df-a041-401613531eb4",
+          "collector_number": "160",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-96",
+      "name": "Locust Spray",
+      "oracle_id": "f9dce026-2653-4793-b949-357b08a936ea",
+      "collector_number": "96",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/e/7/e779e783-e8e1-4e17-9e2f-35f0cb9b8e31.jpg?1783903903",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "e779e783-e8e1-4e17-9e2f-35f0cb9b8e31",
+          "collector_number": "96",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "93ef62f6-b5f3-4ad0-94db-4e4faa66a055",
+          "collector_number": "161",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-97",
+      "name": "Sheoldred's Edict",
+      "oracle_id": "217062f5-96f1-454c-9507-17f34ef37070",
+      "collector_number": "97",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/9/0/9070d77d-4a41-4f22-9579-06a7db5a520e.jpg?1783903902",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "9070d77d-4a41-4f22-9579-06a7db5a520e",
+          "collector_number": "97",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "01812e27-4bb5-4e70-8c60-beb93dba4cb2",
+          "collector_number": "162",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-98",
+      "name": "Smallpox",
+      "oracle_id": "7bd22c98-0782-447f-a5fa-4281585a3eab",
+      "collector_number": "98",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/9/8/988f9e6f-4ba2-4f6f-8733-23ba838179ac.jpg?1783903902",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "988f9e6f-4ba2-4f6f-8733-23ba838179ac",
+          "collector_number": "98",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "530c6da3-628b-4c7d-9839-086b8973744a",
+          "collector_number": "163",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-99",
+      "name": "Stargaze",
+      "oracle_id": "db8b4869-f898-40ad-bbad-62390a02d1b1",
+      "collector_number": "99",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/b/6/b62a8648-7f34-454d-b9e2-cc0d0d976c82.jpg?1783903903",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "b62a8648-7f34-454d-b9e2-cc0d0d976c82",
+          "collector_number": "99",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "c31a2c18-2d84-4079-baf3-6a8dfa65072e",
+          "collector_number": "164",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-100",
+      "name": "Vampiric Tutor",
+      "oracle_id": "ededbdae-d9dc-4206-9335-d7158f2d7700",
+      "collector_number": "100",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/7/a/7a79190f-de60-4eb6-b925-594eb76ca8c3.jpg?1783903901",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "7a79190f-de60-4eb6-b925-594eb76ca8c3",
+          "collector_number": "100",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "b6e09632-0bc5-4707-8966-d69a287dde83",
+          "collector_number": "165",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-101",
+      "name": "Zombify",
+      "oracle_id": "bb95db4d-5017-4121-bf79-d68476602d8c",
+      "collector_number": "101",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/0/2/02c3c983-85d5-47b8-8043-5c996c773865.jpg?1783903902",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "02c3c983-85d5-47b8-8043-5c996c773865",
+          "collector_number": "101",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "dc51e36c-8b5e-4a01-a17e-1a3e62122223",
+          "collector_number": "166",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-102",
+      "name": "Abrade",
+      "oracle_id": "f9db72dc-9a5b-48a4-a86e-7464d9a2166a",
+      "collector_number": "102",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/d/1/d1ed5b20-94f6-455f-80a5-e4ed360167be.jpg?1783903901",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "d1ed5b20-94f6-455f-80a5-e4ed360167be",
+          "collector_number": "102",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "75120201-e3bb-496f-84e2-5cab08f0b79e",
+          "collector_number": "167",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-103",
+      "name": "Big Score",
+      "oracle_id": "a5cbd257-c836-493e-bb1a-76242619dea2",
+      "collector_number": "103",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/9/c/9cf2452d-17af-4bb2-8a52-348d6e5e08b9.jpg?1783903900",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "9cf2452d-17af-4bb2-8a52-348d6e5e08b9",
+          "collector_number": "103",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "8721dca7-9b24-4e66-a51f-7100988310e8",
+          "collector_number": "168",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-104",
+      "name": "Brotherhood's End",
+      "oracle_id": "fe7bf8ca-88ae-4c6d-8d71-ef170a87c0d0",
+      "collector_number": "104",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/3/c/3c100b73-ce54-4022-9d42-2277089c5032.jpg?1783903900",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "3c100b73-ce54-4022-9d42-2277089c5032",
+          "collector_number": "104",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "75712beb-f8b9-4f77-8d57-5276a12149cf",
+          "collector_number": "169",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-105",
+      "name": "Bulk Up",
+      "oracle_id": "fade8af0-5fdb-4237-9dd6-48bfd1d62767",
+      "collector_number": "105",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/3/9/39d337d2-d8c9-4e9a-9531-cfe4db769cb3.jpg?1783903899",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "39d337d2-d8c9-4e9a-9531-cfe4db769cb3",
+          "collector_number": "105",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "aebb91d9-0dd8-4e9b-99d2-1d86ba57d6d8",
+          "collector_number": "170",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-106",
+      "name": "Burst Lightning",
+      "oracle_id": "ac2086fe-98ee-4280-9c7c-c5c2d6548a8b",
+      "collector_number": "106",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/8/c/8cfb73c4-b5ce-433d-9688-98956625c32d.jpg?1783903900",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "8cfb73c4-b5ce-433d-9688-98956625c32d",
+          "collector_number": "106",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "6a588a86-56df-4dd3-bb16-e36d6a311e2b",
+          "collector_number": "171",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-107",
+      "name": "Crackle with Power",
+      "oracle_id": "273f5483-b67e-4dd6-bba8-c0a047fa34d7",
+      "collector_number": "107",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/4/a/4a0c9f23-8e8f-4e84-9551-cbca66d8f09b.jpg?1783903902",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "4a0c9f23-8e8f-4e84-9551-cbca66d8f09b",
+          "collector_number": "107",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "30250852-4580-41b5-a617-d718ec0eba41",
+          "collector_number": "172",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-108",
+      "name": "Empty the Warrens",
+      "oracle_id": "3a59c882-8bb8-49ba-862f-125020dd5bec",
+      "collector_number": "108",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/0/5/05af8b37-6588-42dc-a5e5-e81ccd0abb91.jpg?1783903899",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "05af8b37-6588-42dc-a5e5-e81ccd0abb91",
+          "collector_number": "108",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "9618ad79-bca0-47c7-85f5-e620a3ce6225",
+          "collector_number": "173",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-109",
+      "name": "Jeska's Will",
+      "oracle_id": "0fd114c4-092b-4e28-b0dc-ef529f3bc73e",
+      "collector_number": "109",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/f/d/fd142004-10bd-46d7-9ea6-87f2992c10c1.jpg?1783903898",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "fd142004-10bd-46d7-9ea6-87f2992c10c1",
+          "collector_number": "109",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "5e80dfcb-ecd6-4d0d-adb6-cac38560ebf3",
+          "collector_number": "174",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-110",
+      "name": "Monstrous Rage",
+      "oracle_id": "646a2371-54c0-4492-ac2f-20f109d6108c",
+      "collector_number": "110",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/c/4/c4eb2c2c-ea5b-416d-be6e-ded50021e2e2.jpg?1783903897",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "c4eb2c2c-ea5b-416d-be6e-ded50021e2e2",
+          "collector_number": "110",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "e89f3569-5467-4904-a28b-e95f5c93f45d",
+          "collector_number": "175",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-111",
+      "name": "Pyretic Ritual",
+      "oracle_id": "86ef6474-613f-41fb-931c-d4279b03ed99",
+      "collector_number": "111",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/2/1/21b14fb0-aeeb-4c9f-9458-ef0e2b4b604e.jpg?1783903898",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "21b14fb0-aeeb-4c9f-9458-ef0e2b4b604e",
+          "collector_number": "111",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "ce5f9a20-9254-4d76-9230-bc9b4983566b",
+          "collector_number": "176",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-112",
+      "name": "Return the Favor",
+      "oracle_id": "30377bd5-99ab-4888-9ea7-e5a069b527e8",
+      "collector_number": "112",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/a/b/abe555c4-2da1-47c5-9910-cd07f4256938.jpg?1783903897",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "abe555c4-2da1-47c5-9910-cd07f4256938",
+          "collector_number": "112",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "a47aad8f-b418-475d-ace5-d1338cb89f56",
+          "collector_number": "177",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-113",
+      "name": "Subterranean Tremors",
+      "oracle_id": "f0881756-de74-43b1-a9fe-c2fde93faf5a",
+      "collector_number": "113",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/1/5/155f9008-2edb-4115-84e8-237257fc4a08.jpg?1783903896",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "155f9008-2edb-4115-84e8-237257fc4a08",
+          "collector_number": "113",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "0ff35166-1bd9-43f8-88b7-4543a1881908",
+          "collector_number": "178",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-114",
+      "name": "Awaken the Woods",
+      "oracle_id": "3cc79d36-1a24-4395-8ad1-915a65db8a60",
+      "collector_number": "114",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/5/7/5709206b-1781-4601-abdf-265d8fc91bc4.jpg?1783903897",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "5709206b-1781-4601-abdf-265d8fc91bc4",
+          "collector_number": "114",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "b568ab94-3186-4bf2-8f03-b9e174b57729",
+          "collector_number": "179",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-115",
+      "name": "Berserk",
+      "oracle_id": "8b67d192-9a05-4a47-82ae-5fc4b7834d88",
+      "collector_number": "115",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/f/1/f11665b3-00d6-4912-ac1a-06d6ed50a01c.jpg?1783903896",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "f11665b3-00d6-4912-ac1a-06d6ed50a01c",
+          "collector_number": "115",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "a3c671da-27a6-43a1-8294-c14cea0e5140",
+          "collector_number": "180",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-116",
+      "name": "Crop Rotation",
+      "oracle_id": "28b46183-c62f-47b1-9fee-3ba148202cab",
+      "collector_number": "116",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/d/6/d62222aa-2f38-4692-b359-0c7cfc6416a9.jpg?1783903896",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "d62222aa-2f38-4692-b359-0c7cfc6416a9",
+          "collector_number": "116",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "00f97ece-f7c5-4ae9-b680-40f2cbbed22c",
+          "collector_number": "181",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-117",
+      "name": "Giant Growth",
+      "oracle_id": "5748ebf1-24e3-499d-ab7c-c2cebd462a24",
+      "collector_number": "117",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/6/4/64490086-2e8b-4921-ab08-68960c47277c.jpg?1783903900",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "64490086-2e8b-4921-ab08-68960c47277c",
+          "collector_number": "117",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "fe6060f5-d06c-4ff2-91e8-f1d836254fa6",
+          "collector_number": "182",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-118",
+      "name": "Glimpse of Nature",
+      "oracle_id": "5fae52ed-1b84-406e-951d-b0d329dc48a7",
+      "collector_number": "118",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/8/a/8ae15f32-034c-4c10-b1b1-ba8ccec76f2c.jpg?1783903896",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "8ae15f32-034c-4c10-b1b1-ba8ccec76f2c",
+          "collector_number": "118",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "f06d24b8-5305-4540-800c-9642c6354529",
+          "collector_number": "183",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-119",
+      "name": "Knockout Maneuver",
+      "oracle_id": "7e4931f4-f518-4200-aad4-4ac8acf202e5",
+      "collector_number": "119",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/8/a/8ae6ecb2-d062-400d-b0ee-67b54746e7fc.jpg?1783903895",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "8ae6ecb2-d062-400d-b0ee-67b54746e7fc",
+          "collector_number": "119",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "be4673eb-f334-40a3-a47d-d7bc105ec5ba",
+          "collector_number": "184",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-120",
+      "name": "Pick Your Poison",
+      "oracle_id": "9af4a832-d634-47aa-91ed-79d44fe08864",
+      "collector_number": "120",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/c/b/cb23d19b-b17a-4f0f-b8d2-164aeb6a2819.jpg?1783903895",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "cb23d19b-b17a-4f0f-b8d2-164aeb6a2819",
+          "collector_number": "120",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "7584e3e3-8786-408f-b3f5-9a9cdfe0f8a1",
+          "collector_number": "185",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-121",
+      "name": "Royal Treatment",
+      "oracle_id": "fd0f8fdc-4065-41f4-b8fb-ecb8f185774d",
+      "collector_number": "121",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/8/d/8d7a631d-6354-4999-80fa-0d3008f7bc72.jpg?1783903894",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "8d7a631d-6354-4999-80fa-0d3008f7bc72",
+          "collector_number": "121",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "3fbfc4d2-a937-4b1d-9350-3dff04f2cf10",
+          "collector_number": "186",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-122",
+      "name": "Shamanic Revelation",
+      "oracle_id": "d1d171de-1c6d-4fb9-817a-9c689c709f3d",
+      "collector_number": "122",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/1/1/11347d20-2b14-41cb-a930-92e37fcd1b87.jpg?1783903894",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "11347d20-2b14-41cb-a930-92e37fcd1b87",
+          "collector_number": "122",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "12e2ee56-ff9c-4a16-8446-94735c05817a",
+          "collector_number": "187",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-123",
+      "name": "Shared Roots",
+      "oracle_id": "9e0fd3bf-f47a-4f06-8ff1-73f6bf5d1e03",
+      "collector_number": "123",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/b/5/b5ead982-87b1-41b6-9c71-7231fc21d06b.jpg?1783903895",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "b5ead982-87b1-41b6-9c71-7231fc21d06b",
+          "collector_number": "123",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "8f815e07-0091-4eb4-ac62-1700dfebc56d",
+          "collector_number": "188",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-124",
+      "name": "Triumph of the Hordes",
+      "oracle_id": "3ded0c0c-40ce-4d14-a9a6-b023bc19ee0e",
+      "collector_number": "124",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/9/9/9907e7de-62f1-4596-a242-d811f72e9f63.jpg?1783903896",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "9907e7de-62f1-4596-a242-d811f72e9f63",
+          "collector_number": "124",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "c236853f-62fa-4bac-bdc0-295c8337fc2d",
+          "collector_number": "189",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-125",
+      "name": "Veil of Summer",
+      "oracle_id": "002965be-a36f-4a09-9ce0-c6535bca1703",
+      "collector_number": "125",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/f/5/f538004e-23bc-4916-a246-365093c7fb82.jpg?1783903892",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "f538004e-23bc-4916-a246-365093c7fb82",
+          "collector_number": "125",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "72e59908-e02e-4ff1-ac98-6f5d1ac9f579",
+          "collector_number": "190",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-126",
+      "name": "Bring to Light",
+      "oracle_id": "67183256-23cc-4af5-991e-d7148e942c63",
+      "collector_number": "126",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/4/0/400aa24b-870e-4a5a-8af0-060533d9cb18.jpg?1783903894",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "400aa24b-870e-4a5a-8af0-060533d9cb18",
+          "collector_number": "126",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "851367a6-ba83-4c91-b530-7402037c09bc",
+          "collector_number": "191",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-127",
+      "name": "Culling Ritual",
+      "oracle_id": "15e5136e-ed15-49a8-b027-e09436673fb4",
+      "collector_number": "127",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/6/9/6913b32f-e0c0-4817-8e36-02325729f217.jpg?1783903892",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "6913b32f-e0c0-4817-8e36-02325729f217",
+          "collector_number": "127",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "2a2743be-3033-4ecd-9890-49b8d772fbd4",
+          "collector_number": "192",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-128",
+      "name": "Deflecting Palm",
+      "oracle_id": "dc5dffc8-fac5-4956-bac4-1ad2cc16f6be",
+      "collector_number": "128",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/0/8/08e88552-fd1a-48e8-8443-73390e1f3332.jpg?1783903891",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "08e88552-fd1a-48e8-8443-73390e1f3332",
+          "collector_number": "128",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "7454ab83-3af3-4ebb-b713-c73b77592cc2",
+          "collector_number": "193",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-129",
+      "name": "Expressive Iteration",
+      "oracle_id": "c7aecca5-2f67-4245-ab2d-e723d8b23a67",
+      "collector_number": "129",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/f/3/f3b0fbe8-6645-4e81-b8f9-5aacaa3325b1.jpg?1783903891",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "f3b0fbe8-6645-4e81-b8f9-5aacaa3325b1",
+          "collector_number": "129",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "be9ab0f1-05fb-4012-ad95-2d32f10b8089",
+          "collector_number": "194",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "soa-130",
+      "name": "Fracture",
+      "oracle_id": "f21d0319-0509-4ac1-b6e3-10955a26fd7a",
+      "collector_number": "130",
+      "treatment": "Japanese Mystical Archive; nonfoil or Silver Scroll foil",
+      "image_url": "https://cards.scryfall.io/normal/front/1/5/15f27332-8400-4730-8cfb-26a3b5eefb90.jpg?1783903891",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "15f27332-8400-4730-8cfb-26a3b5eefb90",
+          "collector_number": "130",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "special",
+          "label": "Silver Scroll foil (special)",
+          "scryfall_id": "f515ecc4-d378-4f68-8146-1ac32a641665",
+          "collector_number": "195",
+          "finish": "foil"
+        }
+      ]
+    }
+  ]
+}

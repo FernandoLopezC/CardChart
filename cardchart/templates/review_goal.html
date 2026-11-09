@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-heading authoring-heading">
+  <p class="eyebrow">Add goal · Step 2 of 2</p>
+  <h1>Review {{ draft.title }}</h1>
+  <p>{{ draft.entries|length }} candidate cards were grouped by Oracle ID. Confirm every entry and printing before activation.</p>
+</header>
+
+<form class="goal-review-form" method="post">
+  <section class="panel review-summary">
+    <div class="authoring-fields two-column-fields">
+      <label>
+        Goal title
+        <input name="title" required value="{{ draft.title }}">
+      </label>
+      <label>
+        Stable slug
+        <input value="{{ draft.slug }}" disabled>
+      </label>
+    </div>
+    <label>
+      Description
+      <textarea name="description" required>{{ draft.description }}</textarea>
+    </label>
+    <p><strong>{{ draft.defaults.set_code|upper }}</strong> · {{ draft.defaults.language }}{% if draft.cardmarket %} · Cardmarket: {{ draft.cardmarket.default_version }}, {{ draft.cardmarket.expansion }}{% endif %}</p>
+  </section>
+
+  <div class="candidate-grid">
+    {% for entry in draft.entries %}
+      {% set entry_index = loop.index0 %}
+      <article class="candidate-card">
+        <label class="candidate-select">
+          <input type="checkbox" name="include_entry_{{ entry_index }}" value="yes" checked>
+          Include card
+        </label>
+        {% if entry.image_url %}<img src="{{ entry.image_url }}" alt="{{ entry.name }}">{% endif %}
+        <div class="candidate-card-body">
+          <label>
+            Card name
+            <input name="entry_name_{{ entry_index }}" required value="{{ entry.name }}">
+          </label>
+          <label>
+            Treatment note
+            <input name="treatment_{{ entry_index }}" value="{{ entry.treatment|default('', true) }}" placeholder="Book-cover treatment">
+          </label>
+          <p class="candidate-metadata">{{ entry.key }} · Collector {{ entry.collector_number }}</p>
+
+          <fieldset class="version-list">
+            <legend>Accepted versions</legend>
+            {% for version in entry.versions %}
+              {% set version_index = loop.index0 %}
+              <div class="candidate-version">
+                <label class="version-select">
+                  <input type="checkbox" name="include_version_{{ entry_index }}_{{ version_index }}" value="yes" checked>
+                  Include
+                </label>
+                <label>
+                  Label
+                  <input name="version_label_{{ entry_index }}_{{ version_index }}" required value="{{ version.label }}">
+                </label>
+                <small>{{ version.finish }} · #{{ version.collector_number }} · {{ version.scryfall_id }}</small>
+                {% if draft.cardmarket %}
+                  <label class="wants-default">
+                    <input type="radio" name="wants_default_{{ entry_index }}" value="{{ version_index }}" {% if version.wants_list_default %}checked{% endif %} required>
+                    Wants List default
+                  </label>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </fieldset>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+
+  <section class="activation-panel panel">
+    <div>
+      <strong>Ready to activate?</strong>
+      <p>The selected printings will be checked against the cached Scryfall bulk data. Existing goals will not be overwritten.</p>
+    </div>
+    <button type="submit">Validate and create goal</button>
+  </section>
+</form>
+
+<form class="discard-draft-form" method="post" action="{{ url_for('main.discard_goal_draft', draft_id=draft_id) }}">
+  <button class="secondary-button" type="submit">Discard draft</button>
+</form>
+{% endblock %}

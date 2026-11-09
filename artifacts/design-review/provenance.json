@@ -1,0 +1,35 @@
+{
+  "kind": "Unapproved design concepts",
+  "date": "2026-11-08",
+  "applicationChanged": false,
+  "illustrative": [
+    "prices",
+    "ownership counts",
+    "dates",
+    "history"
+  ],
+  "imageSources": {
+    "collectr": "https://www.getcollectr.com/assets/phone-portfolio.png",
+    "cards": "Existing cardchart/goals manifest image_url fields; card art belongs to its respective rights holders."
+  },
+  "checks": {
+    "previewWidths": [
+      728,
+      390
+    ],
+    "previewConsoleErrors": 0,
+    "assertions": [
+      "six unique sample printings",
+      "three screens exist",
+      "missing filter returns three cards",
+      "unmatched search shows empty state",
+      "surge foil unavailable price state"
+    ],
+    "limits": [
+      "No production app/browser session exercised",
+      "No live authenticated provider calls",
+      "No full accessibility audit",
+      "Contrast detector assumed a white host background; inspected previews use dark host/surfaces"
+    ]
+  }
+}

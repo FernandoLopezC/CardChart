@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block content %}
+<script defer src="{{ url_for('static', filename='goal_authoring.js') }}"></script>
+<header class="page-heading authoring-heading">
+  <p class="eyebrow">Add goal · Step 1 of 2</p>
+  <h1>Choose the cards</h1>
+  <p>Pick a set, explore its treatments, and review your selection live. Nothing becomes active until the next step.</p>
+</header>
+
+<section class="bulk-status panel">
+  <div>
+    <strong>Scryfall bulk data</strong>
+    {% if bulk_available %}
+      <span>Ready{% if bulk_metadata and bulk_metadata.updated_at %} · Updated {{ bulk_metadata.updated_at[:10] }}{% endif %}</span>
+    {% else %}
+      <span>Not downloaded yet</span>
+    {% endif %}
+  </div>
+  <form method="post" action="{{ url_for('main.refresh_goal_bulk') }}">
+    <button type="submit">{% if bulk_available %}Refresh bulk data{% else %}Download bulk data{% endif %}</button>
+  </form>
+</section>
+
+<form
+  id="goal-authoring-form"
+  class="goal-authoring-form"
+  method="post"
+  data-preview-url="{{ url_for('main.preview_goal_cards') }}"
+>
+  <div class="goal-builder-layout">
+    <section class="builder-controls panel">
+      <h2>Goal details</h2>
+      <label>
+        Goal title
+        <input name="title" required value="{{ form_values.get('title', '') }}" placeholder="Spider-Man source material">
+      </label>
+      <label>
+        Stable slug
+        <input name="slug" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" value="{{ form_values.get('slug', '') }}" placeholder="spider-man-source-material">
+        <small>Lowercase letters, numbers, and hyphens.</small>
+      </label>
+      <label>
+        Description
+        <textarea name="description" required placeholder="The complete source-material treatment.">{{ form_values.get('description', '') }}</textarea>
+      </label>
+
+      <hr>
+      <h2>Card source</h2>
+      <label>
+        Find a set
+        <input id="set-search" type="search" autocomplete="off" placeholder="Search set names or codes">
+      </label>
+      <label>
+        Set
+        <select id="set-code" name="set_code" required {% if not bulk_available %}disabled{% endif %}>
+          <option value="">Choose a set…</option>
+          {% for set_item in set_catalog %}
+            <option
+              value="{{ set_item.code }}"
+              data-search="{{ set_item.name|lower }} {{ set_item.code|lower }}"
+              {% if form_values.get('set_code') == set_item.code %}selected{% endif %}
+            >{{ set_item.name }} ({{ set_item.code|upper }}) · {{ set_item.card_count }} cards</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>
+        Language
+        <select id="goal-language" name="language" required>
+          {% for code, label in [('en', 'English'), ('ja', 'Japanese'), ('de', 'German'), ('fr', 'French'), ('it', 'Italian'), ('es', 'Spanish'), ('pt', 'Portuguese'), ('ko', 'Korean'), ('zhs', 'Simplified Chinese'), ('zht', 'Traditional Chinese')] %}
+            <option value="{{ code }}" {% if form_values.get('language', 'en') == code %}selected{% endif %}>{{ label }} ({{ code }})</option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <details class="advanced-goal-options">
+        <summary>Advanced filters</summary>
+        <div class="authoring-fields two-column-fields">
+          <label>
+            Collector from
+            <input id="collector-from" name="collector_from" inputmode="numeric" value="{{ form_values.get('collector_from', '') }}" placeholder="Optional">
+          </label>
+          <label>
+            Collector to
+            <input id="collector-to" name="collector_to" inputmode="numeric" value="{{ form_values.get('collector_to', '') }}" placeholder="Optional">
+          </label>
+        </div>
+        <label>
+          Scryfall metadata
+          <textarea id="metadata-filters" name="metadata_filters" placeholder="promo_types=sourcematerial">{{ form_values.get('metadata_filters', '') }}</textarea>
+          <small>Optional: one exact <code>field=value</code> filter per line.</small>
+        </label>
+      </details>
+
+      <details class="advanced-goal-options">
+        <summary>Cardmarket Wants List</summary>
+        <label>
+          Expansion name
+          <input name="cardmarket_expansion" value="{{ form_values.get('cardmarket_expansion', '') }}" placeholder="Marvel Universe">
+        </label>
+        <label>
+          Version
+          <input name="cardmarket_version" value="{{ form_values.get('cardmarket_version', '') }}" placeholder="V.1">
+        </label>
+        <small>Provide both fields or leave both blank.</small>
+      </details>
+
+      <input id="selected-entry-keys" type="hidden" name="selected_entry_keys" value="{{ form_values.get('selected_entry_keys', '') }}">
+    </section>
+
+    <section class="live-card-preview panel" aria-labelledby="preview-title">
+      <div class="preview-heading">
+        <div>
+          <p class="eyebrow">Live preview</p>
+          <h2 id="preview-title">Your selected cards</h2>
+        </div>
+        <strong id="selection-count" aria-live="polite">Choose a set</strong>
+      </div>
+
+      <div id="preview-empty" class="preview-state">
+        <strong>Start with a set</strong>
+        <p>The card gallery and available treatments will appear here.</p>
+      </div>
+      <div id="preview-loading" class="preview-state" hidden>
+        <strong>Loading cards…</strong>
+        <p>Searching the local bulk snapshot.</p>
+      </div>
+      <div id="preview-error" class="preview-state preview-error" role="alert" hidden></div>
+
+      <div id="preview-results" hidden>
+        <div class="treatment-heading">
+          <div>
+            <strong>Treatments</strong>
+            <small>Derived from Scryfall frame and promo metadata. Cards may appear in more than one group.</small>
+          </div>
+          <button id="toggle-selected-only" class="secondary-button" type="button">Show selected only</button>
+        </div>
+        <div id="treatment-filters" class="treatment-filters"></div>
+
+        <div class="selection-preview-wrap">
+          <strong>Selection preview</strong>
+          <div id="selected-card-preview" class="selected-card-preview"></div>
+        </div>
+
+        <div class="preview-toolbar">
+          <span id="visible-count"></span>
+          <div>
+            <button id="select-visible" class="secondary-button" type="button">Select visible</button>
+            <button id="deselect-visible" class="secondary-button" type="button">Deselect visible</button>
+          </div>
+        </div>
+        <div id="preview-card-grid" class="preview-card-grid"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="form-actions wizard-actions">
+    <a href="{{ url_for('main.goals') }}">Cancel</a>
+    <button id="review-selected" type="submit" disabled>Review selected cards</button>
+  </div>
+</form>
+{% endblock %}

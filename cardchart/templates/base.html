@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CardChart</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  {% block head %}{% endblock %}
 </head>
 <body>
   <header class="site-header">
@@ -13,6 +14,7 @@
       <a href="{{ url_for('main.goals') }}">Goals</a>
       <a href="{{ url_for('main.inventory') }}">Inventory</a>
       <a href="{{ url_for('main.upload') }}">Import CSV</a>
+      <a href="{{ url_for('reconciliation.index') }}">Reconcile</a>
     </nav>
   </header>
   <main class="container">

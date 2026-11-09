@@ -41,6 +41,7 @@ from .goal_definitions import (
 )
 from .importer import import_cards
 from .models import Card, CollectionGoal, GoalCard, GoalCardPrinting, PriceSnapshot, db
+from .ownership import canonical_inventory_scryfall_id
 from .pricing import (
     cheapest_price_for_versions,
     load_eur_to_gbp_rate,
@@ -83,7 +84,7 @@ def inventory():
     rate_info = None
     if current_app.config["MARKET_PRICING_ENABLED"] and cards:
         price_index = load_scryfall_price_index(
-            card.scryfall_id for card in cards
+            canonical_inventory_scryfall_id(card.scryfall_id) for card in cards
         )
         if price_index:
             rate_info = load_eur_to_gbp_rate()
@@ -124,7 +125,10 @@ def inventory():
 
 def inventory_card_view(card, price_index, rate_info):
     price = price_for_printing(
-        card.scryfall_id, card.finish, price_index, rate_info
+        canonical_inventory_scryfall_id(card.scryfall_id),
+        card.finish,
+        price_index,
+        rate_info,
     )
     line_gbp = (
         Decimal(price["gbp"]) * card.quantity
@@ -689,7 +693,8 @@ def quick_update_goal_card(slug, goal_card_id):
             None,
         )
         for existing_printing in goal_card.printings:
-            existing_printing.quantity = 0
+            if existing_printing is not printing:
+                existing_printing.quantity = 0
         if printing is None:
             printing = GoalCardPrinting(goal_card=goal_card)
         printing.scryfall_id = version.scryfall_id

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='reconciliation.css') }}">{% endblock %}
+{% block content %}
+<header class="reconcile-heading">
+  <h1>Reconcile a collection CSV</h1>
+  <p>Compare a dated collection snapshot or record a disposal against your inventory. Collectr and Deckcheck usually describe the same cards, so compare their snapshots; never add those counts together.</p>
+</header>
+
+<form class="panel reconcile-form" method="post" enctype="multipart/form-data" action="{{ url_for('reconciliation.index') }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="reconcile-fields">
+    <label for="csv_file">CSV file<input id="csv_file" name="csv_file" type="file" accept=".csv,text/csv" required></label>
+    <label for="source">Source<select id="source" name="source" required>
+      {% for value, label in sources.items() %}<option value="{{ value }}">{{ label }}</option>{% endfor %}
+    </select></label>
+    <label for="source_account">Account or vendor label <span>(required for buylists)</span><input id="source_account" name="source_account" type="text" maxlength="100" autocomplete="organization"></label>
+    <label for="kind">Import type<select id="kind" name="kind" required>
+      <option value="snapshot">Snapshot — current counts</option><option value="disposal">Disposal — sold or removed cards</option>
+    </select></label>
+    <label for="observed_on">As of date<input id="observed_on" name="observed_on" type="date" value="{{ today }}" required></label>
+    <label for="reference">Invoice or order reference <span>(optional)</span><input id="reference" name="reference" type="text" maxlength="200" autocomplete="off"></label>
+  </div>
+  <fieldset class="reconcile-basis">
+    <legend>For disposals, are these quantities already removed from the source inventory?</legend>
+    <label><input type="radio" name="basis" value="unreflected"> No, deduct them from CardChart counts</label>
+    <label><input type="radio" name="basis" value="already_reflected"> Yes, record the transaction without changing counts</label>
+    <small>Leave this blank for a snapshot. This choice is required for a disposal.</small>
+  </fieldset>
+  <button type="submit">Continue to column mapping</button>
+</form>
+
+<section class="reconcile-section" aria-labelledby="metadata-title">
+  <h2 id="metadata-title">Printing metadata</h2>
+  <p>New printings need the local Scryfall paper-card cache. Uploading a file never downloads it automatically.</p>
+  <form method="post" action="{{ url_for('reconciliation.refresh_bulk') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">Download or refresh printing metadata</button></form>
+</section>
+
+<section class="reconcile-section" aria-labelledby="history-title">
+  <div class="reconcile-section-heading"><h2 id="history-title">Previous reconciliations</h2>
+    <a class="reconcile-export" href="{{ url_for('reconciliation.export_inventory') }}">Export inventory CSV</a>
+  </div>
+  {% if batches %}
+  <div class="reconcile-table-wrap"><table class="reconcile-table">
+    <caption>Uploaded reconciliation files and their current status</caption>
+    <thead><tr><th scope="col">Date</th><th scope="col">Source</th><th scope="col">Type</th><th scope="col">File</th><th scope="col">Status</th><th scope="col"><span class="visually-hidden">Action</span></th></tr></thead>
+    <tbody>{% for b in batches %}<tr>
+      <td>{{ b.observed_on }}</td><td>{{ sources.get(b.source, b.source) }}</td>
+      <td>{{ b.kind|title }}</td><td class="reconcile-filename">{{ b.filename }}</td><td><span class="reconcile-state">{{ b.state|title }}</span></td>
+      <td>{% if b.state == 'mapping' %}<a href="{{ url_for('reconciliation.mapping', batch_id=b.id) }}">Continue mapping</a>{% else %}<a href="{{ url_for('reconciliation.review', batch_id=b.id) }}">View reconciliation</a>{% endif %}</td>
+    </tr>{% endfor %}</tbody>
+  </table></div>
+  {% else %}<p class="reconcile-empty">No reconciliations yet. Upload a CSV to start a review.</p>{% endif %}
+</section>
+{% endblock %}

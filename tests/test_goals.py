@@ -1,5 +1,9 @@
 import io
+import json
+import tempfile
 import unittest
+from datetime import date
+from pathlib import Path
 from unittest.mock import patch
 
 from werkzeug.datastructures import FileStorage
@@ -17,6 +21,7 @@ from cardchart.goal_definitions import (
 )
 from cardchart.importer import import_cards
 from cardchart.models import Card, CollectionGoal, GoalCard, GoalCardPrinting, db
+from cardchart.scryfall_bulk import ScryfallBulkLookup
 
 
 PRINTING_ID = "11111111-1111-4111-8111-111111111111"
@@ -337,6 +342,68 @@ class GoalTests(unittest.TestCase):
             self.assertFalse(card.is_owned)
             self.assertEqual(GoalCardPrinting.query.filter_by(goal_card_id=card.id).count(), 0)
 
+    def test_quick_update_preserves_selected_printing_quantity_and_details(self):
+        with self.app.app_context():
+            definition = middle_earth_classic_artists
+            version = definition.entries[0].versions[0]
+            inventory_card = Card(
+                scryfall_id=version.scryfall_id,
+                name="Test Card",
+                set_code=version.set_code,
+                set_name="Test Set",
+                collector_number=version.collector_number,
+                rarity="rare",
+                finish=version.finish,
+                finish_display="Non-foil",
+                quantity=3,
+            )
+            db.session.add(inventory_card)
+            db.session.commit()
+            synchronize_goals((definition,))
+            goal = CollectionGoal.query.filter_by(slug=definition.slug).one()
+            card = goal.cards[0]
+            selected = card.printings[0]
+            selected.notes = "Keep acquisition details"
+            selected.acquired_at = date(2026, 10, 1)
+            other_version = definition.entries[0].versions[-1]
+            other = GoalCardPrinting(
+                goal_card=card,
+                scryfall_id=other_version.scryfall_id,
+                set_code=other_version.set_code,
+                collector_number=other_version.collector_number,
+                finish=other_version.finish,
+                language=other_version.language,
+                quantity=2,
+            )
+            db.session.add(other)
+            db.session.commit()
+            client = self.app.test_client()
+
+            for _ in range(2):
+                response = client.post(
+                    f"/goals/{goal.slug}/cards/{card.id}/quick-update",
+                    data={"version": version.key, "status": "owned"},
+                )
+                self.assertEqual(response.status_code, 302)
+                db.session.refresh(selected)
+                db.session.refresh(other)
+                self.assertEqual(selected.quantity, 3)
+                self.assertEqual(other.quantity, 0)
+                self.assertEqual(selected.card_id, inventory_card.id)
+                self.assertEqual(selected.notes, "Keep acquisition details")
+                self.assertEqual(selected.acquired_at, date(2026, 10, 1))
+
+            self.app.config["MARKET_PRICING_ENABLED"] = True
+            with patch(
+                "cardchart.routes.load_goal_price_index",
+                return_value={version.scryfall_id: {"prices": {"eur": "10.00"}}},
+            ), patch(
+                "cardchart.routes.load_eur_to_gbp_rate",
+                return_value={"rate": "0.85", "rate_date": "2026-10-18"},
+            ):
+                page = client.get(f"/goals/{goal.slug}")
+            self.assertIn("≈ £25.50", page.text)
+
     def test_grid_offers_goal_specific_version_labels(self):
         with self.app.app_context():
             synchronize_goals()
@@ -636,6 +703,77 @@ class GoalTests(unittest.TestCase):
             self.assertIn(b"\xe2\x89\x88 \xc2\xa320.40", response.data)
             self.assertIn(b"exact Scryfall printing and finish", response.data)
 
+    def test_imported_finishes_use_canonical_bulk_prices_without_changing_ids(self):
+        metadata = {
+            "id": PRINTING_ID,
+            "set": "tst",
+            "collector_number": "1",
+            "lang": "en",
+            "prices": {"eur": "10.00", "eur_foil": "12.00"},
+        }
+        rows = (
+            f"{PRINTING_ID},Test Card,TST,Test Set,1,rare,nonfoil,Non-foil,3\n"
+            f"{PRINTING_ID},Test Card,TST,Test Set,1,rare,foil,Foil,2\n"
+        )
+        with tempfile.TemporaryDirectory() as directory, self.app.app_context():
+            self.app.instance_path = directory
+            with patch(
+                "cardchart.importer.load_scryfall_bulk_lookup",
+                return_value=ScryfallBulkLookup([metadata]),
+            ):
+                import_cards(
+                    FileStorage(stream=io.BytesIO((CSV_HEADER + rows).encode()))
+                )
+            db.session.add(
+                Card(
+                    scryfall_id="csv:unverified",
+                    name="Unverified Card",
+                    set_code="tst",
+                    set_name="Test Set",
+                    collector_number="2",
+                    rarity="rare",
+                    finish="nonfoil",
+                    finish_display="Non-foil",
+                    quantity=1,
+                )
+            )
+            db.session.commit()
+            cache_dir = Path(directory) / "scryfall"
+            cache_dir.mkdir()
+            (cache_dir / "scryfall-default-cards.json").write_text(
+                json.dumps([metadata]), encoding="utf-8"
+            )
+            (cache_dir / "scryfall-default-cards.meta.json").write_text(
+                json.dumps({"updated_at": "2026-10-18"}), encoding="utf-8"
+            )
+            self.app.config["MARKET_PRICING_ENABLED"] = True
+
+            with patch(
+                "cardchart.routes.load_eur_to_gbp_rate",
+                return_value={"rate": "0.85", "rate_date": "2026-10-18"},
+            ):
+                response = self.app.test_client().get("/inventory?sort=price-desc")
+
+            self.assertEqual(response.status_code, 200)
+            self.assertIn("≈ £45.90", response.text)
+            self.assertIn("≈ £25.50", response.text)
+            self.assertIn("≈ £20.40", response.text)
+            self.assertIn("2 of 3 inventory lines priced", response.text)
+            self.assertLess(
+                response.text.index("Non-foil · Qty 3"),
+                response.text.index("Foil · Qty 2"),
+            )
+            self.assertEqual(
+                {card.scryfall_id for card in Card.query.all()},
+                {PRINTING_ID, f"{PRINTING_ID}:foil", "csv:unverified"},
+            )
+            price_cache = json.loads(
+                (cache_dir / "scryfall-card-prices.json").read_text(encoding="utf-8")
+            )
+            self.assertIn(PRINTING_ID, price_cache["requested_ids"])
+            self.assertNotIn(f"{PRINTING_ID}:foil", price_cache["requested_ids"])
+            self.assertNotIn("csv:unverified", price_cache["requested_ids"])
+
     def test_inventory_paginates_searches_and_sorts(self):
         with self.app.app_context():
             for number in range(25):
@@ -670,10 +808,10 @@ class GoalTests(unittest.TestCase):
     def test_inventory_sorts_priced_lines_by_quantity_adjusted_value(self):
         with self.app.app_context():
             cards = (
-                Card(scryfall_id="low", name="Low", set_code="tst", set_name="Test",
+                Card(scryfall_id=PRINTING_ID, name="Low", set_code="tst", set_name="Test",
                      collector_number="1", rarity="common", finish="nonfoil",
                      finish_display="Non-foil", quantity=1),
-                Card(scryfall_id="high", name="High", set_code="tst", set_name="Test",
+                Card(scryfall_id=OTHER_ID, name="High", set_code="tst", set_name="Test",
                      collector_number="2", rarity="common", finish="nonfoil",
                      finish_display="Non-foil", quantity=3),
                 Card(scryfall_id="missing", name="Missing Price", set_code="tst", set_name="Test",
@@ -687,8 +825,8 @@ class GoalTests(unittest.TestCase):
             with patch(
                 "cardchart.routes.load_scryfall_price_index",
                 return_value={
-                    "low": {"prices": {"eur": "8.00"}},
-                    "high": {"prices": {"eur": "4.00"}},
+                    PRINTING_ID: {"prices": {"eur": "8.00"}},
+                    OTHER_ID: {"prices": {"eur": "4.00"}},
                 },
             ), patch(
                 "cardchart.routes.load_eur_to_gbp_rate",

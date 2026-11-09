@@ -15,7 +15,7 @@ specifies non-destructive creation of an absent database/missing modeled tables,
 and keeps structural migration out of scope. This supplies the current constraint;
 the original decision discussion and alternatives have not been recovered.
 
-[create_app / ensure_database](../../cardchart/__init__.py#L12-L53) inspect existing
+[create_app / ensure_database](../../cardchart/__init__.py#L12-L57) inspect existing
 table names, call `db.create_all()` only for missing modeled tables, and synchronize
 curated goals. `init-db` repeats that readiness operation. Existing column layouts
 are not compared or altered. Goal synchronization commits metadata/entry updates
@@ -27,7 +27,7 @@ and adds missing inventory matches while preserving existing ownership records.
   and a DB with a pre-existing unrelated table/row, checking preservation and goals.
 - [Synchronization](../../cardchart/goal_definitions.py#L441-L477),
   [reconciliation](../../cardchart/ownership.py#L18-L67) and
-  [goal tests](../../tests/test_goals.py#L114-L236) establish upserts and preservation.
+  [goal tests](../../tests/test_goals.py#L119-L241) establish upserts and preservation.
 
 Observed consequence: starting the app or invoking Flask CLI may write the configured
 database even when the requested command is validation. This is not read-only schema
