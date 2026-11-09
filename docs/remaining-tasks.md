@@ -2,13 +2,6 @@
 
 Completed implementation is reflected in the product documentation and code rather than retained here as unfinished work.
 
-## Finish collector implementation delivery
-
-- **Status:** UI, guide refresh and approved FIFO/Performance storage are implemented locally on `feat/collector-ui-performance`.
-- **Remaining:** Complete Sol review and PR readiness on `delivery/collector-ui-performance`. Leave the eventual PR open and unmerged with automatic merging disabled.
-- **Evidence:** The dated [handover](implementation-handover.md) owns success criteria. [Implementation proof](../artifacts/implementation-proof/README.md) records 92 Python tests, 13 JavaScript tests and actual browser workflows, including persisted chart interaction, repeat-safe disposal and rejected malformed refreshes. The parent checkpoint is `.orchestration/ui-pricing-performance/run.md`.
-- **Boundaries:** No production database was opened or migrated; no history was reconstructed. The [approved decision](decisions/0004-guide-performance.md) adds three tables only. Existing legacy prices and ownership semantics remain.
-
 ## Decide the future of legacy pricing
 
 - **Status:** Pending decision

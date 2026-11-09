@@ -6,7 +6,9 @@ Implementation began on 9 November 2026 using the v3 direction. The current loca
 branch includes the shared collector shell, Collection, Goals, Cards/Binder and
 inspectors, plus Overview/Performance pages backed by recorded guide observations
 and remaining-lot baselines. The user approved three additive history tables and
-FIFO reductions. Final delivery review remains in progress.
+FIFO reductions. Independent Sol review approved the implementation after the
+malformed-guide refresh fix. [Implementation proof](artifacts/implementation-proof/README.md)
+records the real-app checks; PR readiness is reported on the delivery PR.
 The original design-study status below is historical; it is not an acceptance
 claim for the implementation.
 
