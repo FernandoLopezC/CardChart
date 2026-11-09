@@ -17,6 +17,22 @@ truncation, refusals and optional fields when applicable).
 
 ## Functional checks
 
+The goal-price-drop follow-up adds `test_goal_price_drops.py` and
+`test_ownership_editor.py`. They cover exact missing-card comparisons, unchanged
+refreshes, missing evidence, FX, rollback, backup/reopen, reviewed ownership,
+case-insensitive duplicate protection, archived prices and retained Scryfall CLI
+downloads. Run these for focused checks, then the full commands below.
+
+Local verification on 9 November 2026 passed 106 Python and 13 Node tests. Six
+grouped real-app browser checks covered 390px/1280px Cards/Binder, filter clicks,
+exact highlighted pockets, inspector bounds/Escape/focus and ownership save. Data
+was isolated; Scryfall refresh was simulated through the real route. Full logs,
+source hashes and screenshots are recorded in the local run directory;
+[delivery evidence](../../artifacts/goal-price-drops/README.md) records the scope and
+tested source hashes. Live downloads and physical devices were
+not tested. The initial backup/reopen test left a SQLite handle open on Windows;
+explicit connection closure fixed it before the final complete suite passed.
+
 The 9 November collector implementation adds `test_collector_routes.py` for Binder
 ordering/focus, full export, guide-refresh failure and current dashboard scope.
 `collector.test.cjs` and `history_chart.test.cjs` execute actual inspector and chart

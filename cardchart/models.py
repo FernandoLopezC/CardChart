@@ -112,7 +112,18 @@ class GoalCard(db.Model):
 
     @property
     def is_owned(self):
-        return any(printing.quantity > 0 for printing in self.printings)
+        return bool(self.owned_printings)
+
+    @property
+    def owned_printings(self):
+        from .goal_definitions import goal_card_accepts_printing
+
+        return [
+            printing for printing in self.printings
+            if printing.quantity > 0 and goal_card_accepts_printing(
+                self, printing.scryfall_id, printing.finish, printing.language
+            )
+        ]
 
 
 class GoalCardPrinting(db.Model):
@@ -210,3 +221,12 @@ class GuideObservationValue(db.Model):
     gbp_total = db.Column(db.Numeric(18, 2))
     observation = db.relationship("GuideObservation", back_populates="values")
     card = db.relationship("Card")
+
+
+class GoalPriceObservation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    recorded_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+    source_updated_at = db.Column(db.String(80), nullable=False)
+    fx_rate = db.Column(db.String(80), nullable=False)
+    fx_date = db.Column(db.String(20), nullable=False)
+    prices_json = db.Column(db.Text, nullable=False)

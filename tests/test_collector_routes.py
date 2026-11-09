@@ -79,10 +79,9 @@ class CollectorRouteTests(unittest.TestCase):
         self.client.get("/inventory")
         with self.client.session_transaction() as session:
             token = session["reconciliation_csrf"]
-        with patch("cardchart.routes.load_bulk_lookup") as bulk, patch("cardchart.routes.load_eur_to_gbp_rate", return_value={"rate": "0.85", "rate_date": "2026-11-06"}), patch("cardchart.routes.scrape_cardmarket") as legacy:
+        with patch("cardchart.routes.load_bulk_lookup") as bulk, patch("cardchart.routes.load_eur_to_gbp_rate", return_value={"rate": "0.85", "rate_date": "2026-11-06"}):
             response = self.client.post("/guides/refresh", data={"csrf_token": token, "return_to": "/inventory"}, follow_redirects=True)
         bulk.assert_called_once_with(refresh=True)
-        legacy.assert_not_called()
         self.assertIn(b"unchanged upstream", response.data)
 
     def test_malformed_refresh_retains_guide_cache_and_records_no_observation(self):

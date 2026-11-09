@@ -9,6 +9,12 @@ The `focus` card ID keeps the reading position when changing page sizes between
 views. Quick-save retains view/filter/page and returns to the edited pocket.
 Full-goal totals and Wants List exports retain their original scope.
 
+The Price drops filter shows missing cards with an accepted printing at least £0.01
+cheaper than the previous captured guide refresh. Binder highlights matching pockets
+in place. Inspectors identify each cheaper version and show before/after GBP and
+percentage change. Full-goal drop counts and valuation remain independent of paging.
+[Pricing](pricing.md) owns comparison evidence, unavailable states and refresh capture.
+
 Native dialog inspectors show accepted versions, quantities, guide prices and
 marketplace links. Close/Escape restore focus and scroll. Detailed editing remains
 reachable. The inspector explicitly describes existing quick-save consequences:
@@ -80,10 +86,19 @@ Quick update restricts choices to reviewed versions, zeroes other printing quant
 when selecting owned, and deletes all ownership links when selecting missing.
 Saving an already selected printing preserves its positive quantity, inventory link,
 notes and acquisition date. New or zero-quantity selections start with one copy.
-**Difference from intent:** the detailed editor accepts free-form identities and
-does not validate them against the manifest; `is_owned` checks positive quantity,
-not acceptance. Accepted-printing restrictions therefore do not cover every write
-path. See [ownership continuation](../remaining-tasks.md#align-ownership-write-paths).
+The detailed editor uses accepted version choices and a session CSRF token. It
+validates quantity/date and exact linked inventory UUID, finish, set and collector
+number before changing anything. Linked inventory supplies its quantity; inventory
+has no independent language field. Each stored ownership record can be selected
+for editing, and duplicate identities are refused without merging records.
+
+`goal_card_accepts_printing` in goal_definitions.py is shared by imports and the
+model's `owned_printings`/`is_owned`. Maintained goals require exact reviewed UUID,
+finish and language; comparisons normalize case. Existing unaccepted records stay
+stored and visible for review, but do not count toward progress or owned value.
+Valuation uses accepted positive records only, including every accepted quantity.
+An accepted record without a usable guide still makes its owned-card value unavailable.
+The previous accepted-ID fallback for non-versioned goals remains unchanged.
 
 The Wants List route exports all missing entries, independent of filters/pages,
 using reviewed version/expansion mappings; it returns 404 when a mapping is absent.
@@ -109,6 +124,5 @@ establish real-browser rendering or crash/concurrent activation recovery.
 
 When changing contracts, update this guide and the existing manifest guide; update
 product direction for intent changes, relevant ADRs for consequential boundaries,
-and the backlog for unresolved work. Open questions: human ownership, detailed-editor
-validation policy, and activation recovery expectations. Do not silently enforce a
-new policy as part of documentation work.
+and the backlog for unresolved work. Open questions: human ownership and activation recovery expectations. [ADR-0005](../decisions/0005-goal-price-drops.md)
+records the user-requested ownership alignment and scraper retirement.

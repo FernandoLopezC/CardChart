@@ -438,6 +438,17 @@ def goal_entry_versions(goal_slug, stable_key):
     return entry.versions if entry else ()
 
 
+def goal_card_accepts_printing(goal_card, scryfall_id, finish, language):
+    versions = goal_entry_versions(goal_card.goal.slug, goal_card.stable_key)
+    if versions:
+        identity = (scryfall_id.lower(), finish.lower(), language.lower())
+        return any(
+            (version.scryfall_id, version.finish, version.language) == identity
+            for version in versions
+        )
+    return scryfall_id in goal_card.accepted_printing_ids
+
+
 def synchronize_goals(definitions=None):
     """Create and safely refresh curated goals, including exact inventory matches."""
     from .ownership import reconcile_goal_collection

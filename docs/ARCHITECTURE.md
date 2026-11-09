@@ -28,7 +28,7 @@ database readiness. There is no worker/queue in the inspected code.
 | Goals and ownership | Reviewed definitions, checklist projection, ownership links and progress | Manifest parser/registry, authoring UI/CLI, shared models; consumes inventory and bulk metadata | [Goals](components/goals.md) |
 | Inventory and ingestion | CSV contract, imported card identity and enrichment | Upload route, importer, Scryfall cache/live API; writes goal matches through reviewed versions | [Inventory](components/inventory.md) |
 | Reconciliation | Reviewed source snapshots and disposal ledger | Dedicated CSV workflow, exact printing identities, local Scryfall bulk cache, inventory and goal quantities | [Reconciliation](components/reconciliation.md) |
-| Guide and legacy pricing | Bulk price index, EUR/GBP conversion; separate scraper snapshots | Goal/inventory route aggregates, Scryfall cache, Frankfurter; eBay/Cardmarket for explicit legacy refresh | [Pricing](components/pricing.md) |
+| Guide pricing and goal drops | Bulk price index, EUR/GBP conversion, captured missing-card comparisons; read-only scraper archive | Goal/inventory route aggregates, Scryfall cache, Frankfurter, goal_prices.py | [Pricing](components/pricing.md) |
 
 Startup loads structurally validated manifests into the process registry, creates
 absent modeled tables, then upserts goals and reconciles existing inventory.
@@ -77,8 +77,11 @@ refresh records an observation after cache publication. No scheduler is introduc
 
 ## Known differences and continuation
 
-The detailed ownership editor is less restrictive than reviewed quick updates;
-activation recovery is best effort across file/registry/database state. The guides describe these limits
+The detailed editor and progress now use reviewed ownership identities. The
+goal_price_observation table captures accepted-version guides independently from
+inventory Performance; guide refresh commits both histories together. Existing
+scraper data remains read-only. [ADR-0005](decisions/0005-goal-price-drops.md) records
+these changes. Activation recovery is best effort across file/registry/database state. The guides describe these limits
 and [remaining tasks](remaining-tasks.md) holds continuation steps. No source move
 is justified by this documentation pass; splitting `routes.py` would need a
 separately scoped change with caller and behavior verification.

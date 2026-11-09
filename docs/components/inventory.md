@@ -4,7 +4,10 @@
 
 Collection retains exact-printing quantities, search, sort, 20-row pages and
 full-inventory totals. Tile inspectors expose guide details; the card-detail page
-separates current guides from legacy scraper records. Import and reconciliation
+separates current guides from archived scraper records. Scrapers are retired;
+imports no longer generate scraper queries or guessed marketplace URLs. Existing
+columns and saved records are retained. Scryfall downloads, enrichment and exact
+purchase links remain available. Import and reconciliation
 remain separate workflows. Imports now synchronize [quantity lots](performance.md)
 once per affected card, using the first previous quantity and final absolute CSV
 quantity. Lot updates and observation capture commit with the original import.

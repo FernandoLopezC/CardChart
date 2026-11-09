@@ -6,10 +6,9 @@ from urllib.parse import quote
 import requests
 from slugify import slugify
 
-from .goal_definitions import goal_entry_versions
+from .goal_definitions import goal_card_accepts_printing
 from .models import Card, GoalCard, GoalCardPrinting, db
 from .performance import record_observation, sync_quantity_lots
-from .scrapers import build_ebay_query, build_cardmarket_url
 from .scryfall_bulk import load_bulk_lookup
 
 REQUIRED_HEADERS = [
@@ -122,12 +121,9 @@ def match_goal_printings(card, canonical_scryfall_id, row, scryfall_data):
         )
     ]
     for goal_card in matches:
-        printing = GoalCardPrinting.query.filter_by(
-            goal_card_id=goal_card.id,
-            scryfall_id=canonical_scryfall_id,
-            finish=finish,
-            language=language,
-        ).first()
+        printing = next((printing for printing in goal_card.printings if
+            (printing.scryfall_id.lower(), printing.finish.lower(), printing.language.lower()) ==
+            (canonical_scryfall_id.lower(), finish.lower(), language.lower())), None)
         if printing is None:
             printing = GoalCardPrinting(
                 goal_card=goal_card,
@@ -144,17 +140,6 @@ def match_goal_printings(card, canonical_scryfall_id, row, scryfall_data):
         )
         printing.quantity = int(row["Quantity"] or 1)
     return len(matches)
-
-
-def goal_card_accepts_printing(goal_card, scryfall_id, finish, language):
-    versions = goal_entry_versions(goal_card.goal.slug, goal_card.stable_key)
-    if versions:
-        identity = (scryfall_id.lower(), finish.lower(), language.lower())
-        return any(
-            (version.scryfall_id, version.finish, version.language) == identity
-            for version in versions
-        )
-    return scryfall_id in goal_card.accepted_printing_ids
 
 
 def find_card_for_row(scryfall_id, row, result):
@@ -270,8 +255,6 @@ def apply_csv_row(card, row):
     card.finish = row["Finish"].strip()
     card.finish_display = row["Finish Display"].strip()
     card.quantity = int(row["Quantity"] or 1)
-    card.ebay_query = build_ebay_query(card)
-    card.cardmarket_url = build_cardmarket_url(card)
     card.updated_at = datetime.now(timezone.utc)
 
 

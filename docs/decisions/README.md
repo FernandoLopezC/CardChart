@@ -1,5 +1,8 @@
 # Decision register
 
+- [ADR-0005: scraper retirement, ownership and goal price drops](0005-goal-price-drops.md)
+  records the follow-up request and one additive goal-price observation table.
+
 - [ADR-0004: captured guide baselines and FIFO](0004-guide-performance.md) records
   the user's 9 November 2026 approval for three additive Performance tables.
 
