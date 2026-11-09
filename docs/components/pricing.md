@@ -9,7 +9,10 @@ Legacy per-card scraper refresh remains separate. Its Cardmarket amounts are
 displayed as legacy raw values with uncertain currency, without a GBP label.
 
 Downloads are validated as complete gzip JSON Lines or JSON arrays before
-publication. Content-addressed generation files are published through one atomic
+publication. Source timestamps must be timezone-aware and not in the future;
+guide price fields must be null/missing or finite, nonnegative decimal strings.
+Malformed price/link structures are rejected before replacing the active cache.
+Content-addressed generation files are published through one atomic
 metadata-pointer replacement. Failed downloads or metadata publication preserve
 the previously referenced cache. Existing fixed-name caches remain readable.
 Older generation files are retained for recovery; repeated unchanged refreshes

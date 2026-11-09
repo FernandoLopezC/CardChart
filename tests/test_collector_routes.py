@@ -1,12 +1,18 @@
+import gzip
+import json
 import tempfile
 import unittest
-from unittest.mock import patch
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+from unittest.mock import Mock, patch
 
 import requests
 from bs4 import BeautifulSoup
 
 from cardchart import create_app
-from cardchart.models import Card, CollectionGoal, GoalCard, GoalCardPrinting, PriceSnapshot, db
+from cardchart.models import Card, CollectionGoal, GoalCard, GoalCardPrinting, GuideObservation, PriceSnapshot, db
+from cardchart.pricing import load_scryfall_price_index, price_for_printing
+from cardchart.scryfall_bulk import CACHE_JSON, CACHE_META, bulk_cards_path
 
 
 class CollectorRouteTests(unittest.TestCase):
@@ -78,6 +84,50 @@ class CollectorRouteTests(unittest.TestCase):
         bulk.assert_called_once_with(refresh=True)
         legacy.assert_not_called()
         self.assertIn(b"unchanged upstream", response.data)
+
+    def test_malformed_refresh_retains_guide_cache_and_records_no_observation(self):
+        self.app.config["MARKET_PRICING_ENABLED"] = True
+        printing = "11111111-1111-4111-8111-111111111111"
+        cache = Path(self.directory.name) / "scryfall"
+        cache.mkdir()
+        valid = {"id": printing, "prices": {"eur": "10.00", "eur_foil": None}}
+        old_cards = json.dumps([valid]).encode()
+        old_meta = json.dumps({"updated_at": "2026-01-01T00:00:00Z"}).encode()
+        (cache / CACHE_JSON).write_bytes(old_cards)
+        (cache / CACHE_META).write_bytes(old_meta)
+        with self.app.app_context():
+            db.session.add(Card(scryfall_id=printing, name="Tracked card", set_code="tst", set_name="Test", collector_number="1", rarity="rare", finish="nonfoil", finish_display="Non-foil", quantity=1))
+            db.session.commit()
+        self.client.get("/reconcile")
+        with self.client.session_transaction() as session:
+            token = session["reconciliation_csrf"]
+        invalid_cards = [
+            {**valid, "prices": "malformed"},
+            {**valid, "prices": []},
+            *({**valid, "prices": {"eur": value}} for value in ({}, [], True, 10, "bad", "NaN", "-1")),
+            {**valid, "prices": {"eur_foil": []}},
+            {**valid, "purchase_uris": "malformed"},
+        ]
+        cases = [(card, "2026-01-02T00:00:00Z") for card in invalid_cards]
+        cases += [(valid, value) for value in ("bad", "2026-01-02", {}, (datetime.now(timezone.utc)+timedelta(days=1)).isoformat())]
+        for card, timestamp in cases:
+            with self.subTest(card=card, timestamp=timestamp):
+                (cache / CACHE_JSON).write_bytes(old_cards)
+                (cache / CACHE_META).write_bytes(old_meta)
+                self.app.extensions.pop("cardchart_scryfall_prices", None)
+                metadata = {"data": [{"type": "default_cards", "updated_at": timestamp, "jsonl_download_uri": "https://data.scryfall.io/cards.jsonl.gz"}]}
+                responses = [Mock(json=Mock(return_value=metadata)), Mock(content=gzip.compress(json.dumps(card).encode()+b"\n"))]
+                with patch("cardchart.scryfall_bulk.requests.get", side_effect=responses):
+                    response = self.client.post("/guides/refresh", data={"csrf_token":token,"return_to":"/reconcile"}, follow_redirects=True)
+                self.assertIn(b"Guide refresh failed", response.data)
+                self.assertNotIn(b"guide data updated", response.data)
+                self.assertNotIn(b"Collection observation saved", response.data)
+                self.assertEqual((cache/CACHE_META).read_bytes(), old_meta)
+                self.assertEqual(bulk_cards_path(cache).read_bytes(), old_cards)
+                with self.app.app_context():
+                    self.assertEqual(GuideObservation.query.count(), 0)
+                    price = price_for_printing(printing, "nonfoil", load_scryfall_price_index([printing]), {"rate":"1"})
+                    self.assertEqual(price["gbp"], "10.00")
 
 
 if __name__ == "__main__":

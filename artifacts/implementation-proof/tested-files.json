@@ -15,7 +15,7 @@
   "cardchart/reconciliation_routes.py": "7cd317367eb2db3ba7e06039294a13264f0faec4683cca15bdf53b503c7175ed",
   "cardchart/routes.py": "76b13091f1567459741c6223e832d4634dc4a6bfbd336eebf4efe7576b03d7a2",
   "cardchart/scrapers.py": "e608511c5c81d84e8b9680ae20fefc05410967e401056e4ce1cc6f842395e350",
-  "cardchart/scryfall_bulk.py": "401aebbb24484a026f09ed057dfe472c2d9523b69bf5163e9577e87558aceee0",
+  "cardchart/scryfall_bulk.py": "6c2eaf8300e9158585a581ac635336449d2a2186b0663d9b7135efa71d42f5de",
   "cardchart/static/collector.js": "85ac02fc12625b1a083915699c976c55735ed7c2874e832386389931a0a33e69",
   "cardchart/static/fonts/FONT-LICENSE.md": "62efaba15836b1ce985d0e3205befc0ce8588d453b07d168915ec2803d219206",
   "cardchart/static/fonts/SourceSans3-Regular.woff2": "53492fb3a0def77354f166a55d09b63a10855e91c206c7620a81cf56e97f8ec3",
@@ -44,12 +44,12 @@
   "tests/goal_authoring.test.cjs": "6d12cb6fbb04ba2e191727fafb2911430f36e487224228c941063a4d260a34fe",
   "tests/history_chart.test.cjs": "5afaca50341c6891baf6e3fcd6452614a4e0972af4d6a31851d935d4b5aeaa3a",
   "tests/reconciliation.test.cjs": "6879332f1263e175752e94ed695a3b2f3e15d46e27eae151769fc5a8e0f17f27",
-  "tests/test_collector_routes.py": "813776e17200a688914a3274f9a728116650e19a272b4507155204117c773ee9",
+  "tests/test_collector_routes.py": "4005455f2d468a256388bfca2236f490461e8701070c4ebb6308368215905943",
   "tests/test_goal_manifests.py": "17e1d1737d663c07d6c334f016bf810d8c62ce5b864a1bf54883facf491b81dd",
   "tests/test_goals.py": "2d5fa5a0acad609bcc0bc1074674fc219a9e9aac4d27a7a67b91dc71b3c807b4",
   "tests/test_performance.py": "3bbff2ee6691a79ab4775e5bed4ecca19bda43bab62727530437e233d5b3cff2",
   "tests/test_pricing.py": "188a293c1ca37ab294b45f8eda069404dc983ff4981a5ac3d50df2b06a89695d",
   "tests/test_reconciliation.py": "e9c8924318cb512475da6b562a9ce7aaf1163687d635a115df48865b33d16b12",
-  "tests/test_scryfall_bulk.py": "2fa2891e5fc5f1d72ee1fcdf9e4f9571ffe5ea076c36f4d2400d25f0e9757e49",
+  "tests/test_scryfall_bulk.py": "7fdaf420d9aa98cf8bff14f9a61e5f490a3e04893d33d2934c47a5f9ee1ceb24",
   "tests/test_startup.py": "e987e0b84ffd1ae4b9ee2a880f31ab210519e883cff49a27d0c8cfc2851107ed"
 }

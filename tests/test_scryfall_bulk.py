@@ -29,6 +29,7 @@ CARDS = [
         "lang": "en",
         "games": ["paper"],
         "released_at": "2026-01-01",
+        "prices": {"eur": "0.00", "eur_foil": None},
     },
     {
         "id": "printing-two",
@@ -173,7 +174,7 @@ class ScryfallBulkTests(unittest.TestCase):
     def test_metadata_publication_failure_keeps_previous_generation_active(self, get):
         old_content = gzip.compress(json.dumps(CARDS[0]).encode() + b"\n")
         new_content = gzip.compress(json.dumps(CARDS[1]).encode() + b"\n")
-        item = {"jsonl_download_uri": "https://data.scryfall.io/cards.jsonl.gz", "updated_at": "old"}
+        item = {"jsonl_download_uri": "https://data.scryfall.io/cards.jsonl.gz", "updated_at": "2026-01-01T00:00:00Z"}
         with tempfile.TemporaryDirectory() as directory:
             cache_dir = Path(directory)
             cards_path = cache_dir / "scryfall-default-cards.json"
@@ -194,7 +195,7 @@ class ScryfallBulkTests(unittest.TestCase):
 
             with patch("cardchart.scryfall_bulk.os.replace", side_effect=fail_metadata_replace):
                 with self.assertRaises(OSError):
-                    download_default_cards(cards_path, meta_path, {**item, "updated_at": "new"})
+                    download_default_cards(cards_path, meta_path, {**item, "updated_at": "2026-01-02T00:00:00Z"})
             self.assertEqual(meta_path.read_bytes(), previous_metadata)
             self.assertEqual(bulk_cards_path(cache_dir), previous_generation)
             self.assertEqual(read_bulk_lookup(previous_generation).find_by_id("printing-one"), CARDS[0])
