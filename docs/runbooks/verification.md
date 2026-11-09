@@ -17,6 +17,13 @@ truncation, refusals and optional fields when applicable).
 
 ## Functional checks
 
+The 9 November collector implementation adds `test_collector_routes.py` for Binder
+ordering/focus, full export, guide-refresh failure and current dashboard scope.
+`collector.test.cjs` and `history_chart.test.cjs` execute actual inspector and chart
+scripts. `test_performance.py` covers real quantity writers, captured evidence,
+weighted movement, repeat-safe FIFO and SQLite backup/reopen. Chart unit fixtures
+still need real-app browser proof from stored observations.
+
 ```sh
 python -m unittest discover -s tests
 node --test tests/*.test.cjs

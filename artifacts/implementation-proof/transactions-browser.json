@@ -1,0 +1,7 @@
+[
+  "Mobile snapshot review preserves stock until apply; increase creates one two-copy lot",
+  "Repeated absolute snapshot creates no extra lot",
+  "Disposal consumes exactly one copy from oldest remaining lot",
+  "Repeated disposal disabled; stock and lots unchanged",
+  "Actual chart observation records disposal quantity change"
+]

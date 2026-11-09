@@ -1,5 +1,20 @@
 # Inventory and ingestion
 
+## Collector UI and cache update: 9 November 2026
+
+Collection retains exact-printing quantities, search, sort, 20-row pages and
+full-inventory totals. Tile inspectors expose guide details; the card-detail page
+separates current guides from legacy scraper records. Import and reconciliation
+remain separate workflows. Imports now synchronize [quantity lots](performance.md)
+once per affected card, using the first previous quantity and final absolute CSV
+quantity. Lot updates and observation capture commit with the original import.
+
+Bulk downloads now validate before atomically publishing a generation through the
+metadata file. Readers resolve that file while continuing to support the original
+fixed-name cache. Failed refreshes retain the previously referenced valid data.
+See [pricing](pricing.md) for the refresh, finish and FX contracts. This supersedes
+the direct-write limitation recorded in the historical inspection below.
+
 **Scope:** current working tree, 2026-10-18; importer, bulk reader, upload/inventory
 routes, models, startup and relevant tests inspected. Human owner: **unknown**.
 [Baseline](../README.md#inspection-baseline-and-existing-documentation).

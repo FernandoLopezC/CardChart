@@ -173,3 +173,40 @@ class ReconciliationEntry(db.Model):
     before_quantity = db.Column(db.Integer, nullable=False)
     after_quantity = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+
+class QuantityLot(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    card_id = db.Column(db.Integer, db.ForeignKey("card.id"), nullable=False)
+    scryfall_id = db.Column(db.String(64))
+    finish = db.Column(db.String(50), nullable=False)
+    original_quantity = db.Column(db.Integer, nullable=False)
+    remaining_quantity = db.Column(db.Integer, nullable=False)
+    tracked_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+    baseline_value_id = db.Column(db.Integer, db.ForeignKey("guide_observation_value.id"))
+    card = db.relationship("Card")
+    baseline_value = db.relationship("GuideObservationValue")
+
+
+class GuideObservation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    recorded_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+    source_updated_at = db.Column(db.String(80))
+    fx_rate = db.Column(db.String(80))
+    fx_date = db.Column(db.String(20))
+    fx_fetched_on = db.Column(db.String(20))
+    fingerprint = db.Column(db.String(64), nullable=False)
+    values = db.relationship("GuideObservationValue", back_populates="observation")
+
+
+class GuideObservationValue(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    observation_id = db.Column(db.Integer, db.ForeignKey("guide_observation.id"), nullable=False)
+    card_id = db.Column(db.Integer, db.ForeignKey("card.id"), nullable=False)
+    scryfall_id = db.Column(db.String(64))
+    finish = db.Column(db.String(50), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    eur_unit = db.Column(db.String(80))
+    gbp_unit = db.Column(db.Numeric(18, 2))
+    gbp_total = db.Column(db.Numeric(18, 2))
+    observation = db.relationship("GuideObservation", back_populates="values")
+    card = db.relationship("Card")

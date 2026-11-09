@@ -3,12 +3,13 @@
 <h1>Edit {{ goal_card.name }}</h1>
 <p><a href="{{ url_for('main.goal_detail', slug=goal.slug) }}">Back to {{ goal.name }}</a></p>
 <form class="panel ownership-form" method="post" action="{{ url_for('main.update_goal_card', slug=goal.slug, goal_card_id=goal_card.id) }}">
+  <p>Saving Missing removes all ownership links for this goal card. Imported inventory is unaffected.</p>
   <fieldset><legend>Collection status</legend>
     <label><input type="radio" name="status" value="missing" {{ 'checked' if not printing }}> Missing</label>
     <label><input type="radio" name="status" value="owned" {{ 'checked' if printing }}> Owned</label>
   </fieldset>
   <label for="card_id">Imported card</label>
-  <select id="card_id" name="card_id"><option value="">None</option>{% for card in inventory %}<option value="{{ card.id }}" {{ 'selected' if printing and printing.card_id == card.id }}>{{ card.name }} — {{ card.set_code|upper }} #{{ card.collector_number }} ({{ card.finish }})</option>{% endfor %}</select>
+  <select id="card_id" name="card_id"><option value="">None</option>{% for card in inventory %}<option value="{{ card.id }}" {{ 'selected' if printing and printing.card_id == card.id }}>{{ card.name }} â&euro;” {{ card.set_code|upper }} #{{ card.collector_number }} ({{ card.finish }})</option>{% endfor %}</select>
   <label for="scryfall_id">Canonical Scryfall printing ID</label><input id="scryfall_id" name="scryfall_id" value="{{ printing.scryfall_id if printing else '' }}">
   <label for="set_code">Set code</label><input id="set_code" name="set_code" value="{{ printing.set_code if printing else goal_card.expected_set_code or '' }}">
   <label for="collector_number">Collector number</label><input id="collector_number" name="collector_number" value="{{ printing.collector_number if printing else goal_card.expected_collector_number or '' }}">

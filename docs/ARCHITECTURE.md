@@ -66,6 +66,15 @@ protection or multi-user security from
 slug-scoped record lookup. The direct [wsgi.py](../cardchart/wsgi.py) script runs
 debug mode on all interfaces; this is not a documented production deployment.
 
+## Approved Performance storage
+
+[ADR-0004](decisions/0004-guide-performance.md) authorizes three additional tables:
+QuantityLot, GuideObservation and GuideObservationValue. Existing columns and rows
+are preserved. [Performance](components/performance.md) owns FIFO reductions, first
+valid captured baselines and stored EUR/GBP/FX evidence. Import/reconciliation hooks
+share the existing transaction; page reads do not write history. Explicit guide
+refresh records an observation after cache publication. No scheduler is introduced.
+
 ## Known differences and continuation
 
 The detailed ownership editor is less restrictive than reviewed quick updates;

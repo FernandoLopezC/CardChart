@@ -2,6 +2,14 @@
 
 ## Direction and status
 
+Implementation began on 9 November 2026 using the v3 direction. The current local
+branch includes the shared collector shell, Collection, Goals, Cards/Binder and
+inspectors, plus Overview/Performance pages backed by recorded guide observations
+and remaining-lot baselines. The user approved three additive history tables and
+FIFO reductions. Final delivery review remains in progress.
+The original design-study status below is historical; it is not an acceptance
+claim for the implementation.
+
 On 8 November 2026 the user requested PP Scheduling's design guidance, preferred
 the supplied Collectr phone screenshots to the first CardChart mockup, and made
 mobile a priority. This document adapts that guidance to CardChart. It governs

@@ -1,5 +1,8 @@
 # Decision register
 
+- [ADR-0004: captured guide baselines and FIFO](0004-guide-performance.md) records
+  the user's 9 November 2026 approval for three additive Performance tables.
+
 These records preserve evidence and expose missing rationale. They do not establish
 new behavior by themselves. Human decision owners and original decision dates for
 the retrospective records 0001–0002 are **unknown**. Record 0003 describes the current

@@ -5,23 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CardChart</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-  {% block head %}{% endblock %}
+  {% block head %}
+{% endblock %}
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="{{ url_for('main.goals') }}">CardChart</a>
-    <nav>
-      <a href="{{ url_for('main.goals') }}">Goals</a>
-      <a href="{{ url_for('main.inventory') }}">Inventory</a>
-      <a href="{{ url_for('main.upload') }}">Import CSV</a>
-      <a href="{{ url_for('reconciliation.index') }}">Reconcile</a>
+    <a class="brand" href="{{ url_for('main.index') }}">Card<span>Chart</span>
+</a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="{{ url_for('main.index') }}" {% if request.endpoint in ('main.index',) %}aria-current="page"{% endif %}>Home</a>
+<a href="{{ url_for('main.inventory') }}" {% if request.endpoint in ('main.inventory', 'main.card_detail') %}aria-current="page"{% endif %}>Collection</a>
+<a href="{{ url_for('main.goals') }}" {% if request.endpoint in ('main.goals', 'main.goal_detail') %}aria-current="page"{% endif %}>Goals</a>
+<a href="{{ url_for('main.performance') }}" {% if request.endpoint in ('main.performance',) %}aria-current="page"{% endif %}>Performance</a>
     </nav>
+    <div class="header-actions">
+<a href="{{ url_for('main.upload') }}">Import CSV</a>
+<a href="{{ url_for('reconciliation.index') }}">Reconcile</a>
+</div>
   </header>
   <main class="container">
-    {% for category, message in get_flashed_messages(with_categories=true) %}
-      <p class="flash {{ category }}">{{ message }}</p>
-    {% endfor %}
-    {% block content %}{% endblock %}
+    {% for category, message in get_flashed_messages(with_categories=true) %}<p class="flash {{ category }}">{{ message }}</p>{% endfor %}
+    {% block content %}
+{% endblock %}
   </main>
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <a href="{{ url_for('main.index') }}" {% if request.endpoint == 'main.index' %}aria-current="page"{% endif %}>
+<svg viewBox="0 0 24 24" aria-hidden="true">
+<path d="M3 11 12 4l9 7v9h-6v-6H9v6H3z"/>
+</svg>Home</a>
+    <a href="{{ url_for('main.inventory') }}" {% if request.endpoint in ('main.inventory', 'main.card_detail') %}aria-current="page"{% endif %}>
+<svg viewBox="0 0 24 24" aria-hidden="true">
+<rect x="4" y="3" width="16" height="18" rx="2"/>
+<path d="M9 3v18M15 3v18M4 9h16M4 15h16"/>
+</svg>Collection</a>
+    <a href="{{ url_for('main.goals') }}" {% if request.endpoint in ('main.goals', 'main.goal_detail') %}aria-current="page"{% endif %}>
+<svg viewBox="0 0 24 24" aria-hidden="true">
+<path d="M12 3 21 12 12 21 3 12z"/>
+<path d="m8 12 3 3 5-6"/>
+</svg>Goals</a>
+    <a href="{{ url_for('main.performance') }}" {% if request.endpoint == 'main.performance' %}aria-current="page"{% endif %}>
+<svg viewBox="0 0 24 24" aria-hidden="true">
+<path d="M3 19h18M5 16l5-5 4 3 6-7M15 7h5v5"/>
+</svg>Performance</a>
+  </nav>
+  <script src="{{ url_for('static', filename='collector.js') }}" defer>
+</script>
 </body>
 </html>

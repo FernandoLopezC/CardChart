@@ -42,6 +42,7 @@ from .goal_definitions import (
 from .importer import import_cards
 from .models import Card, CollectionGoal, GoalCard, GoalCardPrinting, PriceSnapshot, db
 from .ownership import canonical_inventory_scryfall_id
+from .performance import observation_history, performance_summary, record_observation
 from .pricing import (
     cheapest_price_for_versions,
     load_eur_to_gbp_rate,
@@ -49,6 +50,7 @@ from .pricing import (
     load_scryfall_price_index,
     price_for_printing,
     price_for_version,
+    guide_metadata,
 )
 from .scrapers import scrape_cardmarket, scrape_ebay_sold
 from .scryfall_bulk import bulk_cache_available, load_bulk_lookup, load_bulk_metadata
@@ -70,7 +72,86 @@ INVENTORY_SORTS = {value for value, _label in INVENTORY_SORT_OPTIONS}
 
 @bp.route("/")
 def index():
-    return redirect(url_for("main.goals"))
+    return render_template("overview.html", **dashboard_context())
+
+
+@bp.route("/performance")
+def performance():
+    selected_movers = request.args.get("movers", "all")
+    if selected_movers not in {"all", "gainers", "fallers"}:
+        selected_movers = "all"
+    context = dashboard_context()
+    movements = context["performance"]["movers"]
+    largest = max((abs(Decimal(mover["change_gbp"])) for mover in movements), default=Decimal("0"))
+    for mover in movements:
+        amount = Decimal(mover["change_gbp"])
+        mover["bar_percent"] = f"{abs(amount) * 100 / largest:.2f}" if largest else "0"
+        mover["direction"] = "negative" if amount < 0 else "positive"
+    if selected_movers != "all":
+        context["performance"]["movers"] = [
+            mover for mover in context["performance"]["movers"]
+            if (
+                Decimal(mover["change_gbp"]) > 0
+                if selected_movers == "gainers"
+                else Decimal(mover["change_gbp"]) < 0
+            )
+        ]
+    return render_template("performance.html", selected_movers=selected_movers, **context)
+
+
+def dashboard_context():
+    cards = Card.query.filter(Card.quantity > 0).order_by(Card.name).all()
+    price_index = {}
+    rate_info = None
+    if current_app.config["MARKET_PRICING_ENABLED"] and cards:
+        price_index = load_scryfall_price_index(canonical_inventory_scryfall_id(card.scryfall_id) for card in cards)
+        if price_index:
+            rate_info = load_eur_to_gbp_rate()
+    views = [inventory_card_view(card, price_index, rate_info) for card in cards]
+    priced = [view for view in views if view["line_gbp"] is not None]
+    total = sum((Decimal(view["line_gbp"]) for view in priced), Decimal("0"))
+    quantity = sum(card.quantity for card in cards)
+    return {
+        "portfolio": {"gbp": f"{total:.2f}" if priced or not cards else None, "priced_count": len(priced), "inventory_count": len(cards), "quantity": quantity},
+        "performance": performance_summary(price_index, rate_info),
+        "history": observation_history(),
+        "goals": CollectionGoal.query.order_by(CollectionGoal.name).all(),
+        "rate_info": rate_info,
+        "guide_metadata": guide_metadata(),
+    }
+
+
+@bp.route("/guides/refresh", methods=["POST"])
+def refresh_guides():
+    from .reconciliation_routes import protect_form
+    protect_form()
+    destination = request.form.get("return_to", "")
+    if not destination.startswith("/") or destination.startswith("//") or "\\" in destination:
+        destination = url_for("main.index")
+    previous = load_bulk_metadata()
+    try:
+        load_bulk_lookup(refresh=True)
+        current_app.extensions.pop("cardchart_scryfall_prices", None)
+        current_app.extensions.pop("cardchart_eur_gbp_rate", None)
+        rates = load_eur_to_gbp_rate()
+    except (requests.RequestException, KeyError, OSError, ValueError) as exc:
+        flash(f"Guide refresh failed. The last valid cache was retained: {exc}", "error")
+        return redirect(destination)
+
+    try:
+        record_observation(rate_info=rates)
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        current_app.logger.exception("Guide data refreshed but observation recording failed.")
+        flash("Guide data refreshed, but collection history could not be saved. Retry Refresh guides.", "error")
+        return redirect(destination)
+    if rates is None:
+        flash("Guide data refreshed, but the current ECB exchange rate is unavailable. GBP values are unavailable.", "warning")
+    else:
+        outcome = "unchanged upstream" if previous == load_bulk_metadata() else "updated"
+        flash(f"Scryfall guide data {outcome}. ECB rate dated {rates['rate_date']}. Collection observation saved.", "success")
+    return redirect(destination)
 
 
 @bp.route("/inventory")
@@ -120,6 +201,7 @@ def inventory():
         page=page,
         total_pages=total_pages,
         rate_info=rate_info,
+        guide_metadata=guide_metadata(),
     )
 
 
@@ -423,18 +505,27 @@ def goal_detail(slug):
     selected_filter = request.args.get("filter", "all")
     if selected_filter not in GOAL_FILTERS:
         selected_filter = "all"
+    selected_view = request.args.get("view", "cards")
+    if selected_view not in {"cards", "binder"}:
+        selected_view = "cards"
+    page_size = 9 if selected_view == "binder" else GOAL_PAGE_SIZE
     cards = goal.cards
-    if selected_filter == "owned":
+    if selected_view == "cards" and selected_filter == "owned":
         cards = [card for card in cards if card.is_owned]
-    elif selected_filter == "missing":
+    elif selected_view == "cards" and selected_filter == "missing":
         cards = [card for card in cards if not card.is_owned]
 
     total_cards = len(cards)
-    total_pages = max(1, ceil(total_cards / GOAL_PAGE_SIZE))
+    total_pages = max(1, ceil(total_cards / page_size))
     page = max(1, request.args.get("page", 1, type=int))
+    focus_id = request.args.get("focus", type=int)
+    if focus_id is not None:
+        position = next((i for i, card in enumerate(cards) if card.id == focus_id), None)
+        if position is not None:
+            page = position // page_size + 1
     page = min(page, total_pages)
-    page_start = (page - 1) * GOAL_PAGE_SIZE
-    page_cards = cards[page_start:page_start + GOAL_PAGE_SIZE]
+    page_start = (page - 1) * page_size
+    page_cards = cards[page_start:page_start + page_size]
     price_index = {}
     rate_info = None
     if current_app.config["MARKET_PRICING_ENABLED"]:
@@ -443,16 +534,20 @@ def goal_detail(slug):
             rate_info = load_eur_to_gbp_rate()
     price_summary = goal_price_summary(goal.cards, price_index, rate_info)
     card_views = [goal_card_view(card, price_index, rate_info) for card in page_cards]
+    for view in card_views:
+        view["matches_filter"] = selected_filter == "all" or view["card"].is_owned == (selected_filter == "owned")
     return render_template(
         "goal_detail.html",
         goal=goal,
         card_views=card_views,
         selected_filter=selected_filter,
+        selected_view=selected_view,
         page=page,
         total_pages=total_pages,
         total_cards=total_cards,
         rate_info=rate_info,
         price_summary=price_summary,
+        guide_metadata=guide_metadata(),
     )
 
 
@@ -664,6 +759,7 @@ def quick_update_goal_card(slug, goal_card_id):
     if selected_filter not in GOAL_FILTERS:
         selected_filter = "all"
     page = max(1, request.form.get("page", 1, type=int))
+    selected_view = "binder" if request.form.get("view") == "binder" else "cards"
 
     if request.form.get("status") == "missing":
         for printing in goal_card.printings:
@@ -679,6 +775,7 @@ def quick_update_goal_card(slug, goal_card_id):
                     slug=slug,
                     filter=selected_filter,
                     page=page,
+                    view=selected_view,
                 )
             )
 
@@ -712,6 +809,7 @@ def quick_update_goal_card(slug, goal_card_id):
                 slug=slug,
                 filter=selected_filter,
                 page=page,
+                view=selected_view,
             )
         )
 
@@ -723,6 +821,8 @@ def quick_update_goal_card(slug, goal_card_id):
             slug=slug,
             filter=selected_filter,
             page=page,
+            view=selected_view,
+            _anchor=f"card-{goal_card_id}",
         )
     )
 
@@ -766,7 +866,13 @@ def upload():
 def card_detail(card_id):
     card = Card.query.get_or_404(card_id)
     prices = PriceSnapshot.query.filter_by(card_id=card.id).order_by(PriceSnapshot.checked_at.desc()).all()
-    return render_template("card_detail.html", card=card, prices=prices)
+    price_index = {}
+    rate_info = None
+    if current_app.config["MARKET_PRICING_ENABLED"]:
+        price_index = load_scryfall_price_index([canonical_inventory_scryfall_id(card.scryfall_id)])
+        if price_index:
+            rate_info = load_eur_to_gbp_rate()
+    return render_template("card_detail.html", card=card, prices=prices, view=inventory_card_view(card, price_index, rate_info), rate_info=rate_info, guide_metadata=guide_metadata())
 
 
 @bp.route("/cards/<int:card_id>/refresh", methods=["POST"])

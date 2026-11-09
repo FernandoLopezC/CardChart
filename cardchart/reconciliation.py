@@ -16,6 +16,7 @@ from .models import (
     Card, CollectionGoal, GoalCardPrinting, ReconciliationBatch, ReconciliationEntry, db,
 )
 from .ownership import canonical_inventory_scryfall_id, reconcile_goal_collection
+from .performance import record_observation, sync_quantity_lots
 from .scryfall_bulk import load_bulk_lookup
 
 SOURCES = {"collectr": "Collectr", "deckcheck": "Deckcheck", "ebay": "eBay", "buylist": "Buylist"}
@@ -378,6 +379,8 @@ def apply_review(batch, form):
                 db.session.add(card)
                 db.session.flush()
                 created_cards[tuple(identity)] = card
+            db.session.expire(card)
+            sync_quantity_lots(card, old_quantity)
             GoalCardPrinting.query.filter_by(card_id=card.id).update({"quantity": target}, synchronize_session=False)
             db.session.add(ReconciliationEntry(
                 batch_id=batch.id, card_id=card.id, source_scope=source_scope(batch),
@@ -394,6 +397,7 @@ def apply_review(batch, form):
         batch = db.session.get(ReconciliationBatch, batch.id)
         batch.results_json = json.dumps(results)
         batch.raw_json = "{}"
+        record_observation()
         db.session.commit()
         return results
     except IntegrityError as exc:

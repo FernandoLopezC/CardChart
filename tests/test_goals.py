@@ -306,9 +306,9 @@ class GoalTests(unittest.TestCase):
             first_page = client.get("/goals/japanese-mystical-archive")
             last_page = client.get("/goals/japanese-mystical-archive?page=4")
 
-            self.assertEqual(first_page.data.count(b'<article class="collection-card'), 20)
+            self.assertEqual(first_page.data.count(b'<article class="goal-pocket'), 20)
             self.assertIn(b"Page 1 of 4", first_page.data)
-            self.assertEqual(last_page.data.count(b'<article class="collection-card'), 5)
+            self.assertEqual(last_page.data.count(b'<article class="goal-pocket'), 5)
             self.assertIn(b"Page 4 of 4", last_page.data)
 
     def test_quick_update_selects_verified_special_version_and_status(self):
@@ -496,11 +496,11 @@ class GoalTests(unittest.TestCase):
             self.assertIn(b"\xe2\x89\x88 \xc2\xa320.40", response.data)
             self.assertIn(b"\xe2\x89\x88 \xc2\xa3165.75", response.data)
             self.assertIn(
-                b"Owned value uses each recorded printing, finish, and quantity",
+                b"Owned value uses recorded printings and quantities",
                 response.data,
             )
             self.assertIn(
-                b"Missing cost uses the cheapest accepted HOC version", response.data
+                b"Missing cost uses the cheapest accepted version", response.data
             )
 
     def test_cardmarket_wants_export_uses_missing_cards_and_exact_versions(self):
@@ -697,11 +697,11 @@ class GoalTests(unittest.TestCase):
             ):
                 response = self.app.test_client().get("/inventory")
 
-            self.assertIn(b"Inventory guide value", response.data)
-            self.assertIn(b"Scryfall guide", response.data)
+            self.assertIn(b"Collection guide value", response.data)
+            self.assertIn(b"Exact printing guide", response.data)
             self.assertIn(b"\xe2\x89\x88 \xc2\xa310.20", response.data)
             self.assertIn(b"\xe2\x89\x88 \xc2\xa320.40", response.data)
-            self.assertIn(b"exact Scryfall printing and finish", response.data)
+            self.assertIn(b"Exact printing and finish", response.data)
 
     def test_imported_finishes_use_canonical_bulk_prices_without_changing_ids(self):
         metadata = {
@@ -798,9 +798,9 @@ class GoalTests(unittest.TestCase):
             search = client.get("/inventory?q=Find+Me")
             descending = client.get("/inventory?sort=name-desc")
 
-            self.assertEqual(first_page.data.count(b'<article class="card-tile">'), 20)
+            self.assertEqual(first_page.data.count(b'<article class="collector-card">'), 20)
             self.assertIn(b"25 matching cards \xc2\xb7 Page 1 of 2", first_page.data)
-            self.assertEqual(second_page.data.count(b'<article class="card-tile">'), 5)
+            self.assertEqual(second_page.data.count(b'<article class="collector-card">'), 5)
             self.assertIn(b"Card 07", search.data)
             self.assertNotIn(b"Card 08", search.data)
             self.assertLess(descending.data.index(b"Card 24"), descending.data.index(b"Card 23"))

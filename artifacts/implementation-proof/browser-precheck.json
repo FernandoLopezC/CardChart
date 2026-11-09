@@ -1,0 +1,208 @@
+{
+  "checks": [
+    [
+      360,
+      "overview",
+      "no page overflow"
+    ],
+    [
+      360,
+      "performance",
+      "no page overflow"
+    ],
+    [
+      360,
+      "card-detail",
+      "no page overflow"
+    ],
+    [
+      360,
+      "authoring",
+      "no page overflow"
+    ],
+    [
+      360,
+      "collection",
+      "no page overflow"
+    ],
+    [
+      360,
+      "goals",
+      "no page overflow"
+    ],
+    [
+      360,
+      "binder",
+      "no page overflow"
+    ],
+    [
+      360,
+      "upload",
+      "no page overflow"
+    ],
+    [
+      360,
+      "reconcile",
+      "no page overflow"
+    ],
+    [
+      390,
+      "overview",
+      "no page overflow"
+    ],
+    [
+      390,
+      "performance",
+      "no page overflow"
+    ],
+    [
+      390,
+      "card-detail",
+      "no page overflow"
+    ],
+    [
+      390,
+      "authoring",
+      "no page overflow"
+    ],
+    [
+      390,
+      "collection",
+      "no page overflow"
+    ],
+    [
+      390,
+      "goals",
+      "no page overflow"
+    ],
+    [
+      390,
+      "binder",
+      "no page overflow"
+    ],
+    [
+      390,
+      "upload",
+      "no page overflow"
+    ],
+    [
+      390,
+      "reconcile",
+      "no page overflow"
+    ],
+    [
+      430,
+      "overview",
+      "no page overflow"
+    ],
+    [
+      430,
+      "performance",
+      "no page overflow"
+    ],
+    [
+      430,
+      "card-detail",
+      "no page overflow"
+    ],
+    [
+      430,
+      "authoring",
+      "no page overflow"
+    ],
+    [
+      430,
+      "collection",
+      "no page overflow"
+    ],
+    [
+      430,
+      "goals",
+      "no page overflow"
+    ],
+    [
+      430,
+      "binder",
+      "no page overflow"
+    ],
+    [
+      430,
+      "upload",
+      "no page overflow"
+    ],
+    [
+      430,
+      "reconcile",
+      "no page overflow"
+    ],
+    [
+      1280,
+      "overview",
+      "no page overflow"
+    ],
+    [
+      1280,
+      "performance",
+      "no page overflow"
+    ],
+    [
+      1280,
+      "card-detail",
+      "no page overflow"
+    ],
+    [
+      1280,
+      "authoring",
+      "no page overflow"
+    ],
+    [
+      1280,
+      "collection",
+      "no page overflow"
+    ],
+    [
+      1280,
+      "goals",
+      "no page overflow"
+    ],
+    [
+      1280,
+      "binder",
+      "no page overflow"
+    ],
+    [
+      1280,
+      "upload",
+      "no page overflow"
+    ],
+    [
+      1280,
+      "reconcile",
+      "no page overflow"
+    ],
+    [
+      "inspector",
+      "Escape, focus and scroll restored"
+    ],
+    [
+      "binder",
+      "view switch retains focused entry"
+    ],
+    [
+      360,
+      "navigation targets >=44px"
+    ],
+    [
+      390,
+      "navigation targets >=44px"
+    ],
+    [
+      430,
+      "navigation targets >=44px"
+    ],
+    [
+      "enlarged text",
+      "no page overflow at 430px; reduced motion enabled"
+    ]
+  ]
+}

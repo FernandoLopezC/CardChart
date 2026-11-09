@@ -1,54 +1,61 @@
 {% extends "base.html" %}
 {% block content %}
 <header class="page-heading inventory-heading">
-  <h1>Inventory</h1>
-  <div class="inventory-value-summary">
-    <span>Inventory guide value</span>
-    <strong>{% if inventory_total %}≈ £{{ inventory_total }}{% else %}Unavailable{% endif %}</strong>
-    <small>{{ priced_count }} of {{ inventory_count }} inventory line{{ '' if inventory_count == 1 else 's' }} priced</small>
-  </div>
-  <p class="price-note">Uses each exact Scryfall printing and finish, multiplied by quantity{% if rate_info %}, with the ECB reference rate from {{ rate_info.rate_date }}{% endif %}.</p>
+  <div class="heading-row">
+<div>
+<h1>Collection</h1>
+<p>Your cards, all in one place.</p>
+</div>
+<a class="button-link" href="{{ url_for('main.upload') }}">Import cards</a>
+</div>
+
 </header>
 <form class="inventory-controls" method="get" action="{{ url_for('main.inventory') }}">
-  <label>Search
-    <input type="search" name="q" value="{{ search_query }}" placeholder="Name, set, number, or finish">
-  </label>
-  <label>Sort
-    <select name="sort">
-      {% for value, label in sort_options %}<option value="{{ value }}" {{ 'selected' if selected_sort == value }}>{{ label }}</option>{% endfor %}
-    </select>
-  </label>
-  <button type="submit">Apply</button>
-  {% if search_query or selected_sort != "name-asc" %}<a href="{{ url_for('main.inventory') }}">Clear</a>{% endif %}
+  <label>Search <input type="search" name="q" value="{{ search_query }}" placeholder="Name, set, number, or finish">
+</label>
+  <label>Sort <select name="sort">{% for value, label in sort_options %}<option value="{{ value }}" {{ 'selected' if selected_sort == value }}>{{ label }}</option>{% endfor %}</select>
+</label>
+  <button type="submit">Apply</button>{% if search_query or selected_sort != 'name-asc' %}<a href="{{ url_for('main.inventory') }}">Clear</a>{% endif %}
 </form>
-<div class="inventory-results-summary">{{ total_results }} matching card{{ '' if total_results == 1 else 's' }} · Page {{ page }} of {{ total_pages }}</div>
-<div class="grid">
-  {% for view in card_views %}
-    {% set card = view.card %}
-    <article class="card-tile">
-      {% if card.image_url %}<img src="{{ card.image_url }}" alt="{{ card.name }}">{% endif %}
-      <h2><a href="{{ url_for('main.card_detail', card_id=card.id) }}">{{ card.name }}</a></h2>
-      <p>{{ card.set_name }} #{{ card.collector_number }}</p>
-      <p>{{ card.finish_display }} · Qty {{ card.quantity }}</p>
-      {% set prices = card.latest_prices %}
-      <dl>
-        <dt>Scryfall guide</dt><dd>{% if view.price.gbp %}≈ £{{ view.price.gbp }}{% if view.price.eur %} (€{{ view.price.eur }}){% endif %}{% else %}Unavailable{% endif %}</dd>
-        <dt>Line value</dt><dd>{% if view.line_gbp %}≈ £{{ view.line_gbp }}{% else %}Unavailable{% endif %}</dd>
-        <dt>eBay UK sold</dt><dd>{{ "£%.2f"|format(prices.ebay_uk_sold.price_gbp) if prices.ebay_uk_sold else "Not checked" }}</dd>
-        <dt>Cardmarket UK</dt><dd>{{ "£%.2f"|format(prices.cardmarket_uk.price_gbp) if prices.cardmarket_uk else "Not checked" }}</dd>
-      </dl>
-    </article>
-  {% else %}
-    {% if inventory_count %}<p>No inventory cards match this search.</p>{% else %}<p>No cards imported yet. <a href="{{ url_for('main.upload') }}">Import a CSV</a>.</p>{% endif %}
-  {% endfor %}
+<div class="inventory-results-summary">{{ total_results }} matching cards · Page {{ page }} of {{ total_pages }}</div>
+<div class="collector-grid">
+{% for view in card_views %}
+{% set card = view.card %}
+  <article class="collector-card">
+    <button type="button" class="collector-art pocket-button" data-open-dialog="inventory-{{ card.id }}" aria-label="Inspect {{ card.name }}">{% if card.image_url %}<img src="{{ card.image_url }}" alt="{{ card.name }}" loading="lazy">{% else %}<span class="placeholder">No image</span>{% endif %}</button>
+    <h2>
+<a href="{{ url_for('main.card_detail', card_id=card.id) }}">{{ card.name }}</a>
+</h2>
+    <p>{{ card.set_name }} #{{ card.collector_number }}</p>
+<p>{{ card.finish_display }} · Qty {{ card.quantity }}</p>
+    <strong>{% if view.line_gbp is not none %}≈ £{{ view.line_gbp }}{% else %}Unavailable{% endif %}</strong>
+    <dialog id="inventory-{{ card.id }}" class="inspector" aria-labelledby="inventory-title-{{ card.id }}">
+<div class="inspector-head">
+<h2 id="inventory-title-{{ card.id }}">{{ card.name }}</h2>
+<button type="button" data-close-dialog>Close</button>
 </div>
-{% if total_pages > 1 %}
-  <nav class="pagination" aria-label="Inventory pages">
-    {% if page > 1 %}<a href="{{ url_for('main.inventory', q=search_query, sort=selected_sort, page=page - 1) }}">Previous</a>{% endif %}
-    {% for page_number in range(1, total_pages + 1) %}
-      <a href="{{ url_for('main.inventory', q=search_query, sort=selected_sort, page=page_number) }}" {% if page_number == page %}aria-current="page"{% endif %}>{{ page_number }}</a>
-    {% endfor %}
-    {% if page < total_pages %}<a href="{{ url_for('main.inventory', q=search_query, sort=selected_sort, page=page + 1) }}">Next</a>{% endif %}
-  </nav>
-{% endif %}
+<div class="inspector-body">{% if card.image_url %}<img src="{{ card.image_url }}" alt="">{% endif %}<div>
+<p>{{ card.set_name }} #{{ card.collector_number }} · {{ card.finish_display }} · Qty {{ card.quantity }}</p>
+<p>Exact printing guide: {% if view.price.gbp is not none %}≈ £{{ view.price.gbp }}{% else %}Unavailable{% endif %}</p>
+<p>Line value: {% if view.line_gbp is not none %}≈ £{{ view.line_gbp }}{% else %}Unavailable{% endif %}</p>
+<a href="{{ url_for('main.card_detail', card_id=card.id) }}">View card details and price history</a>
+</div>
+</div>
+</dialog>
+  </article>
+{% else %}<p>{% if inventory_count %}No cards match this search.{% else %}No cards imported yet. <a href="{{ url_for('main.upload') }}">Import a CSV</a>.{% endif %}</p>{% endfor %}
+</div>
+{% if total_pages > 1 %}<nav class="pagination" aria-label="Collection pages">{% if page > 1 %}<a href="{{ url_for('main.inventory', q=search_query, sort=selected_sort, page=page-1) }}">Previous</a>{% endif %}<span>Page {{ page }} of {{ total_pages }}</span>{% if page < total_pages %}<a href="{{ url_for('main.inventory', q=search_query, sort=selected_sort, page=page+1) }}">Next</a>{% endif %}</nav>{% endif %}
+<section class="collection-summary">
+<h2>Collection guide value</h2>  <div class="inventory-value-summary">
+<span>Collection guide value</span>
+<strong>{% if inventory_total is not none %}≈ £{{ inventory_total }}{% else %}Unavailable{% endif %}</strong>
+<small>{% if priced_count < inventory_count %}Partial estimate · {% endif %}{{ priced_count }} of {{ inventory_count }} inventory lines priced</small>
+</div>
+  <p class="price-note">Exact printing and finish, multiplied by quantity{% if rate_info %} · ECB rate {{ rate_info.rate_date }}{% endif %}. {% if guide_metadata and guide_metadata.source_updated_at %}Guide updated {{ guide_metadata.source_updated_at }}{% if guide_metadata.stale %} · Stale{% endif %}.{% endif %}</p>
+  {% if guide_metadata is defined %}<form method="post" action="{{ url_for('main.refresh_guides') }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<input type="hidden" name="return_to" value="{{ request.full_path }}">
+<button type="submit">Refresh guides</button>
+</form>{% endif %}</section>
 {% endblock %}

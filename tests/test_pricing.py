@@ -2,6 +2,7 @@ import gzip
 import json
 import tempfile
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import Mock, patch
 
@@ -127,6 +128,90 @@ class PricingTests(unittest.TestCase):
 
         self.assertEqual(price["eur"], "6.00")
         self.assertEqual(price["gbp"], "5.10")
+
+    def test_prices_only_supported_finishes_and_rejects_invalid_amounts(self):
+        versions = {
+            "nonfoil": GoalVersionDefinition("base", "Base", "card", "1", "nonfoil", "en"),
+            "foil": GoalVersionDefinition("foil", "Foil", "card", "1", "foil", "en"),
+            "etched": GoalVersionDefinition("etched", "Etched", "card", "1", "etched", "en"),
+        }
+        for finish, eur in (("nonfoil", "2.00"), ("foil", "3.00"), ("etched", None)):
+            with self.subTest(finish=finish):
+                price = price_for_version(
+                    versions[finish],
+                    {"card": {"prices": {"eur": "2", "eur_foil": "3"}}},
+                    {"rate": "1"},
+                )
+                self.assertEqual(price["eur"], eur)
+
+        for value in ("-0.01", "NaN", "Infinity", "not a price", None):
+            with self.subTest(value=value):
+                price = price_for_version(
+                    versions["nonfoil"],
+                    {"card": {"prices": {"eur": value}}},
+                    {"rate": "1"},
+                )
+                self.assertIsNone(price["eur"])
+                self.assertIsNone(price["gbp"])
+
+        zero = price_for_version(
+            versions["nonfoil"], {"card": {"prices": {"eur": "0"}}}, {"rate": "0.85"}
+        )
+        self.assertEqual((zero["eur"], zero["gbp"]), ("0.00", "0.00"))
+
+    def test_gbp_conversion_rounds_half_up_to_pennies(self):
+        version = GoalVersionDefinition("base", "Base", "card", "1", "nonfoil", "en")
+        price = price_for_version(
+            version,
+            {"card": {"prices": {"eur": "1.01"}}},
+            {"rate": "0.5"},
+        )
+        self.assertEqual(price["gbp"], "0.51")
+
+    @patch("cardchart.pricing.requests.get")
+    def test_invalid_today_cache_does_not_fall_back_to_yesterday(self, get):
+        from cardchart.pricing import requests
+        get.side_effect = requests.ConnectionError("offline")
+        with tempfile.TemporaryDirectory() as directory:
+            app = Flask(__name__, instance_path=directory)
+            Path(directory, "eur-gbp-rate.json").write_text(
+                json.dumps({"rate": "0.85", "rate_date": "2026-08-13", "fetched_on": "2026-08-13"}),
+                encoding="utf-8",
+            )
+            with app.app_context():
+                self.assertIsNone(load_eur_to_gbp_rate())
+        get.assert_called_once()
+
+    @patch("cardchart.pricing.requests.get")
+    def test_rejects_malformed_rate_response_and_tolerates_cache_write_error(self, get):
+        response = Mock()
+        response.raise_for_status.return_value = None
+        response.json.return_value = {"date": "bad", "base": "EUR", "quote": "GBP", "rate": "1"}
+        get.return_value = response
+        with tempfile.TemporaryDirectory() as directory:
+            app = Flask(__name__, instance_path=directory)
+            with app.app_context(), patch("cardchart.pricing.Path.write_text", side_effect=OSError("read only")):
+                self.assertIsNone(load_eur_to_gbp_rate())
+                response.json.return_value = {
+                    "date": datetime.now(timezone.utc).date().isoformat(),
+                    "base": "EUR", "quote": "GBP", "rate": "0.85",
+                }
+                self.assertEqual(load_eur_to_gbp_rate()["rate"], "0.85")
+
+    def test_malformed_price_cache_rebuilds_and_write_failure_keeps_result(self):
+        with tempfile.TemporaryDirectory() as directory:
+            cache_dir = Path(directory, "scryfall")
+            cache_dir.mkdir()
+            cards_path = cache_dir / "scryfall-default-cards.json"
+            cards_path.write_text(json.dumps([{"id": "requested", "prices": {"eur": "4"}}]), encoding="utf-8")
+            (cache_dir / "scryfall-default-cards.meta.json").write_text(json.dumps({"updated_at": "2026-08-14T00:00:00Z"}), encoding="utf-8")
+            price_cache = cache_dir / "scryfall-card-prices.json"
+            price_cache.write_text("{broken", encoding="utf-8")
+            app = Flask(__name__, instance_path=directory)
+            with app.app_context(), patch("cardchart.pricing.Path.write_text", side_effect=OSError("read only")):
+                from cardchart.pricing import load_scryfall_price_index
+                result = load_scryfall_price_index({"requested"})
+        self.assertEqual(result["requested"]["prices"]["eur"], "4")
 
 
 if __name__ == "__main__":

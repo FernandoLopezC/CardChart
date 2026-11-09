@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-heading">
+<h1>Performance</h1>
+<p>Guide value and movement for your collection.</p>
+<div class="inventory-value-summary">
+<span>Current collection guide value</span>
+<strong>{% if portfolio.gbp is not none %}≈ £{{ portfolio.gbp }}{% else %}Unavailable{% endif %}</strong>
+<small>{% if portfolio.priced_count < portfolio.inventory_count %}Partial estimate · {% endif %}{{ portfolio.priced_count }} of {{ portfolio.inventory_count }} inventory lines priced</small>
+</div>
+<form method="post" action="{{ url_for('main.refresh_guides') }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <input type="hidden" name="return_to" value="{{ request.full_path }}">
+  <button type="submit">Refresh guides and record value</button>
+</form>
+<details class="goal-guide-details"><summary>Guide source and exchange rate{% if guide_metadata.stale %} · Stale{% endif %}</summary><p>{% if rate_info %}ECB rate {{ rate_info.rate_date }}. {% endif %}{% if guide_metadata.source_updated_at %}Guide updated {{ guide_metadata.source_updated_at }}.{% endif %} Both portfolio value and remaining-holding movement can include exchange-rate changes.</p></details>
+</header>
+{% include "_history_chart.html" %}
+<section>
+<h2>Since baseline</h2>
+<div class="goal-price-summary">
+<div>
+<span>Change</span>
+<strong>{% if performance.change_gbp is not none %}£{{ performance.change_gbp }}{% else %}Unavailable{% endif %}</strong>
+</div>
+<div>
+<span>Change %</span>
+<strong>{% if performance.percent is not none %}{{ performance.percent }}%{% else %}Unavailable{% endif %}</strong>
+</div>
+</div>
+<p class="price-note">{{ performance.comparable_quantity }} of {{ performance.total_quantity }} cards have comparable baseline and current values. This is guide movement for remaining holdings, not purchase profit. Period chart change also includes additions, disposals and price-coverage changes.</p>
+</section>
+<section>
+<h2>Movers</h2>
+<nav class="filters" aria-label="Mover filters">{% for value in ('all','gainers','fallers') %}<a href="{{ url_for('main.performance', movers=value) }}" {% if selected_movers == value %}aria-current="page"{% endif %}>{{ value|title }}</a>{% endfor %}</nav>
+<div class="movers">{% for mover in performance.movers %}<div>
+<span>{{ mover.card.name }} · Qty {{ mover.quantity }}</span>
+<strong>£{{ mover.change_gbp }}{% if mover.percent is not none %} · {{ mover.percent }}%{% endif %}</strong>
+<small>Baselines recorded {{ mover.baseline_from }}{% if mover.baseline_to != mover.baseline_from %} to {{ mover.baseline_to }}{% endif %} · £{{ mover.baseline_gbp }} → £{{ mover.current_gbp }}</small>
+<span class="mover-track" aria-hidden="true"><span class="{{ mover.direction }}" style="--magnitude: {{ mover.bar_percent }}%"></span></span>
+</div>{% else %}<p>No comparable movers.</p>{% endfor %}</div>
+</section>
+{% endblock %}

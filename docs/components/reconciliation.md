@@ -50,6 +50,14 @@ printings can be selected manually. An unmatched new printing requires its exact
 and finish and an explicit **Update printing matches** step against the local cache.
 Upload itself does not refresh Scryfall; the page offers an explicit refresh action.
 
+## Performance integration
+
+The approved [Performance service](performance.md) synchronizes FIFO quantity lots
+and captures valid cached guide evidence inside the existing apply transaction.
+Repeated and already-reflected disposals do not consume lots twice. Snapshot counts
+remain absolute; missing cards are not inferred as disposals. No network request or
+new commit boundary is introduced by the history hook.
+
 ## Apply, repeat safety and persistence
 
 Snapshots set a chosen printing's quantity to the reviewed total. They do not add

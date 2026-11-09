@@ -2,14 +2,12 @@
 
 Completed implementation is reflected in the product documentation and code rather than retained here as unfinished work.
 
-## Implement the preferred UI and free GBP pricing after planning
+## Finish collector implementation delivery
 
-- **Status:** The preferred mobile/goal and distinctive chart studies are complete, including hover inspection without a slider. The user requested an implementation handover on 9 November 2026. Production implementation has not started; history and migration decisions remain open.
-- **Direction:** [Design guidance](../DESIGN.md) adapts PP Scheduling's reference-based process to the user's Collectr screenshots. Mobile is a priority. Binder means a view within existing goals, not separate named groups.
-- **Review material:** [Performance study](../artifacts/design-review-v3/cardchart-performance.html), based on the preferred [mobile and goal study](../artifacts/design-review-v2/cardchart-mobile-binders.html). Values, ownership and starting prices are illustrative; controls do not save collection changes.
-- **Continuation:** Pick up from the [implementation handover](implementation-handover.md), which records the current tree, source map, pricing options, acceptance criteria and full-stop command. First prepare the concrete plan and resolve history/lot/FX/disposal and migration gates. Then implement shared UI, current-guide refresh/finish fixes and agreed Performance tracking. Verify provider coverage and permitted reuse before integration.
-- **Boundaries:** Preserve exact accepted printings, multi-printing ownership, full-scope totals, export and reconciliation review. Guide refresh currently differs from legacy scraper refresh; EUR legacy values and etched/foil semantics need resolution in the pricing scope.
-- **Dependencies and effects:** The next implementation affects the base shell, inventory, goals and pricing presentation. No new binder database model, migration, paid feed or legacy-data retirement is approved.
+- **Status:** UI, guide refresh and approved FIFO/Performance storage are implemented locally on `feat/collector-ui-performance`.
+- **Remaining:** Complete Sol review and PR readiness on `delivery/collector-ui-performance`. Leave the eventual PR open and unmerged with automatic merging disabled.
+- **Evidence:** The dated [handover](implementation-handover.md) owns success criteria. [Implementation proof](../artifacts/implementation-proof/README.md) records 91 Python tests, 13 JavaScript tests and actual browser workflows, including persisted chart interaction and repeat-safe disposal. The parent checkpoint is `.orchestration/ui-pricing-performance/run.md`.
+- **Boundaries:** No production database was opened or migrated; no history was reconstructed. The [approved decision](decisions/0004-guide-performance.md) adds three tables only. Existing legacy prices and ownership semantics remain.
 
 ## Decide the future of legacy pricing
 

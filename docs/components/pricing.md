@@ -1,5 +1,39 @@
 # Guide values and legacy pricing
 
+## Implementation update: 9 November 2026
+
+The collector UI has a separate `POST /guides/refresh` action. It checks the
+existing session CSRF token, refreshes Scryfall bulk data, invalidates the derived
+price index, and reports updated/unchanged source data and the ECB rate date.
+Legacy per-card scraper refresh remains separate. Its Cardmarket amounts are
+displayed as legacy raw values with uncertain currency, without a GBP label.
+
+Downloads are validated as complete gzip JSON Lines or JSON arrays before
+publication. Content-addressed generation files are published through one atomic
+metadata-pointer replacement. Failed downloads or metadata publication preserve
+the previously referenced cache. Existing fixed-name caches remain readable.
+Older generation files are retained for recovery; repeated unchanged refreshes
+do not download another generation. Operators must account for retained cache
+disk space. The derived price index is keyed by the actual generation and mtime.
+
+Only `nonfoil -> eur` and `foil -> eur_foil` are priced. Etched and unknown finishes
+remain unavailable. Amounts must be finite and nonnegative; rates must be finite
+and positive. FX dates must be valid and not in the future. Missing/current FX
+failure does not reuse yesterday's cached rate. Zero prices remain valid.
+The UI identifies partial coverage and source data older than 48 hours as stale.
+Guide values remain estimates, excluding shipping, fees and condition adjustments.
+
+Focused tests exercise publication failures, malformed/truncated downloads,
+unchanged upstream data, finish mapping, penny rounding and FX failure. Live
+Scryfall metadata and the ECB-filtered Frankfurter response returned HTTP 200 on
+9 November; no full live bulk download or marketplace scrape was run.
+[Frankfurter's official contract](https://frankfurter.dev/) supports the existing
+single-pair and provider-filter parameters. Approved [Performance storage](performance.md)
+retains captured source/FX evidence and keeps legacy values outside guide history.
+
+The implementation update supersedes the finish mapping and direct cache-write
+limitations described in the historical inspection below.
+
 **Scope:** current working tree, 2026-10-18; price reader/conversion, route aggregates,
 scrapers, models and relevant tests inspected. Human owner: **unknown**.
 [Baseline](../README.md#inspection-baseline-and-existing-documentation).

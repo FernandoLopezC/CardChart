@@ -1,5 +1,24 @@
 # Goals and ownership
 
+## Collector UI update: 9 November 2026
+
+`/goals/<slug>?view=cards|binder` presents the same goal and ownership records.
+Cards retains filtered pages of 20. Binder uses nine ordered manifest pockets per
+page; ownership filters highlight pockets without removing or reordering them.
+The `focus` card ID keeps the reading position when changing page sizes between
+views. Quick-save retains view/filter/page and returns to the edited pocket.
+Full-goal totals and Wants List exports retain their original scope.
+
+Native dialog inspectors show accepted versions, quantities, guide prices and
+marketplace links. Close/Escape restore focus and scroll. Detailed editing remains
+reachable. The inspector explicitly describes existing quick-save consequences:
+Missing removes goal ownership links; Owned zeroes other versions. Physical
+inventory is unaffected. These ownership semantics have not changed.
+
+The shared shell provides labelled mobile navigation and secondary Import and
+Reconcile links. Source/FX details, partial estimates and stale states remain
+available. This supersedes the historical description of editing on every tile.
+
 **Scope:** current working tree, 2026-10-18; parser, registry, synchronization,
 authoring/CLI, ownership, routes, relevant models/tests and sampled UI inspected.
 Human owner: **unknown**. [Baseline](../README.md#inspection-baseline-and-existing-documentation).

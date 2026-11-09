@@ -12,6 +12,7 @@ The guides describe logical ownership; they do not require source folders to mat
 | Change CSV ingestion or inventory identity | [Inventory component](components/inventory.md) |
 | Review repeatable snapshots or disposal CSVs | [Reconciliation component](components/reconciliation.md) |
 | Change guide values, conversion or legacy refresh | [Pricing component](components/pricing.md) |
+| Change guide baselines, FIFO lots or portfolio history | [Performance component](components/performance.md) |
 | Understand product intent | [Product direction](product-direction.md) |
 | Author a manifest / look up its schema | [Goal manifest authoring](goal-manifests.md) |
 | Find architectural provenance | [Decision register](decisions/README.md) |
