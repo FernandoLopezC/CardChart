@@ -1,0 +1,1259 @@
+{
+  "schema_version": 1,
+  "position": 1,
+  "slug": "middle-earth-classic-artists",
+  "title": "Middle-earth Classic Artist Cards",
+  "description": "A curated checklist of Classic Artist cards associated with HOC.",
+  "defaults": {
+    "set_code": "hoc",
+    "language": "en"
+  },
+  "image_url": "https://cards.scryfall.io/normal/front/0/d/0d153edc-b50f-4f64-ac6e-25db7a9ef3f6.jpg?1785497275",
+  "cardmarket": {
+    "expansion": "The Hobbit: Eternal",
+    "default_version": "V.1",
+    "wants_list_version_key": "nonfoil"
+  },
+  "entries": [
+    {
+      "key": "hoc-13",
+      "name": "Dawn of a New Age",
+      "oracle_id": "37df5ade-6a21-4b0c-89f8-e2e917589a8d",
+      "collector_number": "13",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/0/d/0d153edc-b50f-4f64-ac6e-25db7a9ef3f6.jpg?1785497275",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "0d153edc-b50f-4f64-ac6e-25db7a9ef3f6",
+          "collector_number": "13",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "0d153edc-b50f-4f64-ac6e-25db7a9ef3f6",
+          "collector_number": "13",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "58c9ef2f-cd9a-4e71-85a4-f0f0e5cb1130",
+          "collector_number": "53",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-14",
+      "name": "Flowering of the White Tree",
+      "oracle_id": "3cda958a-f777-433d-850e-a6c8f581db4e",
+      "collector_number": "14",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/b/8/b8d7c21f-7a67-4cab-ac95-b0bc6eb3d8a2.jpg?1785152471",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "b8d7c21f-7a67-4cab-ac95-b0bc6eb3d8a2",
+          "collector_number": "14",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "b8d7c21f-7a67-4cab-ac95-b0bc6eb3d8a2",
+          "collector_number": "14",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "99dc452c-f6a1-4f40-9262-3c5a6deaf092",
+          "collector_number": "54",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-15",
+      "name": "The Gaffer",
+      "oracle_id": "a177295e-3b58-4e46-a1cb-fc003a7a0848",
+      "collector_number": "15",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/9/c/9c264afd-ea8b-435c-bb01-c754d44ba4a5.jpg?1784894847",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "9c264afd-ea8b-435c-bb01-c754d44ba4a5",
+          "collector_number": "15",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "9c264afd-ea8b-435c-bb01-c754d44ba4a5",
+          "collector_number": "15",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "4b4db080-dc29-40ca-a8ff-a7c8d5f87853",
+          "collector_number": "55",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-16",
+      "name": "Galadriel's Dismissal",
+      "oracle_id": "e46d0b57-5eec-4ab6-b9a7-a5c5cc01cc34",
+      "collector_number": "16",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/1/b/1b258c47-48b8-4787-9af7-1635cc17dff6.jpg?1784377259",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "1b258c47-48b8-4787-9af7-1635cc17dff6",
+          "collector_number": "16",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "1b258c47-48b8-4787-9af7-1635cc17dff6",
+          "collector_number": "16",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "441802e0-cfd4-4c41-bc45-8babbe39f6d9",
+          "collector_number": "56",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-17",
+      "name": "Reprieve",
+      "oracle_id": "f0449cbd-855c-4c20-a1f5-f76a395d8d39",
+      "collector_number": "17",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/f/a/fa2eca1b-96d6-4707-88ca-951bb7913cc9.jpg?1784377264",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "fa2eca1b-96d6-4707-88ca-951bb7913cc9",
+          "collector_number": "17",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "fa2eca1b-96d6-4707-88ca-951bb7913cc9",
+          "collector_number": "17",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "d2afc2b0-bd68-494b-9952-1fe53213552f",
+          "collector_number": "57",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-18",
+      "name": "Raise the Palisade",
+      "oracle_id": "f55a3781-fe33-4301-9bb5-6a54b9c13c4f",
+      "collector_number": "18",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/2/a/2a7b9598-9234-4621-90e4-f578f2f84983.jpg?1785647374",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "2a7b9598-9234-4621-90e4-f578f2f84983",
+          "collector_number": "18",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "2a7b9598-9234-4621-90e4-f578f2f84983",
+          "collector_number": "18",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "6413aeeb-6a11-42c3-9cd9-dcf2ebde58fc",
+          "collector_number": "58",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-19",
+      "name": "Orcish Bowmasters",
+      "oracle_id": "ea5103f5-27e0-4eb1-902c-7f34652d6bf3",
+      "collector_number": "19",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/8/8/881b6202-6d02-489b-b79c-62142c42ed1f.jpg?1784377273",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "881b6202-6d02-489b-b79c-62142c42ed1f",
+          "collector_number": "19",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "881b6202-6d02-489b-b79c-62142c42ed1f",
+          "collector_number": "19",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "fd845750-f253-4eb0-9903-1f4d5fac014e",
+          "collector_number": "59",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-20",
+      "name": "Witch-king of Angmar",
+      "oracle_id": "2eb1b429-8d11-42f3-8815-5a60b6a4e2d5",
+      "collector_number": "20",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/7/1/7170f930-8f94-4671-9acf-bf40913cbfa0.jpg?1785497284",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "7170f930-8f94-4671-9acf-bf40913cbfa0",
+          "collector_number": "20",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "7170f930-8f94-4671-9acf-bf40913cbfa0",
+          "collector_number": "20",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "06ad9b5e-6ef0-40c5-8ea3-ddca5d5d965c",
+          "collector_number": "60",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-21",
+      "name": "Witch-king, Bringer of Ruin",
+      "oracle_id": "afcb21bb-aeb3-4024-9ce1-68ba7fb64b2d",
+      "collector_number": "21",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/9/a/9a9e1edd-2a42-41a8-b089-66f3db080984.jpg?1784629984",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "9a9e1edd-2a42-41a8-b089-66f3db080984",
+          "collector_number": "21",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "9a9e1edd-2a42-41a8-b089-66f3db080984",
+          "collector_number": "21",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "84738f2f-7eab-49c3-b936-ec1934a11127",
+          "collector_number": "61",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-22",
+      "name": "Call Forth the Tempest",
+      "oracle_id": "0623c51a-e829-413f-a3a0-817c0902821e",
+      "collector_number": "22",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/4/f/4f3d805a-a152-4aa5-85ec-45195cf9e955.jpg?1784377278",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "4f3d805a-a152-4aa5-85ec-45195cf9e955",
+          "collector_number": "22",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "4f3d805a-a152-4aa5-85ec-45195cf9e955",
+          "collector_number": "22",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "1595281c-8d1d-4ad6-8197-01a0fc3b6087",
+          "collector_number": "62",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-23",
+      "name": "Cavern-Hoard Dragon",
+      "oracle_id": "939e8448-013a-4aef-9a92-7c883a77a1a0",
+      "collector_number": "23",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/e/7/e70e4fba-4217-472a-9adb-f7d63424ef2f.jpg?1784734512",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "e70e4fba-4217-472a-9adb-f7d63424ef2f",
+          "collector_number": "23",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "e70e4fba-4217-472a-9adb-f7d63424ef2f",
+          "collector_number": "23",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "f91355e4-097d-417b-9c26-e7e83d9ece3b",
+          "collector_number": "63",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-24",
+      "name": "Arwen, Weaver of Hope",
+      "oracle_id": "c0891157-f3dd-4866-866f-fd13e9be9633",
+      "collector_number": "24",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/6/9/69d7bf6e-2309-4093-8a6e-db6b297556ed.jpg?1785152231",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "69d7bf6e-2309-4093-8a6e-db6b297556ed",
+          "collector_number": "24",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "69d7bf6e-2309-4093-8a6e-db6b297556ed",
+          "collector_number": "24",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "e6ba967b-8832-4a98-8685-36acdfb1a53b",
+          "collector_number": "64",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-25",
+      "name": "Delighted Halfling",
+      "oracle_id": "f9d3b046-0b95-4103-a630-4b3fb88bb60b",
+      "collector_number": "25",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/a/a/aad18e0d-ccf9-4d86-945b-36991558fd3e.jpg?1784632206",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "aad18e0d-ccf9-4d86-945b-36991558fd3e",
+          "collector_number": "25",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "aad18e0d-ccf9-4d86-945b-36991558fd3e",
+          "collector_number": "25",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "9158f904-bf34-4cc0-9a6c-34893da29f22",
+          "collector_number": "65",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-26",
+      "name": "Elven Chorus",
+      "oracle_id": "4d5df2d9-06bf-4bec-9be0-dabe75a858fb",
+      "collector_number": "26",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/c/e/ceb93bf0-ed21-4963-b87b-1b5b76ca5b1a.jpg?1784894997",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "ceb93bf0-ed21-4963-b87b-1b5b76ca5b1a",
+          "collector_number": "26",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "ceb93bf0-ed21-4963-b87b-1b5b76ca5b1a",
+          "collector_number": "26",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "804e1b6f-f62b-4e43-a21f-cd3f11d4b0d9",
+          "collector_number": "66",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-27",
+      "name": "Last March of the Ents",
+      "oracle_id": "3999cd64-ff5c-4e2c-8aa6-d14f9f8a2b4c",
+      "collector_number": "27",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/2/d/2d7097c9-2076-4ebc-8c9e-aa596351588c.jpg?1785152215",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "2d7097c9-2076-4ebc-8c9e-aa596351588c",
+          "collector_number": "27",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "2d7097c9-2076-4ebc-8c9e-aa596351588c",
+          "collector_number": "27",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "98960275-41e6-41aa-951a-022dc148fd36",
+          "collector_number": "67",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-28",
+      "name": "Aragorn and Arwen, Wed",
+      "oracle_id": "b8a3440a-03c5-444c-a1de-252524c3db82",
+      "collector_number": "28",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/e/1/e1e75e94-7664-499e-9da1-97b56d44dd9e.jpg?1784632226",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "e1e75e94-7664-499e-9da1-97b56d44dd9e",
+          "collector_number": "28",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "e1e75e94-7664-499e-9da1-97b56d44dd9e",
+          "collector_number": "28",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "a2ef302c-c20e-42ec-a4c3-87ba0cdb51f1",
+          "collector_number": "68",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-29",
+      "name": "Aragorn, the Uniter",
+      "oracle_id": "3f31c423-d45c-4c3e-b7d4-ca125be0f92c",
+      "collector_number": "29",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/9/d/9d8d618a-9786-4e71-9808-96a336325367.jpg?1784734534",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "9d8d618a-9786-4e71-9808-96a336325367",
+          "collector_number": "29",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "9d8d618a-9786-4e71-9808-96a336325367",
+          "collector_number": "29",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "1b868c39-0fdc-4152-991e-3bc60a90d1ec",
+          "collector_number": "69",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-30",
+      "name": "Arwen, Mortal Queen",
+      "oracle_id": "9519a4ea-c4a0-4127-b06a-aac9ffaf7a32",
+      "collector_number": "30",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/a/2/a2055227-0a53-4b6b-b6d3-0eafc1884d4c.jpg?1785152323",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "a2055227-0a53-4b6b-b6d3-0eafc1884d4c",
+          "collector_number": "30",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "a2055227-0a53-4b6b-b6d3-0eafc1884d4c",
+          "collector_number": "30",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "392c3816-b2b2-48e8-970f-b407fa692368",
+          "collector_number": "70",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-31",
+      "name": "Flame of Anor",
+      "oracle_id": "ecd49d85-9c8c-4cc9-9a83-072ecd433677",
+      "collector_number": "31",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/a/c/ac0930fa-cba7-406e-ba56-5d3e8a16f603.jpg?1784377289",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "ac0930fa-cba7-406e-ba56-5d3e8a16f603",
+          "collector_number": "31",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "ac0930fa-cba7-406e-ba56-5d3e8a16f603",
+          "collector_number": "31",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "1c8873a1-e324-4342-ba63-0bc1bc812e3b",
+          "collector_number": "71",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-32",
+      "name": "Galadriel, Light of Valinor",
+      "oracle_id": "faf44683-339d-4fc0-8029-1e867c69de0e",
+      "collector_number": "32",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/f/e/fea53448-fc0d-45bb-8d30-03720865b541.jpg?1785497284",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "fea53448-fc0d-45bb-8d30-03720865b541",
+          "collector_number": "32",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "fea53448-fc0d-45bb-8d30-03720865b541",
+          "collector_number": "32",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "2e14edc5-9a68-4aef-baf6-43e7a6b732b5",
+          "collector_number": "72",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-33",
+      "name": "Gríma, Saruman's Footman",
+      "oracle_id": "9df60bb7-2dd4-4d22-b814-f52145356424",
+      "collector_number": "33",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/3/c/3c8f0bfc-767a-411c-b870-f2764f3706f4.jpg?1785497293",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "3c8f0bfc-767a-411c-b870-f2764f3706f4",
+          "collector_number": "33",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "3c8f0bfc-767a-411c-b870-f2764f3706f4",
+          "collector_number": "33",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "d929f47b-285e-4fce-837d-730f4f88cb99",
+          "collector_number": "73",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-34",
+      "name": "Lotho, Corrupt Shirriff",
+      "oracle_id": "135cc078-1c45-465e-b0b9-7168c89f56f4",
+      "collector_number": "34",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/6/9/692fcfe3-1057-4290-aaea-f4d50f642c05.jpg?1785647367",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "692fcfe3-1057-4290-aaea-f4d50f642c05",
+          "collector_number": "34",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "692fcfe3-1057-4290-aaea-f4d50f642c05",
+          "collector_number": "34",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "2a363b0d-294e-4d43-a793-b90de0734390",
+          "collector_number": "74",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-35",
+      "name": "Saruman of Many Colors",
+      "oracle_id": "c2d04138-cc17-4dd0-9a4c-9c87df72ed01",
+      "collector_number": "35",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/6/2/62c8fa9c-d8ba-4ce0-946c-42fdc26b49d1.jpg?1784733951",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "62c8fa9c-d8ba-4ce0-946c-42fdc26b49d1",
+          "collector_number": "35",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "62c8fa9c-d8ba-4ce0-946c-42fdc26b49d1",
+          "collector_number": "35",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "ea41a4f7-a283-4826-9f17-0e1f5bf248d5",
+          "collector_number": "75",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-36",
+      "name": "Sauron, the Dark Lord",
+      "oracle_id": "9f8f29ba-7e64-455d-be05-ec7973f2bd0a",
+      "collector_number": "36",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/d/d/dd6dd9dc-ef2a-4806-a3e4-0597288a8162.jpg?1783902773",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "dd6dd9dc-ef2a-4806-a3e4-0597288a8162",
+          "collector_number": "36",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "dd6dd9dc-ef2a-4806-a3e4-0597288a8162",
+          "collector_number": "36",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "22dd486a-dfb1-4553-8b0d-d9407cfda36a",
+          "collector_number": "76",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-37",
+      "name": "Sauron, the Lidless Eye",
+      "oracle_id": "00b9d3a3-fd64-4757-9159-b3af06b5f5b1",
+      "collector_number": "37",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/e/a/ea2d0f3e-45d0-4abb-a2bb-d893f87301c2.jpg?1785152352",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "ea2d0f3e-45d0-4abb-a2bb-d893f87301c2",
+          "collector_number": "37",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "ea2d0f3e-45d0-4abb-a2bb-d893f87301c2",
+          "collector_number": "37",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "dc49a0a4-baf4-4efd-a4d4-269179f93c7e",
+          "collector_number": "77",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-38",
+      "name": "Tom Bombadil",
+      "oracle_id": "89a2d5bc-df06-47e8-8b4a-6d1f0a63c78d",
+      "collector_number": "38",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/8/0/8040d3ba-7601-4b99-a98a-2411ec1b717d.jpg?1783902772",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "8040d3ba-7601-4b99-a98a-2411ec1b717d",
+          "collector_number": "38",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "8040d3ba-7601-4b99-a98a-2411ec1b717d",
+          "collector_number": "38",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "c0c6f1e7-f16c-479c-bd0b-138488bd7942",
+          "collector_number": "78",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-39",
+      "name": "Andúril, Flame of the West",
+      "oracle_id": "e6521404-8474-4727-b2d0-537d15d8a63f",
+      "collector_number": "39",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/0/f/0f2a60c5-09ca-49e4-90bd-9dadc56dddf2.jpg?1784734551",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "0f2a60c5-09ca-49e4-90bd-9dadc56dddf2",
+          "collector_number": "39",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "0f2a60c5-09ca-49e4-90bd-9dadc56dddf2",
+          "collector_number": "39",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "47e706bd-4b4c-435d-882a-659dad68dc4d",
+          "collector_number": "79",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-40",
+      "name": "Andúril, Narsil Reforged",
+      "oracle_id": "b7d7c131-b628-4b35-b40b-1087589ebdd0",
+      "collector_number": "40",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/5/c/5c495189-451e-46ca-9a71-825dab50a0e7.jpg?1784626910",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "5c495189-451e-46ca-9a71-825dab50a0e7",
+          "collector_number": "40",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "5c495189-451e-46ca-9a71-825dab50a0e7",
+          "collector_number": "40",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "e9ee862f-c007-4685-af83-dec508d8ec80",
+          "collector_number": "80",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-41",
+      "name": "Bilbo's Ring",
+      "oracle_id": "a7cc0f6b-6b17-4e76-b2a6-6a6ee2519b61",
+      "collector_number": "41",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/6/7/67a4e16b-df1b-4b57-a388-add58eae5a24.jpg?1785152488",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "67a4e16b-df1b-4b57-a388-add58eae5a24",
+          "collector_number": "41",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "67a4e16b-df1b-4b57-a388-add58eae5a24",
+          "collector_number": "41",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "2960ba27-0d6f-49f1-a2ac-51a491200a51",
+          "collector_number": "81",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-42",
+      "name": "Glamdring",
+      "oracle_id": "52826984-44cb-48dc-a737-bb02983ffea8",
+      "collector_number": "42",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/b/a/ba4b13c5-ef17-4bde-80e1-59d7587c123b.jpg?1785497303",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "ba4b13c5-ef17-4bde-80e1-59d7587c123b",
+          "collector_number": "42",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "ba4b13c5-ef17-4bde-80e1-59d7587c123b",
+          "collector_number": "42",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "162a211d-621e-4a20-a732-2f4233e4fe48",
+          "collector_number": "82",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-43",
+      "name": "Mithril Coat",
+      "oracle_id": "3dc364f3-3094-4660-80ca-9418588c7fde",
+      "collector_number": "43",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/b/1/b19d533b-0081-4744-8fc8-5e864ddb39ba.jpg?1784980202",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "b19d533b-0081-4744-8fc8-5e864ddb39ba",
+          "collector_number": "43",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "b19d533b-0081-4744-8fc8-5e864ddb39ba",
+          "collector_number": "43",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "12232ee5-e564-44f0-b973-21a141e9bd89",
+          "collector_number": "83",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-44",
+      "name": "The One Ring",
+      "oracle_id": "3aa83ed2-f48b-4ce6-a614-2c54ddf50538",
+      "collector_number": "44",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/b/d/bdd2c783-1483-490a-ae93-c4664a0a9564.jpg?1786128363",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "bdd2c783-1483-490a-ae93-c4664a0a9564",
+          "collector_number": "44",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "bdd2c783-1483-490a-ae93-c4664a0a9564",
+          "collector_number": "44",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "c2fed990-78fd-4688-8cac-9f57774297f6",
+          "collector_number": "84",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-45",
+      "name": "Palantír of Orthanc",
+      "oracle_id": "7798a4d9-1c1d-48e6-b9a2-ecd6aec1efa7",
+      "collector_number": "45",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/a/6/a6a887e4-7cee-4107-8a9a-afbfa2e91bdc.jpg?1784733961",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "a6a887e4-7cee-4107-8a9a-afbfa2e91bdc",
+          "collector_number": "45",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "a6a887e4-7cee-4107-8a9a-afbfa2e91bdc",
+          "collector_number": "45",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "2c0bbe08-61cc-4ed8-8fb1-225d346542c7",
+          "collector_number": "85",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-46",
+      "name": "Relic of Sauron",
+      "oracle_id": "b3a81bb1-cbd5-41a0-8dd4-faea06593f84",
+      "collector_number": "46",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/8/c/8caea27b-040e-43c6-a8e0-0f3c0e40f411.jpg?1785152488",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "8caea27b-040e-43c6-a8e0-0f3c0e40f411",
+          "collector_number": "46",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "8caea27b-040e-43c6-a8e0-0f3c0e40f411",
+          "collector_number": "46",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "c74e5574-cb43-4094-8f18-237734d3dddc",
+          "collector_number": "86",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-47",
+      "name": "The Black Gate",
+      "oracle_id": "40eb9904-dea3-47cf-963a-04821f98ba64",
+      "collector_number": "47",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/d/b/db3710f3-fd63-43d9-b9d6-dfac041954fa.jpg?1785497304",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "db3710f3-fd63-43d9-b9d6-dfac041954fa",
+          "collector_number": "47",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "db3710f3-fd63-43d9-b9d6-dfac041954fa",
+          "collector_number": "47",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "8d7c2182-1199-4c3a-be4d-c178ab604362",
+          "collector_number": "87",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-48",
+      "name": "Minas Morgul, Dark Fortress",
+      "oracle_id": "867dbd5a-c3cf-41ce-980b-c9babc6f30f2",
+      "collector_number": "48",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/2/7/27b2d8b7-3160-4a51-a898-a3c05180ff75.jpg?1784634923",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "27b2d8b7-3160-4a51-a898-a3c05180ff75",
+          "collector_number": "48",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "27b2d8b7-3160-4a51-a898-a3c05180ff75",
+          "collector_number": "48",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "86d0093b-1af6-458a-8759-250bbaa77778",
+          "collector_number": "88",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-49",
+      "name": "Minas Tirith",
+      "oracle_id": "7b0d7e62-0287-454a-8702-b0bfa7b41245",
+      "collector_number": "49",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/6/3/638c45e2-91d0-4ced-8bf7-64b2817b281a.jpg?1784895078",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "638c45e2-91d0-4ced-8bf7-64b2817b281a",
+          "collector_number": "49",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "638c45e2-91d0-4ced-8bf7-64b2817b281a",
+          "collector_number": "49",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "fa9b1e96-8294-4306-8280-c6b187bea5d8",
+          "collector_number": "89",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-50",
+      "name": "Mount Doom",
+      "oracle_id": "995c8dac-fd27-468a-abd4-02372cf0c850",
+      "collector_number": "50",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/f/8/f8d7f58c-bb5b-4cbe-8771-d668bef27bda.jpg?1784634952",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "f8d7f58c-bb5b-4cbe-8771-d668bef27bda",
+          "collector_number": "50",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "f8d7f58c-bb5b-4cbe-8771-d668bef27bda",
+          "collector_number": "50",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "2bb2e6cf-6e2d-4b0b-83d3-46aff575eee4",
+          "collector_number": "90",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-51",
+      "name": "Rivendell",
+      "oracle_id": "2550099d-b3e2-4eb6-9f36-0fc412828ca6",
+      "collector_number": "51",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/1/1/1127eb51-50ef-47f3-abfe-48895c832296.jpg?1784377291",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "1127eb51-50ef-47f3-abfe-48895c832296",
+          "collector_number": "51",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "1127eb51-50ef-47f3-abfe-48895c832296",
+          "collector_number": "51",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "b1c307c6-7bb7-40c3-8b12-4bf95efac328",
+          "collector_number": "91",
+          "finish": "foil"
+        }
+      ]
+    },
+    {
+      "key": "hoc-52",
+      "name": "The Shire",
+      "oracle_id": "9abf9a0e-8e7d-406b-a01d-d4870b30134e",
+      "collector_number": "52",
+      "treatment": "Classic Artist; standard or surge-foil printing",
+      "image_url": "https://cards.scryfall.io/normal/front/b/c/bc4895f4-d16f-4af6-b681-735131b886c4.jpg?1784377300",
+      "versions": [
+        {
+          "key": "nonfoil",
+          "label": "Non-foil",
+          "scryfall_id": "bc4895f4-d16f-4af6-b681-735131b886c4",
+          "collector_number": "52",
+          "finish": "nonfoil"
+        },
+        {
+          "key": "foil",
+          "label": "Foil",
+          "scryfall_id": "bc4895f4-d16f-4af6-b681-735131b886c4",
+          "collector_number": "52",
+          "finish": "foil"
+        },
+        {
+          "key": "special",
+          "label": "Surge foil (special)",
+          "scryfall_id": "8314297a-5c97-4d94-800c-0f9e42fca902",
+          "collector_number": "92",
+          "finish": "foil"
+        }
+      ]
+    }
+  ]
+}

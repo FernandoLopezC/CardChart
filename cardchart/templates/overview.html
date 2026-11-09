@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-heading">
+<h1>Home</h1>
+<p>Your collection at a glance.</p>
+<div class="inventory-value-summary">
+<span>Collection guide value</span>
+<strong>{% if portfolio.gbp is not none %}≈ £{{ portfolio.gbp }}{% else %}Unavailable{% endif %}</strong>
+<small>{% if portfolio.priced_count < portfolio.inventory_count %}Partial estimate · {% endif %}{{ portfolio.priced_count }} of {{ portfolio.inventory_count }} inventory lines priced · {{ portfolio.quantity }} cards</small>
+</div>
+<p class="price-note">{% if rate_info %}ECB rate {{ rate_info.rate_date }}. {% endif %}
+{% if guide_metadata and guide_metadata.source_updated_at %}Guide updated {{ guide_metadata.source_updated_at }}{% if guide_metadata.stale %} · Stale{% endif %}.{% endif %}</p>
+<form method="post" action="{{ url_for('main.refresh_guides') }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<input type="hidden" name="return_to" value="{{ request.path }}">
+<button type="submit">Refresh guides</button>
+</form>
+</header>
+<section>
+<div class="heading-row">
+<h2>Goals</h2>
+<a href="{{ url_for('main.goals') }}">View all</a>
+</div>
+<div class="goal-covers">{% for goal in goals %}<article class="goal-cover">
+<a href="{{ url_for('main.goal_detail', slug=goal.slug) }}">{% if goal.image_url %}<img src="{{ goal.image_url }}" alt="" loading="lazy" data-goal-cover>
+<span class="goal-cover-placeholder" hidden>Cover unavailable</span>{% else %}<span class="goal-cover-placeholder">{{ goal.name }}</span>{% endif %}<h3>{{ goal.name }}</h3>
+</a>
+<p>{{ goal.owned_count }} of {{ goal.total_count }} owned · {{ goal.percentage }}%</p>
+</article>{% else %}<p>No goals yet. <a href="{{ url_for('main.new_goal') }}">Add a goal</a>.</p>{% endfor %}</div>
+</section>
+{% include "_history_chart.html" %}
+<section>
+<div class="heading-row">
+<h2>Performance</h2>
+<a href="{{ url_for('main.performance') }}">View performance</a>
+</div>
+<p>Since baseline: {% if performance.change_gbp is not none %}£{{ performance.change_gbp }}{% if performance.percent is not none %} ({{ performance.percent }}%){% endif %}
+{% else %}Unavailable{% endif %}</p>
+<p class="price-note">{{ performance.comparable_quantity }} of {{ performance.total_quantity }} cards have comparable values.</p>
+</section>
+{% endblock %}

@@ -35,9 +35,50 @@ flask --app cardchart goals scaffold --slug example-goal --title "Example Goal" 
 flask --app cardchart goals validate instance/goal-candidates/example-goal.json
 ```
 
-Review the generated membership, versions, labels, and Cardmarket mapping before moving a CLI candidate into `cardchart/goals/`. See [goal manifest authoring](docs/goal-manifests.md) for both workflows and the schema.
+Review the generated membership, versions, labels, and Cardmarket mapping before moving a CLI candidate into `cardchart/goals/`. Scaffolding refuses existing output files; use a new `--output` path to generate another candidate without losing reviewed edits. See [goal manifest authoring](docs/goal-manifests.md) for both workflows and the schema.
 
-The root page opens the goals dashboard. Imported cards remain available at `/inventory`.
+The root page shows the collection overview. Imported cards remain available at
+`/inventory`, labelled Collection, with Goals and Performance in the main navigation.
+Performance records real guide observations and first-valid baselines for physical
+inventory quantity lots. Quantity reductions use FIFO. New copies receive their own
+baseline; historical GBP retains its original FX evidence. The chart includes
+quantity/coverage changes, while since-baseline movement compares remaining lots.
+Empty history is shown without invented trends or returns. Back up the configured
+SQLite database before starting the new version; see the
+[Performance guide](docs/components/performance.md) for storage and recovery.
+
+Each goal offers Cards and Binder views of the same checklist. Binder keeps stable
+nine-pocket pages; filters highlight pockets without removing gaps. Card inspectors
+keep exact versions and detailed ownership editing reachable.
+
+**Refresh guides** updates the Scryfall/ECB pipeline used by collection and goal
+estimates. The card-detail page separately exposes **legacy scraper refresh** and
+preserves existing records. Legacy Cardmarket raw amounts have uncertain currency
+and are never included in GBP guide totals. Unsupported etched guides remain
+unavailable. Failed downloads retain the last validated cache; historical cache
+generations are retained on disk for recovery.
+
+## Reconcile snapshots and disposals
+
+Open `/reconcile` to stage a dated Collectr, DeckCheck, eBay or buylist CSV for
+review. The workflow accepts UTF-8 comma-separated CSV files up to 2 MiB and 1,000
+non-empty rows; save Excel exports as CSV UTF-8. Map the source columns, identify
+completed disposal statuses when applicable, then review each exact printing and
+select the rows to apply. Matching never relies on a card name alone. New printings
+must be resolved against the local Scryfall cache; the workflow provides an explicit
+refresh action and makes no automatic network lookup during upload.
+
+Buylist imports require a store/vendor label so its references remain in a separate
+source namespace. For disposals, map the completed statuses to include, or confirm
+that every row is completed when the export has no status column.
+
+Snapshots set reported printing quantities to reviewed totals. Collectr and
+DeckCheck usually describe the same cards, so their snapshot counts must not be
+added. Cards absent from an export remain in inventory. For disposals, choose
+whether the source counts already include them so CardChart does not deduct twice.
+Stable transaction references let repeated sales files skip already recorded rows.
+The inventory export is available from the reconciliation page. See the
+[reconciliation guide](docs/components/reconciliation.md) for limits and edge cases.
 
 ## CSV format
 

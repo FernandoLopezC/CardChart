@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='reconciliation.css') }}">{% endblock %}
+{% block content %}
+<header class="reconcile-heading">
+  <p class="reconcile-breadcrumb"><a href="{{ url_for('reconciliation.index') }}">Reconciliation</a> / Map columns</p>
+  <h1>Map {{ batch.filename }}</h1>
+  <p>{{ batch.source|title }} · {{ batch.kind|title }} · observed {{ batch.observed_on }}{% if batch.reference %} · reference {{ batch.reference }}{% endif %}</p>
+</header>
+<div class="reconcile-notice"><strong>Repeat safety depends on transaction identity.</strong> Map real order or invoice references, and line or item IDs when available. Rows without usable IDs need your review; matching never uses a card name alone.</div>
+
+<form class="panel reconcile-form" method="post" action="{{ url_for('reconciliation.mapping', batch_id=batch.id) }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <h2>CSV columns</h2>
+  <div class="reconcile-fields mapping-fields">
+    {% for key, label in fields %}
+    <label for="map_{{ key }}">{{ label }}{% if key == 'quantity' %}<span class="required-note"> · required</span>{% endif %}
+      <select id="map_{{ key }}" name="{{ key }}" {% if key == 'quantity' %}required{% endif %}>
+        <option value="">Not in this file</option>
+        {% for header in headers %}<option value="{{ header }}" {% if values.get(key) == header %}selected{% endif %}>{{ header }}</option>{% endfor %}
+      </select>
+    </label>
+    {% endfor %}
+  </div>
+  <div class="reconcile-fields">
+    <label for="default_finish">Default finish<select id="default_finish" name="default_finish">
+      <option value="">Use mapped finish / unspecified</option>{% for value in ['nonfoil', 'foil', 'etched'] %}<option value="{{ value }}" {% if values.get('default_finish') == value %}selected{% endif %}>{{ value|title }}</option>{% endfor %}
+    </select></label>
+    <label for="default_language">Default language<input id="default_language" name="default_language" type="text" value="{{ values.get('default_language', 'en') }}" maxlength="12" autocomplete="off"></label>
+  </div>
+  {% if batch.kind == 'disposal' %}<fieldset class="reconcile-basis">
+    <legend>Disposal status handling</legend>
+    <label for="eligible_statuses">Eligible completed statuses <span>(comma-separated, exact values)</span>
+      <input id="eligible_statuses" name="eligible_statuses" type="text" value="{{ values.get('eligible_statuses', '') }}" autocomplete="off">
+    </label>
+    <label class="reconcile-check"><input type="checkbox" name="confirmed_completed" value="yes" {% if values.get('confirmed_completed') %}checked{% endif %}> I confirm every row is completed when no status column is mapped</label>
+    <small>Only completed transactions are eligible. Refunds, lots, and other statuses are not inferred.</small>
+  </fieldset>{% endif %}
+  <div class="reconcile-actions"><a href="{{ url_for('reconciliation.index') }}">Cancel</a><button type="submit">Review matches</button></div>
+</form>
+
+<section class="reconcile-section" aria-labelledby="sample-title">
+  <h2 id="sample-title">Sample rows</h2>
+  {% if sample %}<div class="reconcile-table-wrap"><table class="reconcile-table sample-table">
+    <caption>First rows from {{ batch.filename }} to help identify the CSV columns</caption>
+    <thead><tr>{% for header in headers %}<th scope="col">{{ header }}</th>{% endfor %}</tr></thead>
+    <tbody>{% for row in sample %}<tr>{% for header in headers %}<td>{{ row.get(header, '') }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+  </table></div>{% else %}<p class="reconcile-empty">No sample rows are available.</p>{% endif %}
+</section>
+{% endblock %}

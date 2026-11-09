@@ -1,5 +1,10 @@
 import gzip
+import hashlib
 import json
+import os
+import tempfile
+from datetime import datetime, timezone
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 
 import requests
@@ -81,8 +86,8 @@ def load_bulk_lookup(refresh=True):
     cache_dir = Path(current_app.instance_path) / "scryfall"
     cache_dir.mkdir(parents=True, exist_ok=True)
 
-    cards_path = cache_dir / CACHE_JSON
     meta_path = cache_dir / CACHE_META
+    cards_path = bulk_cards_path(cache_dir)
     if not refresh:
         if not cards_path.exists():
             return None
@@ -101,6 +106,7 @@ def load_bulk_lookup(refresh=True):
 
     if should_refresh_cache(cards_path, meta_path, bulk_item):
         download_default_cards(cards_path, meta_path, bulk_item)
+        cards_path = bulk_cards_path(cache_dir)
 
     lookup = read_bulk_lookup(cards_path)
     current_app.extensions["cardchart_scryfall_bulk_lookup"] = {
@@ -115,14 +121,29 @@ def load_bulk_metadata():
     if not meta_path.exists():
         return None
     try:
-        return json.loads(meta_path.read_text(encoding="utf-8"))
+        value = json.loads(meta_path.read_text(encoding="utf-8"))
+        return value if isinstance(value, dict) else None
     except (OSError, ValueError):
         return None
 
 
 def bulk_cache_available():
-    cards_path = Path(current_app.instance_path) / "scryfall" / CACHE_JSON
+    cards_path = bulk_cards_path(Path(current_app.instance_path) / "scryfall")
     return cards_path.exists()
+
+
+def bulk_cards_path(cache_dir):
+    """Resolve the atomically published generation, including pre-generation caches."""
+    try:
+        metadata = json.loads((cache_dir / CACHE_META).read_text(encoding="utf-8"))
+        filename = metadata.get("cache_file")
+        if filename:
+            if Path(filename).name != filename or not filename.startswith("scryfall-cards-"):
+                raise ValueError("Invalid Scryfall cache filename.")
+            return cache_dir / filename
+    except (OSError, json.JSONDecodeError, AttributeError):
+        pass
+    return cache_dir / CACHE_JSON
 
 
 def read_bulk_lookup(cards_path):
@@ -143,19 +164,58 @@ def fetch_default_cards_bulk_item():
     response = requests.get(SCRYFALL_BULK_DATA_URL, timeout=20, headers=SCRYFALL_HEADERS)
     response.raise_for_status()
 
-    for item in response.json().get("data", []):
-        if item.get("type") == "default_cards":
+    data = response.json()
+    if not isinstance(data, dict) or not isinstance(data.get("data"), list):
+        raise ValueError("Invalid Scryfall bulk metadata.")
+    for item in data["data"]:
+        if isinstance(item, dict) and item.get("type") == "default_cards":
+            validate_bulk_item(item)
             return item
 
     raise ValueError("Scryfall default_cards bulk data was not found.")
+
+
+def validate_bulk_item(item):
+    try:
+        updated = datetime.fromisoformat(item["updated_at"].replace("Z", "+00:00"))
+        if updated.tzinfo is None or updated > datetime.now(timezone.utc) or not item["jsonl_download_uri"].startswith("https://data.scryfall.io/"):
+            raise ValueError("Invalid source evidence.")
+    except (KeyError, AttributeError, TypeError, ValueError) as exc:
+        raise ValueError("Invalid Scryfall default_cards metadata.") from exc
+
+
+def validate_guide_card(card):
+    if not isinstance(card, dict) or not isinstance(card.get("id"), str) or not card["id"].strip():
+        raise ValueError("Invalid Scryfall card identity.")
+    prices = card.get("prices")
+    if prices is not None:
+        if not isinstance(prices, dict):
+            raise ValueError("Invalid Scryfall prices.")
+        for field in ("eur", "eur_foil"):
+            value = prices.get(field)
+            if value is None:
+                continue
+            try:
+                if not isinstance(value, str) or not Decimal(value).is_finite() or Decimal(value) < 0:
+                    raise ValueError("Invalid price.")
+            except (InvalidOperation, ValueError) as exc:
+                raise ValueError("Invalid Scryfall guide price.") from exc
+    links = card.get("purchase_uris")
+    if links is not None and (not isinstance(links, dict) or (links.get("cardmarket") is not None and not isinstance(links["cardmarket"], str))):
+        raise ValueError("Invalid Scryfall purchase links.")
 
 
 def should_refresh_cache(cards_path, meta_path, bulk_item):
     if not cards_path.exists() or not meta_path.exists():
         return True
 
-    with meta_path.open(encoding="utf-8") as meta_file:
-        cached_meta = json.load(meta_file)
+    try:
+        with meta_path.open(encoding="utf-8") as meta_file:
+            cached_meta = json.load(meta_file)
+        if not isinstance(cached_meta, dict):
+            return True
+    except (OSError, ValueError):
+        return True
 
     return (
         cached_meta.get("download_uri") != bulk_item.get("jsonl_download_uri")
@@ -164,18 +224,35 @@ def should_refresh_cache(cards_path, meta_path, bulk_item):
 
 
 def download_default_cards(cards_path, meta_path, bulk_item):
+    validate_bulk_item(bulk_item)
     download_uri = bulk_item["jsonl_download_uri"]
     response = requests.get(download_uri, timeout=120, headers=SCRYFALL_HEADERS)
     response.raise_for_status()
 
-    cards_path.write_bytes(response.content)
-    meta_path.write_text(
-        json.dumps(
-            {
-                "download_uri": download_uri,
-                "updated_at": bulk_item.get("updated_at"),
-            },
-            indent=2,
-        ),
-        encoding="utf-8",
-    )
+    content = response.content
+    expected_size = bulk_item.get("compressed_size")
+    if expected_size is not None and len(content) != expected_size:
+        raise ValueError("Incomplete Scryfall bulk download.")
+    # Publish the metadata pointer last so a failed download never replaces good data.
+    generation = cards_path.parent / f"scryfall-cards-{hashlib.sha256(content).hexdigest()}.json"
+    data_temp = meta_temp = None
+    try:
+        with tempfile.NamedTemporaryFile(dir=cards_path.parent, delete=False) as output:
+            data_temp = Path(output.name)
+            output.write(content)
+        lookup = read_bulk_lookup(data_temp)
+        if not lookup.cards:
+            raise ValueError("Invalid Scryfall card data.")
+        for card in lookup.cards:
+            validate_guide_card(card)
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=meta_path.parent, delete=False) as output:
+            meta_temp = Path(output.name)
+            json.dump({"download_uri": download_uri, "updated_at": bulk_item["updated_at"], "cache_file": generation.name}, output)
+        os.replace(data_temp, generation)
+        os.replace(meta_temp, meta_path)
+    except (AttributeError, TypeError, EOFError) as exc:
+        raise ValueError("Invalid Scryfall card data.") from exc
+    finally:
+        for path in (data_temp, meta_temp):
+            if path is not None:
+                path.unlink(missing_ok=True)

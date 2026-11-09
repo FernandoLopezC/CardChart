@@ -8,14 +8,38 @@ The verified Middle-earth checklist contains the 40 HOC Classic Artist cards at 
 
 Existing pricing is legacy behavior. It remains available on inventory pages until removal is separately approved. Startup non-destructively creates an absent database or missing modeled tables and synchronizes curated goals. It does not alter existing table structures; database migration work remains out of scope.
 
+Collection reconciliation supports reviewed, dated source snapshots and disposal
+records. Overlapping trackers describe observations of the same collection, not
+additive quantities. Snapshots set selected printing totals and do not imply that
+absent cards were removed. Completed disposals reduce counts only when the operator
+confirms that the source counts have not already reflected them. Exact printing
+identity, explicit row selection and repeat-safe transaction references protect
+inventory and linked goal quantities from ambiguous or repeated imports.
+
 Adding another curated subset is a manifest-authoring workflow rather than an application-code change. The in-app wizard and CLI share a bulk-backed authoring service. The UI builds a searchable paper-set catalog from the cached snapshot and exposes a read-only live-preview route; changing the set, language, collector range, or optional metadata filters updates the candidate gallery without creating a draft. Public `promo_types`, `frame_effects`, border, full-art, and finish fields are mapped to readable treatment groups such as Source material, Showcase, Extended art, Surge foil, and Silver Scroll. Cards may belong to multiple groups, and the mapping is maintained locally rather than scraping Scryfall's website-only presentation sections.
 
 The chosen entry keys—not merely the active filters—are submitted into an inactive server-side draft, so individual inclusion decisions are preserved exactly. A human then reviews exact UUIDs, finishes, labels, treatment notes, and purchase-list defaults. Activation validates the reviewed draft against the cached bulk snapshot, refuses an existing slug or manifest, creates the maintained manifest, updates the running definition registry, and synchronizes only the new goal. That synchronization checks positive-quantity inventory rows for exact accepted Scryfall UUID and finish matches, creating only missing ownership links and preserving existing records. A printing may satisfy matching entries in several goals. Startup performs structural validation and never refreshes or re-discovers goal membership.
 
-Goal detail pages keep progress prominent and present checklist entries in pages of 20 compact cards. Each card exposes a simple owned/missing selector and only the verified versions for that goal: nonfoil, foil where available, and the named special-foil treatment. The detailed ownership editor remains available for acquisition dates, quantities, notes, and inventory links.
+Goal detail pages keep progress prominent and present filtered Cards pages of 20
+entries or stable nine-pocket Binder pages. Both views use the same checklist and
+ownership. Inspectors expose owned/missing controls and the verified versions for
+that goal: nonfoil, foil where available, and the named special-foil treatment.
+Quick-save consequences are explicit. The detailed ownership editor remains
+available for acquisition dates, quantities, notes, and inventory links.
 
 Goal cards show approximate GBP guide prices by converting the selected printing's Scryfall EUR bulk price with a daily cached ECB EUR-to-GBP reference rate. The goal header separately totals owned value and missing cost. Owned entries contribute the price of every recorded accepted printing and finish, multiplied by its quantity. Missing entries contribute their cheapest priced accepted version. The totals cover the full goal regardless of the current page or filter, and versions outside the curated accepted Scryfall UUIDs cannot affect them. In particular, the Middle-earth Classic Artist total is restricted to HOC and does not substitute LTR printings. These are informational estimates rather than live listings or checkout prices. Missing-card images link to the exact printing's Cardmarket product page supplied by Scryfall; changing the version selector updates both the displayed price and link without making a marketplace request.
 
 Goal pages export all missing entries—not merely the current page or filter—as a Cardmarket decklist text file. Each line requests one standard copy and includes Cardmarket's exact version and expansion notation. HOC uses `V.1` from `The Hobbit: Eternal`; the Japanese SOA goal uses `V.2` from `Secrets of Strixhaven: Mystical Archive`. The mapping is maintained with the curated goal definitions and does not make a Cardmarket API request.
 
 Inventory cards use the same Scryfall EUR and cached EUR-to-GBP reference-rate pipeline. Each row is valued from its exact Scryfall printing and finish, with its line value multiplied by quantity; the inventory header sums all priced rows. Inventory pages show 20 rows at a time and provide case-insensitive search across names, sets, collector numbers, and finishes. Sorting supports name, set, quantity, and quantity-adjusted GBP line value; unavailable prices sort after priced rows. Search, sorting, and pagination do not change the full-inventory guide total. Existing scraper-derived snapshots remain visible as legacy information until their future is decided separately.
+
+
+**Implemented locally, 9 November 2026:** Overview and Performance use captured
+guide observations and first-valid quantity-lot baselines. User-approved additive
+storage preserves existing tables and records; FIFO handles reductions. New copies
+receive separate baselines, and goal-only ownership stays outside collection totals.
+The chart shows actual portfolio observations, including quantity/coverage/FX
+changes. Remaining-lot movement and its weighted percentage are separate from
+period portfolio change and purchase profit. Missing history is never inferred.
+See [Performance](components/performance.md) and
+[ADR-0004](decisions/0004-guide-performance.md) for evidence and boundaries.

@@ -1,0 +1,28 @@
+<section class="history-section">
+<h2>Collection value over time</h2>
+<p class="price-note">Includes quantity, price coverage and exchange-rate changes.</p>{% if history|length > 1 %}<div class="history-chart" data-history-chart data-points='{{ history|tojson }}'>
+<div class="chart-readout" aria-live="polite">
+</div>
+<div class="chart-scale" aria-hidden="true">
+<span data-chart-high>
+</span>
+<span data-chart-low>
+</span>
+</div>
+<svg viewBox="0 0 800 250" preserveAspectRatio="none" role="img" aria-label="Collection value history. Use arrow keys, Home and End to inspect snapshots." tabindex="0">
+<g class="chart-grid">
+</g>
+<g class="chart-lines">
+</g>
+<line class="chart-cursor">
+</line>
+<rect class="chart-marker" width="10" height="10">
+</rect>
+</svg>
+<div class="chart-dates">
+<span>{{ history[0].observed_at[:10] }}</span>
+<span>{{ history[-1].observed_at[:10] }}</span>
+</div>
+</div>
+<script src="{{ url_for('static', filename='history-chart.js') }}" defer>
+</script>{% elif history|length == 1 %}<p>One snapshot recorded: {{ history[0].observed_at }} · {% if history[0].gbp is not none %}£{{ history[0].gbp }}{% else %}Value unavailable{% endif %} · {{ history[0].priced_count }} of {{ history[0].inventory_count }} lines priced. A chart will appear after another snapshot.</p>{% else %}<p>No collection value snapshots yet.</p>{% endif %}</section>

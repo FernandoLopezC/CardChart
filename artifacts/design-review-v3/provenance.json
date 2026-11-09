@@ -1,0 +1,128 @@
+{
+  "scope": "Performance design-study extension only",
+  "based_on": "../design-review-v2/cardchart-mobile-binders.html",
+  "baseline_preference": "User preferred the restored chart direction; hover interaction revision awaits acceptance",
+  "data": "Illustrative guide baselines and current values, fixed sample holdings",
+  "metric": "Comparable current holdings: sum((current guide minus starting guide) times remaining quantity); combined-baseline percentage",
+  "visual_checks": {
+    "viewports": [
+      360,
+      390,
+      1280
+    ],
+    "screens": [
+      "mobile default chart",
+      "mobile hover and touch",
+      "desktop hover and keyboard"
+    ],
+    "prototype_checks": 28,
+    "passed": 28,
+    "console_errors": 0,
+    "horizontal_overflow": "none observed; 390 and 1280 asserted",
+    "events": "Synthetic PointerEvent and KeyboardEvent checks on the rendered chart"
+  },
+  "runtime_validation": {
+    "rerun": true,
+    "python_tests": 69,
+    "node_tests": 9,
+    "python_log": "python-tests.log",
+    "node_log": "node-tests.log",
+    "warning": "Existing SQLAlchemy Query.get() deprecation warning"
+  },
+  "documentation_targets_checked": 15,
+  "artifact_sha256": "707ffdecde4c8f8041dc6be1a8d7c95c5960b87c3a7a83226b1824eae08659e7",
+  "limitations": [
+    "No recorded production guide-price baselines yet",
+    "No physical device testing",
+    "Card art requires network access",
+    "No full accessibility audit"
+  ],
+  "detector": "One assumed-white-host contrast warning (exit 2); actual dark mobile and desktop rendering inspected",
+  "outcome": "status=complete; validation=28 prototype, 69 Python and 9 Node checks passed; review_impact=not_run, minor mockup refinement; recovery=none; acceptance=unconfirmed",
+  "revisions": [
+    {
+      "request": "Keep the chart with a more distinctive feel",
+      "date": "2026-11-08",
+      "changes": "Restored interactive warm-line value history in Overview and Performance; preserved since-added summaries and per-card movement bars.",
+      "previous_evidence": {
+        "artifact_sha256": "6ba18f848817b1994a1eebf4afa1e74c1e969b5172ec18551877a7e34a79c52a",
+        "visual_checks": {
+          "viewports": [
+            360,
+            390,
+            1280
+          ],
+          "screens": [
+            "performance all",
+            "performance fallers",
+            "desktop performance",
+            "overview"
+          ],
+          "prototype_checks": 18,
+          "passed": 18,
+          "console_errors": 0,
+          "horizontal_overflow": "none observed/asserted"
+        },
+        "runtime_validation": {
+          "reused": "../design-review-v2/provenance.json",
+          "source_hashes_unchanged": 25,
+          "python_tests": 69,
+          "node_tests": 9,
+          "rerun": false
+        },
+        "outcome": "status=complete; validation=18 prototype checks and documentation links passed; review_impact=minor, baseline semantics checked; recovery=none material; acceptance=unconfirmed"
+      }
+    },
+    {
+      "request": "Remove the slider; inspect values on hover",
+      "date": "2026-11-08",
+      "changes": "Direct pointer inspection with touch and keyboard access; separate slider removed.",
+      "previous_evidence": {
+        "artifact_sha256": "86a19d47973d85306fcf69b06106dafb7bba131ddd3578770ead6a6a3947e1d6",
+        "visual_checks": {
+          "viewports": [
+            360,
+            390,
+            1280
+          ],
+          "screens": [
+            "mobile performance month",
+            "desktop performance month",
+            "mobile overview week"
+          ],
+          "prototype_checks": 23,
+          "passed": 23,
+          "console_errors": 0,
+          "horizontal_overflow": "none observed/asserted"
+        },
+        "runtime_validation": {
+          "rerun": true,
+          "python_tests": 69,
+          "node_tests": 9,
+          "python_log": "python-tests.log",
+          "node_log": "node-tests.log",
+          "warning": "Existing SQLAlchemy Query.get() deprecation warning"
+        },
+        "outcome": "status=complete; validation=23 prototype, 69 Python, 9 Node checks passed; review_impact=not_run, focused mockup correction; recovery=mobile labels enlarged after preview; acceptance=unconfirmed"
+      },
+      "user_feedback_on_previous_revision": "Preferred the restored chart; requested this interaction change."
+    }
+  ],
+  "handover": {
+    "date": "2026-11-09",
+    "artifact": "../../docs/implementation-handover.md",
+    "head": "adcfa921069c566afffffe4d5abc47f645735553",
+    "working_tree": "Pre-existing modified and untracked application files preserved; documentation-only handover changes",
+    "validation": {
+      "local_links_and_heading_targets": 58,
+      "broken_targets": 0,
+      "whitespace_check": "pass including new handover file",
+      "unchanged_application_test_hashes": 25,
+      "runtime_suites_rerun": false
+    },
+    "independent_work": "Two read-only explorer agents checked UI ownership/criteria and free pricing options/history boundaries",
+    "delivery_workflow_started": false,
+    "remaining": "Concrete implementation plan and history/lot/FX/disposal/schema decisions; all production implementation",
+    "outcome": "status=complete; validation=58 documentation targets, whitespace, and 25 unchanged source hashes; review_impact=minor, clarified source ownership and public-download option; recovery=official guidance used after Scryfall reference returned 403; acceptance=unconfirmed"
+  }
+}

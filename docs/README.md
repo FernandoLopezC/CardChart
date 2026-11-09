@@ -5,16 +5,20 @@ The guides describe logical ownership; they do not require source folders to mat
 
 | Need | Authority / next stop |
 | --- | --- |
+| Design UI, mobile layouts or a goal binder view | [Design guidance](../DESIGN.md), then the owning component guide |
 | Run CardChart locally | [Root README](../README.md) |
 | Understand runtime, startup, dependencies and data boundaries | [Architecture](ARCHITECTURE.md) |
 | Change goal membership, authoring, ownership or export | [Goals component](components/goals.md) |
 | Change CSV ingestion or inventory identity | [Inventory component](components/inventory.md) |
+| Review repeatable snapshots or disposal CSVs | [Reconciliation component](components/reconciliation.md) |
 | Change guide values, conversion or legacy refresh | [Pricing component](components/pricing.md) |
+| Change guide baselines, FIFO lots or portfolio history | [Performance component](components/performance.md) |
 | Understand product intent | [Product direction](product-direction.md) |
 | Author a manifest / look up its schema | [Goal manifest authoring](goal-manifests.md) |
 | Find architectural provenance | [Decision register](decisions/README.md) |
 | Verify a change and choose checks | [Verification runbook](runbooks/verification.md) |
 | Continue incomplete work | [Remaining tasks](remaining-tasks.md) |
+| Pick up the UI, pricing and Performance implementation | [Dated implementation handover](implementation-handover.md), then the active work queue |
 
 ## One authority per concern
 

@@ -25,6 +25,10 @@ def create_app(config=None):
     db.init_app(app)
     app.register_blueprint(bp)
 
+    from .reconciliation_routes import bp as reconciliation_bp
+
+    app.register_blueprint(reconciliation_bp)
+
     from .goal_cli import register_goal_commands
 
     register_goal_commands(app)

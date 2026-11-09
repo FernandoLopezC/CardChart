@@ -1,28 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
 <header class="page-heading">
-  <p class="eyebrow">Collection goals</p>
-  <h1>Build the collection you want</h1>
-  <p>Track deliberately curated card checklists, one printing at a time.</p>
-  <a class="primary-action" href="{{ url_for('main.new_goal') }}">Add goal</a>
-</header>
-<div class="goal-grid">
-  {% for goal in goals %}
-    <article class="goal-tile">
-      {% if goal.image_url %}<img src="{{ goal.image_url }}" alt="">{% endif %}
-      <div>
-        <span class="status">{{ goal.state }}</span>
-        <h2><a href="{{ url_for('main.goal_detail', slug=goal.slug) }}">{{ goal.name }}</a></h2>
-        <p>{{ goal.description }}</p>
-        <p><strong>{{ goal.owned_count }} of {{ goal.total_count }}</strong> owned · {{ goal.percentage }}%</p>
-        <div class="progress" role="progressbar" aria-label="{{ goal.name }} progress" aria-valuenow="{{ goal.percentage }}" aria-valuemin="0" aria-valuemax="100">
-          <span style="width: {{ goal.percentage }}%"></span>
-        </div>
-        <a class="button-link" href="{{ url_for('main.goal_detail', slug=goal.slug) }}">View checklist</a>
-      </div>
-    </article>
-  {% else %}
-    <p>No goals initialized. Add your first curated goal.</p>
-  {% endfor %}
+<div class="heading-row">
+<div>
+<h1>Goals</h1>
+<p>Your curated collections.</p>
 </div>
+<a class="button-link" href="{{ url_for('main.new_goal') }}">Add goal</a>
+</div>
+</header>
+<div class="goal-covers">{% for goal in goals %}<article class="goal-cover">
+<a href="{{ url_for('main.goal_detail', slug=goal.slug) }}">{% if goal.image_url %}<img src="{{ goal.image_url }}" alt="" loading="lazy" data-goal-cover>
+<span class="goal-cover-placeholder" hidden>Cover unavailable</span>{% else %}<span class="goal-cover-placeholder">{{ goal.name }}</span>{% endif %}<h2>{{ goal.name }}</h2>
+</a>
+<p>{{ goal.owned_count }} of {{ goal.total_count }} owned · {{ goal.percentage }}%</p>
+<div class="progress" role="progressbar" aria-label="{{ goal.name }} progress" aria-valuenow="{{ goal.percentage }}" aria-valuemin="0" aria-valuemax="100">
+<span style="width:{{ goal.percentage }}%">
+</span>
+</div>
+</article>{% else %}<p>No goals initialized. Add your first curated goal.</p>{% endfor %}</div>
 {% endblock %}

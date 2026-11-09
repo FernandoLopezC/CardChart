@@ -1,0 +1,110 @@
+{
+  "scope": "Mobile/goal design study and repository design guidance; no production implementation",
+  "date": "2026-11-08",
+  "reference": "PP Scheduling DESIGN working tree; baseline 3f4fe18879c5bd503ecaaea4bbb49d363b84d756",
+  "user_references": [
+    "28200.png",
+    "28201.png"
+  ],
+  "confirmed_preferences": [
+    "binder view inside existing goals",
+    "mobile priority",
+    "free pricing sources",
+    "GBP collection value and goal completion cost"
+  ],
+  "mockup_acceptance": "unconfirmed",
+  "runtime_validation": {
+    "head": "adcfa921069c566afffffe4d5abc47f645735553",
+    "working_tree": "pre-existing uncommitted application changes; hashes below identify tested source",
+    "python": {
+      "command": ".venv/Scripts/python.exe -m unittest discover -s tests",
+      "tests": 69,
+      "result": "pass",
+      "log": "python-tests.log",
+      "note": "Existing SQLAlchemy Query.get deprecation warning"
+    },
+    "node": {
+      "command": "node --test tests/*.test.cjs (expanded file paths on Windows)",
+      "tests": 9,
+      "result": "pass",
+      "log": "node-tests.log"
+    },
+    "environment": "Windows; existing .venv; workspace-local TEMP/TMP; offline test fixtures",
+    "source_sha256": {
+      "cardchart/__init__.py": "16bc4d13efcf1f55ee165e92ac7fe823798b59a7bedea6f0c4f28ed986a1080e",
+      "cardchart/goal_authoring.py": "3f96e2de4aded2a33c9b8d57354652afa9393f77afc955897f9c8cc3112d75d3",
+      "cardchart/goal_cli.py": "5ab36ad5e9f65d406af703768c3875ed4e3d2ef9720f040970ac257b3b1e2316",
+      "cardchart/goal_definitions.py": "b80a70f4095f4f54e6bb9a0744c8667dad66a274d9ba1dec93dbde1a87a922ee",
+      "cardchart/importer.py": "b9230f4ea42e7f2925d7a286169efa7150f4e63738e2c066dd321d304318d1bb",
+      "cardchart/models.py": "ba764dffc2764cbe6ffd64d6793e028279cdedd8eb63bc8824433d59c5be88aa",
+      "cardchart/ownership.py": "fe0757f75046ff6df4b655650df6f0531d91517ceb972dfe8549f817f4ef2554",
+      "cardchart/pricing.py": "74c527b0615a805c78de199519a1dd544695eab8d5b2d1a5b36e15a0d9b2a296",
+      "cardchart/reconciliation.py": "1e89ff07042d05be06a6fb097be2a414a9d7be677db31afe4613ec24c2426cb7",
+      "cardchart/reconciliation_routes.py": "7cd317367eb2db3ba7e06039294a13264f0faec4683cca15bdf53b503c7175ed",
+      "cardchart/routes.py": "b5daf4dd1d671fb070f46ffc67528d40b989773a768fd0d9b9b0f02d6b6ff107",
+      "cardchart/scrapers.py": "e608511c5c81d84e8b9680ae20fefc05410967e401056e4ce1cc6f842395e350",
+      "cardchart/scryfall_bulk.py": "fb80aab18d7f09040f2a773770f36da3381c998c89fa7def717ac63f0e47b8b9",
+      "cardchart/static/goal_authoring.js": "f281e2da1acf84e361b9eab0f0895c6f39e245b45ff46c9c080d969fce1baa39",
+      "cardchart/static/reconciliation.js": "4b0645fa37eb3633b4606d03981ee6f12d9c045f744dfa65fb04cab3a332528d",
+      "cardchart/wsgi.py": "dcca1bdab5f59bd2e7bfad6f9826907bdef658ee7330667f9dbb79f75edb70d2",
+      "requirements.txt": "080540a78418153f50e28855b019ffc16caba3be9de56bc21125f32441f99270",
+      "tests/goal_authoring.test.cjs": "6d12cb6fbb04ba2e191727fafb2911430f36e487224228c941063a4d260a34fe",
+      "tests/reconciliation.test.cjs": "6879332f1263e175752e94ed695a3b2f3e15d46e27eae151769fc5a8e0f17f27",
+      "tests/test_goal_manifests.py": "17e1d1737d663c07d6c334f016bf810d8c62ce5b864a1bf54883facf491b81dd",
+      "tests/test_goals.py": "11d920a33513d475f833614593187667e16efed9388c84155c8a53bf76a4a562",
+      "tests/test_pricing.py": "99d8ea2a2d84baef9c41d04db05d5d600e3a7ca7863190d7bb7812247932f7fb",
+      "tests/test_reconciliation.py": "e9c8924318cb512475da6b562a9ce7aaf1163687d635a115df48865b33d16b12",
+      "tests/test_scryfall_bulk.py": "46ebcabd47365103fd1e7912fbadf1e4fc4c88967325d59d6a446d9c3e098e4f",
+      "tests/test_startup.py": "e987e0b84ffd1ae4b9ee2a880f31ab210519e883cff49a27d0c8cfc2851107ed"
+    }
+  },
+  "visual_validation": {
+    "phoneWidths": [
+      360,
+      390,
+      430
+    ],
+    "desktopWidths": [
+      1280
+    ],
+    "screens": [
+      "goal binder",
+      "collection with pagination",
+      "overview",
+      "goal checklist",
+      "card inspector"
+    ],
+    "mockupChecks": {
+      "passed": 10,
+      "total": 10
+    },
+    "consoleErrors": 0,
+    "horizontalOverflowAssertions": "pass",
+    "limitations": [
+      "No physical phone validation",
+      "No full accessibility/zoom audit",
+      "Network required for card art",
+      "Static study does not validate production behaviour"
+    ],
+    "detector": "One contrast warning assumed white host canvas; actual inspected host/app surfaces were dark",
+    "recovery": [
+      "Fixed prototype paging slices and rechecked both second pages",
+      "Restored accented names directly from UTF-8 source manifests"
+    ]
+  },
+  "asset_provenance": {
+    "font": "Unmodified SourceSans3-Regular.woff2 from PP Scheduling; FONT-LICENSE.md retained",
+    "card_art": "Existing reviewed goal manifest image_url fields; network required",
+    "values": "Illustrative mock fixtures; no live price/account data"
+  },
+  "outcome": "status=complete; validation=10 prototype checks, 69 Python and 9 Node tests passed; review_impact=minor\u2014guidance checked against source; recovery=prototype pagination and encoding corrected; acceptance=unconfirmed",
+  "followups": [
+    {
+      "user_feedback": "I like that a lot more",
+      "accepted_scope": "General v2 mobile and goal layout direction",
+      "requested_extension": "Performance since added and more distinctive chart",
+      "next_study": "../design-review-v3/cardchart-performance.html",
+      "extension_acceptance": "unconfirmed"
+    }
+  ]
+}

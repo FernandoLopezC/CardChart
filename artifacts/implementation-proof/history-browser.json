@@ -1,0 +1,52 @@
+{
+  "checks": [
+    [
+      360,
+      "/",
+      "hover, touch event, keys, GBP/date, square cursor, no slider or overflow"
+    ],
+    [
+      360,
+      "/performance",
+      "hover, touch event, keys, GBP/date, square cursor, no slider or overflow"
+    ],
+    [
+      390,
+      "/",
+      "hover, touch event, keys, GBP/date, square cursor, no slider or overflow"
+    ],
+    [
+      390,
+      "/performance",
+      "hover, touch event, keys, GBP/date, square cursor, no slider or overflow"
+    ],
+    [
+      430,
+      "/",
+      "hover, touch event, keys, GBP/date, square cursor, no slider or overflow"
+    ],
+    [
+      430,
+      "/performance",
+      "hover, touch event, keys, GBP/date, square cursor, no slider or overflow"
+    ],
+    [
+      1280,
+      "/",
+      "hover, touch event, keys, GBP/date, square cursor, no slider or overflow"
+    ],
+    [
+      1280,
+      "/performance",
+      "hover, touch event, keys, GBP/date, square cursor, no slider or overflow"
+    ],
+    [
+      "mover filter",
+      "headline scope unchanged"
+    ],
+    [
+      "refresh",
+      "success, unchanged idempotency, failure preserves cache/history"
+    ]
+  ]
+}

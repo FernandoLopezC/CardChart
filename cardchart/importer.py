@@ -8,6 +8,7 @@ from slugify import slugify
 
 from .goal_definitions import goal_entry_versions
 from .models import Card, GoalCard, GoalCardPrinting, db
+from .performance import record_observation, sync_quantity_lots
 from .scrapers import build_ebay_query, build_cardmarket_url
 from .scryfall_bulk import load_bulk_lookup
 
@@ -40,6 +41,7 @@ class ImportResult:
         self.warnings = []
         self.cards_by_scryfall_id = {}
         self.goal_matches = 0
+        self.before_quantities = {}
 
 
 def import_cards(file_storage):
@@ -54,6 +56,9 @@ def import_cards(file_storage):
     for line_number, row in enumerate(import_rows, start=2):
         import_card(row, line_number, result, bulk_lookup)
 
+    for card, before_quantity in result.before_quantities.values():
+        sync_quantity_lots(card, before_quantity)
+    record_observation()
     db.session.commit()
     return result
 
@@ -85,6 +90,7 @@ def import_card(row, line_number, result, bulk_lookup=None):
     scryfall_id = canonical_scryfall_id or lookup_key or build_csv_fallback_id(row)
     card, scryfall_id = find_card_for_row(scryfall_id, row, result)
 
+    before_quantity = card.quantity if card is not None else 0
     if card is None:
         card = Card(scryfall_id=scryfall_id)
 
@@ -96,6 +102,7 @@ def import_card(row, line_number, result, bulk_lookup=None):
         result.warnings.append(f"Line {line_number}: imported CSV details without Scryfall enrichment.")
 
     db.session.add(card)
+    result.before_quantities.setdefault(id(card), (card, before_quantity))
     if canonical_scryfall_id:
         result.goal_matches += match_goal_printings(
             card, canonical_scryfall_id, row, scryfall_data
