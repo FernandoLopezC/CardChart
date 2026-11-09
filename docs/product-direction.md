@@ -6,7 +6,7 @@ Each desired card appears once in a goal checklist and is missing or owned. Exac
 
 The verified Middle-earth checklist contains the 40 HOC Classic Artist cards at collector numbers 13-52. Each entry accepts its standard printing UUID and the matching surge-foil UUID at 53-92. The verified Japanese Mystical Archive checklist contains the 65 Japanese SOA cards at 66-130. Each entry accepts its nonfoil UUID and matching Silver Scroll foil UUID at 131-195. These pairings were checked against Scryfall's official `default_cards` bulk snapshot updated 14 August 2026 by matching names and Oracle IDs; the HOC pairs also match artist attribution.
 
-Existing pricing is legacy behavior. It remains available on inventory pages until removal is separately approved. Startup non-destructively creates an absent database or missing modeled tables and synchronizes curated goals. It does not alter existing table structures; database migration work remains out of scope.
+Legacy scrapers are retired at the user's request. Saved scraper records remain readable on card detail and stay outside guide values and Performance. Scryfall bulk downloads and guide refresh remain available. Startup non-destructively creates an absent database or missing modeled tables and synchronizes curated goals. It does not alter existing table structures; database migration work remains out of scope.
 
 Collection reconciliation supports reviewed, dated source snapshots and disposal
 records. Overlapping trackers describe observations of the same collection, not
@@ -31,7 +31,7 @@ Goal cards show approximate GBP guide prices by converting the selected printing
 
 Goal pages export all missing entries—not merely the current page or filter—as a Cardmarket decklist text file. Each line requests one standard copy and includes Cardmarket's exact version and expansion notation. HOC uses `V.1` from `The Hobbit: Eternal`; the Japanese SOA goal uses `V.2` from `Secrets of Strixhaven: Mystical Archive`. The mapping is maintained with the curated goal definitions and does not make a Cardmarket API request.
 
-Inventory cards use the same Scryfall EUR and cached EUR-to-GBP reference-rate pipeline. Each row is valued from its exact Scryfall printing and finish, with its line value multiplied by quantity; the inventory header sums all priced rows. Inventory pages show 20 rows at a time and provide case-insensitive search across names, sets, collector numbers, and finishes. Sorting supports name, set, quantity, and quantity-adjusted GBP line value; unavailable prices sort after priced rows. Search, sorting, and pagination do not change the full-inventory guide total. Existing scraper-derived snapshots remain visible as legacy information until their future is decided separately.
+Inventory cards use the same Scryfall EUR and cached EUR-to-GBP reference-rate pipeline. Each row is valued from its exact Scryfall printing and finish, with its line value multiplied by quantity; the inventory header sums all priced rows. Inventory pages show 20 rows at a time and provide case-insensitive search across names, sets, collector numbers, and finishes. Sorting supports name, set, quantity, and quantity-adjusted GBP line value; unavailable prices sort after priced rows. Search, sorting, and pagination do not change the full-inventory guide total. Existing scraper-derived snapshots remain available as read-only archived information.
 
 
 **Implemented locally, 9 November 2026:** Overview and Performance use captured
@@ -43,3 +43,17 @@ changes. Remaining-lot movement and its weighted percentage are separate from
 period portfolio change and purchase profit. Missing history is never inferred.
 See [Performance](components/performance.md) and
 [ADR-0004](decisions/0004-guide-performance.md) for evidence and boundaries.
+
+
+**Goal pricing follow-up, 9 November 2026:** missing goal cards can show a price-drop
+flag when the same accepted printing and finish decreases by at least GBP 0.01
+since the previous successful guide refresh. Identical refresh evidence preserves
+the comparison. Flags show exact versions, old/current GBP and percentage change;
+owned cards and unavailable comparisons are excluded. GBP changes can include FX.
+One additional observation table stores goal guides separately from physical
+inventory history; no prior prices are fabricated and no background checks run.
+
+Maintained goal ownership and valuation now share reviewed UUID/finish/language
+acceptance. Detailed edits use version choices and validate linked inventory.
+Existing out-of-policy records remain stored for review but do not count toward
+goal progress or value. Explicit quick-update/Missing effects remain disclosed.

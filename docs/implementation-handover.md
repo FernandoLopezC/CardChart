@@ -1,5 +1,7 @@
 # CardChart UI and pricing implementation handover
 
+Superseded for current behavior by the component guides and [ADR-0005](decisions/0005-goal-price-drops.md). This dated handover remains historical.
+
 Prepared 9 November 2026. This is a dated pickup brief, not a second work queue.
 [Remaining tasks](remaining-tasks.md) remains the only active work queue.
 
@@ -85,7 +87,7 @@ that is not evidence of historical collection ownership.
 | Ownership and identity | [models.py](../cardchart/models.py), [ownership.py](../cardchart/ownership.py), [importer.py](../cardchart/importer.py), reviewed [manifests](../cardchart/goals/). One physical inventory row can satisfy multiple goals. |
 | Guide prices | [pricing.py](../cardchart/pricing.py): `load_scryfall_price_index`, `load_eur_to_gbp_rate`, `price_for_printing`, `cheapest_price_for_versions`. Route helpers own current aggregates. |
 | Bulk refresh | [scryfall_bulk.py](../cardchart/scryfall_bulk.py): `load_bulk_lookup`, `fetch_default_cards_bulk_item`, `download_default_cards`; [goal_cli.py](../cardchart/goal_cli.py) exposes the existing refresh command. |
-| Legacy refresh | `refresh_prices()` / `save_best_price()` in routes, [scrapers.py](../cardchart/scrapers.py), `PriceSnapshot`. Separate from guide values. |
+| Legacy refresh | `refresh_prices()` / `save_best_price()` in routes, [historical scrapers.py](https://github.com/FernandoLopezC/CardChart/blob/dd38ded4f524cc363c0fb0724f1ba03f8272e1db/cardchart/scrapers.py), `PriceSnapshot`. Separate from guide values. |
 | Reconciliation | [reconciliation.py](../cardchart/reconciliation.py), [reconciliation_routes.py](../cardchart/reconciliation_routes.py), ledger models. Needed when planning quantity and disposal history. |
 
 The application is Flask/Jinja/SQLAlchemy. Reuse its structure and shared helpers;

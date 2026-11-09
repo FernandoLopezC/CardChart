@@ -20,13 +20,11 @@
   <p>
 <a href="{{ card.scryfall_uri }}">View on Scryfall</a>
 </p>
-<form method="post" action="{{ url_for('main.refresh_prices', card_id=card.id) }}">
-<button type="submit">Run legacy price check</button>
-</form>
 </div>
 </section>
-<h2>Legacy price history</h2>
-<p class="price-note">Legacy Cardmarket amounts have uncertain currency and are not included in GBP guide values.</p>
+{% if prices %}
+<details><summary>Archived price checks ({{ prices|length }})</summary>
+<p class="price-note">Scraper price checks have been retired. Saved records remain available. Legacy Cardmarket amounts have uncertain currency and are not included in GBP guide values.</p>
 <div class="table-wrap">
 <table>
 <thead>
@@ -49,4 +47,6 @@
 </tr>{% endfor %}</tbody>
 </table>
 </div>
+</details>
+{% endif %}
 {% endblock %}

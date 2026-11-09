@@ -2,7 +2,7 @@
 
 CardChart is a small Flask app for tracking curated Magic: The Gathering collection goals and imported physical cards.
 
-It keeps desired cards visible even when they are missing and associates exact owned printings with each checklist entry. CSV import uses Scryfall IDs and can explicitly match accepted goal printings. Existing UK-focused pricing tools remain available as legacy inventory behavior.
+It keeps desired cards visible even when they are missing and associates exact owned printings with each checklist entry. CSV import uses Scryfall IDs and can explicitly match accepted goal printings. Scryfall guides estimate collection value and flag price drops for missing goal cards.
 
 The initial maintained goal manifests include 40 Middle-earth Classic Artist checklist entries and 65 Japanese Mystical Archive entries. Additional reviewed manifests created through the wizard load through the same registry. Each entry accepts only its verified Scryfall printing UUIDs and finishes, including paired special-foil printings where applicable.
 
@@ -52,11 +52,25 @@ nine-pocket pages; filters highlight pockets without removing gaps. Card inspect
 keep exact versions and detailed ownership editing reachable.
 
 **Refresh guides** updates the Scryfall/ECB pipeline used by collection and goal
-estimates. The card-detail page separately exposes **legacy scraper refresh** and
-preserves existing records. Legacy Cardmarket raw amounts have uncertain currency
+estimates. Legacy scrapers are retired; card detail retains archived price checks.
+Legacy Cardmarket raw amounts have uncertain currency
 and are never included in GBP guide totals. Unsupported etched guides remain
 unavailable. Failed downloads retain the last validated cache; historical cache
 generations are retained on disk for recovery.
+
+Goal **Price drops** flags compare the same accepted printing and finish against
+the previous successful guide refresh, with a minimum decrease of £0.01 per copy.
+The inspector shows before/after GBP values and percentage change. Unchanged
+refreshes preserve flags; owned cards and unavailable comparisons are excluded.
+Tracking starts with a valid refresh; a later changed refresh establishes a comparison.
+GBP movement can include exchange-rate changes. No email or background checks run.
+Scryfall downloads remain available through `flask --app cardchart goals refresh-bulk`;
+use **Refresh guides** in the app to capture goal comparisons after a download.
+
+The detailed ownership editor offers accepted versions and checks linked inventory.
+Existing unaccepted records stay stored for review but do not count toward progress
+or goal value. Startup adds one `goal_price_observation` table without changing
+existing columns or records. Back up the SQLite database before using this version.
 
 ## Reconcile snapshots and disposals
 
@@ -88,7 +102,7 @@ Card Scryfall ID,Name,Set Code,Set Name,Collector Number,Rarity,Finish,Finish Di
 
 ## Notes
 
-Scraping routes are intentionally simple and transparent. eBay and Cardmarket markup can change, and both sites may apply bot protection or usage limits. Use the refresh action responsibly and review each site's terms before heavy use.
+Archived scraper records are read-only and never enter current guides or Performance.
 
 Imports of 100 or more rows refresh Scryfall's `default_cards` bulk data cache. CardChart reads Scryfall's current compressed JSON Lines download and continues to accept an existing JSON-array cache.
 

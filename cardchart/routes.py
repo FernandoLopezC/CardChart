@@ -40,6 +40,7 @@ from .goal_definitions import (
     parse_goal_manifest,
 )
 from .importer import import_cards
+from .goal_prices import record_goal_prices, goal_price_drops
 from .models import Card, CollectionGoal, GoalCard, GoalCardPrinting, PriceSnapshot, db
 from .ownership import canonical_inventory_scryfall_id
 from .performance import observation_history, performance_summary, record_observation
@@ -52,12 +53,11 @@ from .pricing import (
     price_for_version,
     guide_metadata,
 )
-from .scrapers import scrape_cardmarket, scrape_ebay_sold
 from .scryfall_bulk import bulk_cache_available, load_bulk_lookup, load_bulk_metadata
 
 bp = Blueprint("main", __name__)
 GOAL_PAGE_SIZE = 20
-GOAL_FILTERS = {"all", "missing", "owned"}
+GOAL_FILTERS = {"all", "missing", "owned", "drops"}
 INVENTORY_PAGE_SIZE = 20
 INVENTORY_SORT_OPTIONS = (
     ("name-asc", "Name: A to Z"),
@@ -140,11 +140,12 @@ def refresh_guides():
 
     try:
         record_observation(rate_info=rates)
+        record_goal_prices(rates)
         db.session.commit()
     except Exception:
         db.session.rollback()
         current_app.logger.exception("Guide data refreshed but observation recording failed.")
-        flash("Guide data refreshed, but collection history could not be saved. Retry Refresh guides.", "error")
+        flash("Guide data refreshed, but price history could not be saved. Retry Refresh guides.", "error")
         return redirect(destination)
     if rates is None:
         flash("Guide data refreshed, but the current ECB exchange rate is unavailable. GBP values are unavailable.", "warning")
@@ -509,11 +510,21 @@ def goal_detail(slug):
     if selected_view not in {"cards", "binder"}:
         selected_view = "cards"
     page_size = 9 if selected_view == "binder" else GOAL_PAGE_SIZE
+    price_index = {}
+    rate_info = None
+    if current_app.config["MARKET_PRICING_ENABLED"]:
+        price_index = load_goal_price_index()
+        if price_index:
+            rate_info = load_eur_to_gbp_rate()
+    price_summary = goal_price_summary(goal.cards, price_index, rate_info)
+    drops = goal_price_drops(goal, price_index, rate_info)
     cards = goal.cards
     if selected_view == "cards" and selected_filter == "owned":
         cards = [card for card in cards if card.is_owned]
     elif selected_view == "cards" and selected_filter == "missing":
         cards = [card for card in cards if not card.is_owned]
+    elif selected_view == "cards" and selected_filter == "drops":
+        cards = [card for card in cards if card.id in drops["cards"]]
 
     total_cards = len(cards)
     total_pages = max(1, ceil(total_cards / page_size))
@@ -526,16 +537,13 @@ def goal_detail(slug):
     page = min(page, total_pages)
     page_start = (page - 1) * page_size
     page_cards = cards[page_start:page_start + page_size]
-    price_index = {}
-    rate_info = None
-    if current_app.config["MARKET_PRICING_ENABLED"]:
-        price_index = load_goal_price_index()
-        if price_index:
-            rate_info = load_eur_to_gbp_rate()
-    price_summary = goal_price_summary(goal.cards, price_index, rate_info)
     card_views = [goal_card_view(card, price_index, rate_info) for card in page_cards]
     for view in card_views:
-        view["matches_filter"] = selected_filter == "all" or view["card"].is_owned == (selected_filter == "owned")
+        view["matches_filter"] = (
+            view["card"].id in drops["cards"] if selected_filter == "drops"
+            else selected_filter == "all" or view["card"].is_owned == (selected_filter == "owned")
+        )
+        view["price_drops"] = drops["cards"].get(view["card"].id, [])
     return render_template(
         "goal_detail.html",
         goal=goal,
@@ -547,6 +555,7 @@ def goal_detail(slug):
         total_cards=total_cards,
         rate_info=rate_info,
         price_summary=price_summary,
+        price_drops=drops,
         guide_metadata=guide_metadata(),
     )
 
@@ -587,7 +596,7 @@ def goal_card_view(card, price_index, rate_info):
     versions = versions_for_goal_card(card)
     selected_version = versions[0]
     active_printing = next(
-        (printing for printing in card.printings if printing.quantity > 0),
+        iter(card.owned_printings),
         None,
     )
     if active_printing:
@@ -595,9 +604,9 @@ def goal_card_view(card, price_index, rate_info):
             (
                 version
                 for version in versions
-                if version.scryfall_id == active_printing.scryfall_id
-                and version.finish == active_printing.finish
-                and version.language == active_printing.language
+                if version.scryfall_id == active_printing.scryfall_id.lower()
+                and version.finish == active_printing.finish.lower()
+                and version.language == active_printing.language.lower()
             ),
             selected_version,
         )
@@ -649,15 +658,13 @@ def owned_card_price(card, price_index, rate_info):
         for version in versions_for_goal_card(card)
     }
     total = Decimal("0")
-    active_printings = [
-        printing for printing in card.printings if printing.quantity > 0
-    ]
+    active_printings = card.owned_printings
     if not active_printings:
         return None
 
     for printing in active_printings:
         version = versions.get(
-            (printing.scryfall_id, printing.finish, printing.language)
+            (printing.scryfall_id.lower(), printing.finish.lower(), printing.language.lower())
         )
         if version is None:
             return None
@@ -702,51 +709,71 @@ def edit_goal_card(slug, goal_card_id):
         (printing for printing in goal_card.printings if printing.quantity > 0),
         goal_card.printings[0] if goal_card.printings else None,
     )
+    if request.args.get("printing_id"):
+        printing = GoalCardPrinting.query.filter_by(
+            id=request.args.get("printing_id", type=int), goal_card_id=goal_card.id
+        ).first_or_404()
+    versions = versions_for_goal_card(goal_card)
+    selected_version = next((version.key for version in versions if printing and
+        (version.scryfall_id, version.finish, version.language) ==
+        (printing.scryfall_id.lower(), printing.finish.lower(), printing.language.lower())), None)
     return render_template(
         "edit_goal_card.html", goal=goal_card.goal, goal_card=goal_card,
-        printing=printing, inventory=inventory
+        printing=printing, inventory=inventory, versions=versions, selected_version=selected_version
     )
 
 
 @bp.route("/goals/<slug>/cards/<int:goal_card_id>", methods=["POST"])
 def update_goal_card(slug, goal_card_id):
+    from .reconciliation_routes import protect_form
+    protect_form()
     goal_card = goal_card_for_slug(slug, goal_card_id)
     if request.form.get("status") == "missing":
         for printing in goal_card.printings:
             db.session.delete(printing)
-    else:
-        required_fields = ("scryfall_id", "set_code", "collector_number", "language", "finish")
-        if any(not request.form.get(field, "").strip() for field in required_fields):
-            flash("Complete all printing fields before marking this card owned.", "error")
-            return redirect(url_for("main.edit_goal_card", slug=slug, goal_card_id=goal_card_id))
-
-        printing = (
-            goal_card.printings[0]
-            if goal_card.printings
-            else GoalCardPrinting(goal_card=goal_card)
-        )
-        selected_card = None
-        if request.form.get("card_id"):
-            selected_card = db.session.get(Card, int(request.form["card_id"]))
+    elif request.form.get("status") == "owned":
+        try:
+            version = next((v for v in versions_for_goal_card(goal_card) if v.key == request.form.get("version")), None)
+            if version is None or not version.scryfall_id:
+                raise ValueError("Choose an accepted version for this goal.")
+            printing = None
+            if request.form.get("printing_id"):
+                printing = GoalCardPrinting.query.filter_by(id=int(request.form["printing_id"]), goal_card_id=goal_card.id).first()
+                if printing is None:
+                    raise ValueError("The ownership record was not found. Reopen the editor.")
+            if any(p is not printing and (p.scryfall_id.lower(), p.finish.lower(), p.language.lower()) ==
+                   (version.scryfall_id, version.finish, version.language) for p in goal_card.printings):
+                raise ValueError("This version already has an ownership record. Edit that record instead.")
+            selected_card = None
+            if request.form.get("card_id"):
+                selected_card = db.session.get(Card, int(request.form["card_id"]))
+                if selected_card is None or (
+                    canonical_inventory_scryfall_id(selected_card.scryfall_id), selected_card.finish.lower(),
+                    selected_card.set_code.lower(), selected_card.collector_number
+                ) != (version.scryfall_id, version.finish, version.set_code or goal_card.expected_set_code, version.collector_number):
+                    raise ValueError("The imported card must match the selected printing and finish.")
+            quantity = selected_card.quantity if selected_card else int(request.form.get("quantity", ""))
+            if quantity < 1:
+                raise ValueError("Quantity must be at least one.")
+            acquired_at = request.form.get("acquired_at")
+            acquired_at = date.fromisoformat(acquired_at) if acquired_at else None
+        except ValueError as exc:
+            flash(f"Ownership was not changed. {exc}", "error")
+            return redirect(url_for("main.edit_goal_card", slug=slug, goal_card_id=goal_card_id, printing_id=request.form.get("printing_id") or None))
+        printing = printing or GoalCardPrinting(goal_card=goal_card)
         printing.card = selected_card
-        printing.scryfall_id = request.form["scryfall_id"].strip()
-        printing.set_code = (
-            selected_card.set_code if selected_card else request.form["set_code"].strip()
-        )
-        printing.collector_number = (
-            selected_card.collector_number if selected_card else request.form["collector_number"].strip()
-        )
-        printing.language = request.form["language"].strip()
-        printing.finish = (
-            selected_card.finish if selected_card else request.form["finish"].strip()
-        )
-        printing.quantity = (
-            selected_card.quantity if selected_card else int(request.form["quantity"])
-        )
-        acquired_at = request.form.get("acquired_at")
-        printing.acquired_at = date.fromisoformat(acquired_at) if acquired_at else None
+        printing.scryfall_id = version.scryfall_id
+        printing.set_code = version.set_code or goal_card.expected_set_code
+        printing.collector_number = version.collector_number
+        printing.language = version.language
+        printing.finish = version.finish
+        printing.quantity = quantity
+        printing.acquired_at = acquired_at
         printing.notes = request.form.get("notes", "").strip() or None
         db.session.add(printing)
+    else:
+        flash("Choose whether the card is owned or missing.", "error")
+        return redirect(url_for("main.edit_goal_card", slug=slug, goal_card_id=goal_card_id))
     db.session.commit()
     flash("Ownership updated.", "success")
     return redirect(url_for("main.goal_detail", slug=slug))
@@ -783,9 +810,9 @@ def quick_update_goal_card(slug, goal_card_id):
             (
                 printing
                 for printing in goal_card.printings
-                if printing.scryfall_id == version.scryfall_id
-                and printing.finish == version.finish
-                and printing.language == version.language
+                if printing.scryfall_id.lower() == version.scryfall_id
+                and printing.finish.lower() == version.finish
+                and printing.language.lower() == version.language
             ),
             None,
         )
@@ -873,33 +900,3 @@ def card_detail(card_id):
         if price_index:
             rate_info = load_eur_to_gbp_rate()
     return render_template("card_detail.html", card=card, prices=prices, view=inventory_card_view(card, price_index, rate_info), rate_info=rate_info, guide_metadata=guide_metadata())
-
-
-@bp.route("/cards/<int:card_id>/refresh", methods=["POST"])
-def refresh_prices(card_id):
-    card = Card.query.get_or_404(card_id)
-    ebay_listings = scrape_ebay_sold(card.ebay_query or card.name)
-    cardmarket_listings = scrape_cardmarket(card.cardmarket_url)
-
-    save_best_price(card, "ebay_uk_sold", ebay_listings)
-    save_best_price(card, "cardmarket_uk", cardmarket_listings)
-    db.session.commit()
-
-    flash("Refreshed pricing data.", "success")
-    return redirect(url_for("main.card_detail", card_id=card.id))
-
-
-def save_best_price(card, source, listings):
-    if not listings:
-        return
-
-    best = min(listings, key=lambda listing: listing["price_gbp"])
-    db.session.add(
-        PriceSnapshot(
-            card=card,
-            source=source,
-            price_gbp=best["price_gbp"],
-            source_url=best["url"],
-            title=best["title"],
-        )
-    )

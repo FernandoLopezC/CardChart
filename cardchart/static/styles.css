@@ -499,10 +499,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   color:#a9cfc4;
   font-size:14px
 }
-.filtered-pocket {
+.filtered-pocket .collector-art {
   opacity:.38
 }
 .inspector {
+  box-sizing:border-box;
   max-width:720px;
   width:calc(100% - 32px);
   max-height:90vh;
@@ -681,6 +682,15 @@ button,.button-link,.primary-action {
 .goal-progress-summary strong {
   color:#79d7c4
 }
+.goal-drops-summary {
+  margin:24px 0;
+  padding:16px 0;
+  border-block:1px solid #303a36;
+}
+.goal-drops-summary form { margin-top:16px; }
+.goal-drops-summary .price-note { overflow-wrap:anywhere; }
+.price-drop-flag { display:block; color:#79d7c4; font-size:14px; }
+.goal-price-drop { margin-bottom:20px; }
 .goal-progress-summary span,.collection-toolbar>span {
   color:#b4bfbb
 }
@@ -716,6 +726,8 @@ input,select,textarea {
 .ownership-form fieldset {
   border:1px solid #52625b
 }
+.ownership-form fieldset label { display:flex; align-items:center; gap:10px; }
+.ownership-form input[type="radio"] { width:20px; min-height:20px; margin:0; }
 .ownership-form input,.ownership-form select,.ownership-form textarea,.inventory-controls input,.inventory-controls select,.inspector select {
   background:#1b2421;
   color:#f2f4f2;

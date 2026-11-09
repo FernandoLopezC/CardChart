@@ -1,115 +1,90 @@
-# Guide values and legacy pricing
+# Guide prices, goal drops and archived checks
 
-## Implementation update: 9 November 2026
+## Sources and boundaries
 
-The collector UI has a separate `POST /guides/refresh` action. It checks the
-existing session CSRF token, refreshes Scryfall bulk data, invalidates the derived
-price index, and reports updated/unchanged source data and the ECB rate date.
-Legacy per-card scraper refresh remains separate. Its Cardmarket amounts are
-displayed as legacy raw values with uncertain currency, without a GBP label.
+Current values use exact-printing Scryfall EUR bulk guides converted to GBP with
+an ECB reference rate through Frankfurter. They are estimates, excluding shipping,
+fees and condition adjustments. Unsupported etched and unknown finishes remain
+unavailable. Legacy eBay/Cardmarket scrapers and their refresh route are retired.
+Saved PriceSnapshot records remain readable under Archived price checks on card
+detail. Legacy Cardmarket currency remains uncertain and never enters GBP guides,
+goal comparisons or collection Performance.
 
-Downloads are validated as complete gzip JSON Lines or JSON arrays before
-publication. Source timestamps must be timezone-aware and not in the future;
-guide price fields must be null/missing or finite, nonnegative decimal strings.
-Malformed price/link structures are rejected before replacing the active cache.
-Content-addressed generation files are published through one atomic
-metadata-pointer replacement. Failed downloads or metadata publication preserve
-the previously referenced cache. Existing fixed-name caches remain readable.
-Older generation files are retained for recovery; repeated unchanged refreshes
-do not download another generation. Operators must account for retained cache
-disk space. The derived price index is keyed by the actual generation and mtime.
+Scryfall downloads remain available through **Refresh guides**, the existing bulk
+refresh actions and `flask --app cardchart goals refresh-bulk`. CLI downloads do not
+capture goal-price history; Refresh guides does that after a download.
 
-Only `nonfoil -> eur` and `foil -> eur_foil` are priced. Etched and unknown finishes
-remain unavailable. Amounts must be finite and nonnegative; rates must be finite
-and positive. FX dates must be valid and not in the future. Missing/current FX
-failure does not reuse yesterday's cached rate. Zero prices remain valid.
-The UI identifies partial coverage and source data older than 48 hours as stale.
-Guide values remain estimates, excluding shipping, fees and condition adjustments.
+## Owners
 
-Focused tests exercise publication failures, malformed/truncated downloads,
-unchanged upstream data, finish mapping, penny rounding and FX failure. Live
-Scryfall metadata and the ECB-filtered Frankfurter response returned HTTP 200 on
-9 November; no full live bulk download or marketplace scrape was run.
-[Frankfurter's official contract](https://frankfurter.dev/) supports the existing
-single-pair and provider-filter parameters. Approved [Performance storage](performance.md)
-retains captured source/FX evidence and keeps legacy values outside guide history.
-
-The implementation update supersedes the finish mapping and direct cache-write
-limitations described in the historical inspection below.
-
-**Scope:** current working tree, 2026-10-18; price reader/conversion, route aggregates,
-scrapers, models and relevant tests inspected. Human owner: **unknown**.
-[Baseline](../README.md#inspection-baseline-and-existing-documentation).
-
-## Purpose and boundary
-
-Guide prices are informational Scryfall EUR estimates converted to GBP. Explicit
-legacy refresh creates scraper-derived `PriceSnapshot` records independently.
-Neither pipeline defines [goal membership](goals.md) or inventory identity.
-[Product direction](../product-direction.md) owns pricing intent; the
-[legacy-retirement decision](../remaining-tasks.md#decide-the-future-of-legacy-pricing)
-remains open.
-
-## Canonical owners and dependencies
-
-| Concern | Source owner |
+| Concern | Source |
 | --- | --- |
-| Price index and cache freshness | [load_scryfall_price_index / build_price_index](../../cardchart/pricing.py#L24-L119), consumes Scryfall bulk data and metadata from [inventory's cache](inventory.md) |
-| FX retrieval, validation, UTC-day cache | [load_eur_to_gbp_rate](../../cardchart/pricing.py#L122-L151), Frankfurter ECB EUR/GBP endpoint |
-| Finish price, Decimal conversion and cheapest eligible version | [price_for_printing / cheapest_price_for_versions](../../cardchart/pricing.py#L154-L190) |
-| Goal owned value and missing cost | [goal_price_summary / owned_card_price / cheapest_missing_card_price](../../cardchart/routes.py#L522-L580) |
-| Quantity-adjusted inventory values and full total | [inventory / inventory_card_view](../../cardchart/routes.py#L76-L142) |
-| Legacy network refresh and persisted best listing | [refresh_prices / save_best_price](../../cardchart/routes.py#L772-L799), [scrapers.py](../../cardchart/scrapers.py#L14-L86), [PriceSnapshot](../../cardchart/models.py#L39-L48) |
+| Streaming index, exact-finish prices, FX and freshness | [pricing.py](../../cardchart/pricing.py) |
+| Validated atomic bulk publication | [scryfall_bulk.py](../../cardchart/scryfall_bulk.py) |
+| Goal-price capture and comparison | [goal_prices.py](../../cardchart/goal_prices.py) |
+| Refresh transaction, goal totals, filters and views | [routes.py](../../cardchart/routes.py) |
+| GoalPriceObservation and retained PriceSnapshot | [models.py](../../cardchart/models.py) |
+| Physical-inventory lots and history | [Performance](performance.md) |
 
-## Invariants and failure behavior
+## Guide invariants
 
-Implemented: the index selects goal UUIDs plus requested inventory IDs from cached
-bulk data; it does not refresh Scryfall during page reads. A compact disk index and
-process cache use source `updated_at` plus requested-ID coverage. The price reader
-separately supports gzip JSON Lines and existing JSON arrays; changing formats must
-consider both readers. Invalid bulk content is not uniformly caught by price reads.
+Only nonfoil uses `eur` and foil uses `eur_foil`. Prices must be finite and
+nonnegative, FX rates finite and positive, and source/FX dates valid. Zero is a
+valid price. Decimal conversion rounds half-up to pennies. Missing values stay
+unavailable; no yesterday-rate or alternate-provider fallback is introduced.
 
-Nonfoil uses `eur`; other supported finishes currently use `eur_foil`. Decimal GBP
-conversion rounds half-up to pennies. Missing price/rate yields unavailable GBP,
-not a zero-valued card. FX network/validation failure returns no rate; yesterday's
-rate is not reused. Index and FX files are runtime artifacts under `instance/`.
+Downloads validate complete gzip JSON Lines or JSON arrays before publication.
+Content-addressed generation files are published through one atomic metadata-pointer
+replacement. Failed publication preserves the previously referenced cache. Original
+fixed-name caches remain readable. Old generations remain on disk for recovery.
+The derived index is keyed by generation and mtime. Pages do not download bulk data.
+Source data older than 48 hours is labelled stale.
 
-Goal owned value requires every positive recorded printing to be accepted and priced,
-then multiplies each by quantity. Missing cost takes the cheapest priced accepted
-version per missing entry. Summaries include priced entries and expose coverage
-counts; an empty bucket is zero, a wholly unpriced nonempty bucket is unavailable.
-They cover the full checklist, independent of filtering/pagination. Inventory likewise
-totals priced rows before filtering/pagination; line value includes quantity, and
-unavailable prices sort after priced ones. Templates display these values rather
-than recomputing business metrics.
+Goal owned value uses accepted positive printing quantities. Missing cost uses the
+cheapest priced accepted version for each missing card. Totals cover the complete
+goal regardless of filters or pagination. Inventory totals use canonical UUID,
+finish and quantity; overlapping goal totals never form collection value. Empty
+buckets are zero; wholly unpriced nonempty buckets are unavailable. Partial coverage
+is disclosed. [Goals](goals.md) owns acceptance and preservation of unaccepted rows.
 
-Inventory normalizes stored IDs with
-[ownership.canonical_inventory_scryfall_id](../../cardchart/ownership.py#L6-L15)
-before requesting the index and calling `price_for_printing`. Finish-suffixed rows
-therefore use the canonical UUID's price for their recorded finish without rewriting
-stored identities. Synthetic CSV IDs remain unpriced.
+## Goal price-drop comparisons
 
-Legacy scrapers call eBay/Cardmarket synchronously and persist the lowest parsed
-listing for each source. Network errors propagate from refresh; no listings means
-no new snapshot. Cardmarket's EUR parser currently feeds the field named
-`price_gbp` without FX conversion ([scrape_cardmarket](../../cardchart/scrapers.py#L47-L60));
-these snapshots must not be interpreted as the guide pipeline's converted estimates.
-Live markup and currency semantics are unverified. Preserve legacy behavior/data
-pending its product and retention decision.
+The user selected previous successful guide refresh and a minimum GBP 0.01 decrease.
+`record_goal_prices` captures all maintained accepted versions in one additional
+GoalPriceObservation table. Each row retains source timestamp, FX rate/date, captured
+GBP by UUID/finish and capture time. Startup creates the missing table; no existing
+columns or rows are changed. Back up the configured database before startup.
 
-## Verification and updates
+Capture joins the collection observation transaction in `POST /guides/refresh`.
+No page read, import, or background task creates goal-price history. Invalid source
+or missing current FX cannot establish a comparison. A failed database write rolls
+back both histories and reports failure; published bulk data may already be newer.
+Identical source, FX and prices do not append a snapshot or clear existing flags.
 
-Run `python -m unittest discover -s tests -p test_pricing.py` and
-`python -m unittest discover -s tests -p test_goals.py`.
-[Pricing tests](../../tests/test_pricing.py) exercise actual bulk projections,
-finish conversion, daily FX caching and restricted cheapest-version selection.
-[Route tests](../../tests/test_goals.py) check full goal totals, exact versions,
-quantity-adjusted inventory sorting and legacy route availability. The import-to-page
-regression uses the real bulk price index to verify both finishes contribute to the
-inventory total while an unverified CSV identity remains unavailable. They do not
-verify live scrapers or external API compatibility. [Runbook](../runbooks/verification.md).
+Compare the latest two distinct captures for the same UUID and finish. Flag only
+currently missing cards with a decrease of at least GBP 0.01 per copy. Never compare
+one version's old price against another version's new price. Unknown prior/current
+values do not count as zero. New versions need two comparable captures. GBP movement
+can include FX. A zero current price can represent a 100% decrease; a zero previous
+price cannot generate a drop.
 
-Update this guide and README/product direction when visible valuation semantics
-change; coordinate UUID contract changes with inventory and goal guides. Add a
-sourced ADR for a consequential integration/consistency change, and use the existing
-backlog for gaps. No live-market or deployment verification is implied by unit tests.
+Display requires the current source/FX evidence and price to match the latest
+capture. A separate bulk download or changed FX prompts Refresh guides instead of
+showing a comparison against different current data. Cards filters to matching
+entries; Binder keeps pocket positions and dims only nonmatching artwork. Drop
+counts cover the full goal. Inspectors identify each version and show old/current
+GBP, decrease and percentage, with the current exact marketplace link where present.
+
+This is an in-app signal, not live offers or purchase profit. No notifications,
+scheduler, paid data source, schema migration or guessed history is added.
+[ADR-0005](../decisions/0005-goal-price-drops.md) records the decision and preservation
+boundary; [ADR-0004](../decisions/0004-guide-performance.md) still owns inventory history.
+
+## Verification
+
+Run `python -m unittest discover -s tests -p test_goal_price_drops.py`,
+`python -m unittest discover -s tests -p test_ownership_editor.py`, pricing/goal/bulk
+checks, then the complete [offline suite](../runbooks/verification.md).
+Tests use real services, temporary caches and isolated SQLite. They cover exact
+versions, unchanged refreshes, unavailable evidence, zero prices, FX movement,
+transaction rollback, filters, retained records and retired endpoints.
+Live-provider contracts were not changed by this feature.

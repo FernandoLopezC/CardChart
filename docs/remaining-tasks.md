@@ -2,24 +2,6 @@
 
 Completed implementation is reflected in the product documentation and code rather than retained here as unfinished work.
 
-## Decide the future of legacy pricing
-
-- **Status:** Pending decision
-- **Reason:** Pricing is no longer the primary product direction, but its removal has not been approved.
-- **Required work:** Decide whether and when to retire price snapshots, scrapers, and refresh routes.
-- **Upstream dependencies:** Product-owner approval and a data-retention decision.
-- **Downstream effects:** A future decision may simplify inventory and card-detail views.
-- **Risks or constraints:** Existing pricing data and behavior must remain intact until approval.
-
-## Align ownership write paths
-
-- **Status:** Discrepancy found; policy decision required before implementation.
-- **Evidence:** [Detailed editor](../cardchart/routes.py#L616-L657) accepts free-form printing fields; quick update and versioned import matching use reviewed versions. [Goals guide](components/goals.md) distinguishes these paths from product intent.
-- **Required work:** Confirm whether manual ownership outside reviewed versions is intentional. Add a functional POST test for the chosen policy, then align validation or clarify product intent. Preserve notes, quantities, acquisition dates and existing ownership during any approved change.
-- **Upstream dependencies:** Product-owner decision; no validation tightening is part of documentation preparation.
-- **Downstream effects:** Ownership/progress and owned-value coverage may change; update the goals guide and product direction together.
-- **Risks or constraints:** Positive manual quantities currently count as owned even when guide valuation cannot accept the printing. Inventory reconciliation also lacks independent language data; do not claim it validates inventory language.
-
 ## Establish activation recovery expectations
 
 - **Status:** Unverified failure boundary; proposal for follow-up, not an adopted design.

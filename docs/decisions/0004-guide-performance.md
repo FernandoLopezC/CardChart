@@ -1,5 +1,9 @@
 # ADR-0004: Track remaining inventory against captured guide baselines
 
+[ADR-0005](0005-goal-price-drops.md) later adds separate goal-price observations and
+retires scraper execution while retaining saved records. Inventory metrics below
+remain unchanged.
+
 - Status: approved for implementation by the user on 9 November 2026.
 - Provenance: the implementation-handover pickup request, followed by explicit
   approval of three additive tables, FIFO reductions and first-valid baselines.

@@ -26,18 +26,36 @@
 </details>
 {% set missing_count = goal.total_count - goal.owned_count %}
 {% if missing_count %}<a href="{{ url_for('main.export_cardmarket_wants', slug=goal.slug) }}">Export {{ missing_count }} missing cards for Cardmarket</a>{% endif %}</header>
+<div class="goal-drops-summary">
+{% if price_drops.cards %}
+<p><a href="{{ url_for('main.goal_detail', slug=goal.slug, view=selected_view, filter='drops') }}">{{ price_drops.cards|length }} missing {{ 'card has' if price_drops.cards|length == 1 else 'cards have' }} lower guide prices</a></p>
+{% elif price_drops.status == 'ready' %}<p>No price drops found · {{ price_drops.comparable_count }} of {{ missing_count }} missing cards compared.</p>
+{% elif price_drops.status == 'unavailable' %}<p>Price-drop checks need available GBP guides. Refresh guides to try again.</p>
+{% elif price_drops.status == 'refresh' %}<p>Guides have changed. Refresh guides to update price-drop flags.</p>
+{% else %}<p>Price-drop tracking starts with your next guide refresh. A later change gives us a comparison.</p>{% endif %}
+<details><summary>How price drops are compared</summary>
+<p class="price-note">A flag means an accepted printing and finish is at least £0.01 cheaper than at the previous recorded guide refresh. GBP changes can include exchange-rate movement. These are estimates, not sale offers. Unchanged refreshes keep the same comparison.</p>
+{% if price_drops.status == 'ready' %}<p class="price-note">{{ price_drops.comparable_count }} of {{ missing_count }} missing cards compared. Source dates: {{ price_drops.previous.source_updated_at }} to {{ price_drops.latest.source_updated_at }}. ECB dates: {{ price_drops.previous.fx_date }} to {{ price_drops.latest.fx_date }}.</p>{% endif %}
+</details>
+<form method="post" action="{{ url_for('main.refresh_guides') }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<input type="hidden" name="return_to" value="{{ request.full_path }}">
+<button type="submit">Refresh guides</button>
+</form>
+</div>
 <div class="collection-toolbar">
 <nav class="filters" aria-label="Goal view">{% for value in ('cards','binder') %}<a href="{{ url_for('main.goal_detail', slug=goal.slug, view=value, filter=selected_filter, focus=card_views[0].card.id if card_views else none, _anchor='card-' ~ card_views[0].card.id if card_views else none) }}" {% if selected_view == value %}aria-current="page"{% endif %}>{{ value|title }}</a>{% endfor %}</nav>
-<nav class="filters" aria-label="Checklist filters">{% for value in ('all','missing','owned') %}<a href="{{ url_for('main.goal_detail', slug=goal.slug, view=selected_view, filter=value, page=page if selected_view == 'binder' else 1) }}" {% if selected_filter == value %}aria-current="page"{% endif %}>{{ value|title }}</a>{% endfor %}</nav>
+<nav class="filters" aria-label="Checklist filters">{% for value in ('all','missing','owned','drops') %}<a href="{{ url_for('main.goal_detail', slug=goal.slug, view=selected_view, filter=value, page=page if selected_view == 'binder' else 1) }}" {% if selected_filter == value %}aria-current="page"{% endif %}>{{ 'Price drops' if value == 'drops' else value|title }}</a>{% endfor %}</nav>
 <span>{{ total_cards }} cards · Page {{ page }} of {{ total_pages }}</span>
 </div>
 {% if selected_view == 'binder' and selected_filter != 'all' %}<p class="price-note">Matching pockets are highlighted; other pockets remain in place.</p>{% endif %}
 <div class="goal-cards {{ 'binder-grid' if selected_view == 'binder' else 'collector-grid' }}">{% for view in card_views %}
 {% set card = view.card %}<article class="goal-pocket {% if selected_view == 'binder' and not view.matches_filter|default(true) %}filtered-pocket{% endif %}" id="card-{{ card.id }}">
-<button type="button" class="pocket-button" data-open-dialog="inspect-{{ card.id }}" aria-label="Inspect {{ card.name }}">
+<button type="button" class="pocket-button" data-open-dialog="inspect-{{ card.id }}" aria-label="Inspect {{ card.name }}{{ ' · Price drop' if view.price_drops else '' }}">
 <span class="collector-art">{% if card.image_url %}<img src="{{ card.image_url }}" alt="" loading="lazy">{% else %}<span class="placeholder">No image</span>{% endif %}</span>
 <span class="pocket-status">{{ 'Owned' if card.is_owned else 'Missing' }}</span>
 <strong>{{ card.name }}</strong>
+{% if view.price_drops %}<span class="price-drop-flag">Price drop</span>{% endif %}
 </button>
 <dialog id="inspect-{{ card.id }}" class="inspector" aria-labelledby="inspect-title-{{ card.id }}">
 <div class="inspector-head">
@@ -45,7 +63,13 @@
 <button type="button" data-close-dialog aria-label="Close inspector">Close</button>
 </div>
 <div class="inspector-body">{% if card.image_url %}<img src="{{ card.image_url }}" alt="">{% endif %}<div>
-<p>{{ 'Owned' if card.is_owned else 'Missing' }}</p>{% for printing in card.printings if printing.quantity > 0 %}<p>Qty {{ printing.quantity }} · {{ printing.set_code|upper }} #{{ printing.collector_number }} · {{ printing.finish }} · {{ printing.language }}</p>{% endfor %}<form method="post" action="{{ url_for('main.quick_update_goal_card', slug=goal.slug, goal_card_id=card.id) }}">
+<p>{{ 'Owned' if card.is_owned else 'Missing' }}</p>{% for printing in card.printings if printing.quantity > 0 %}<p>Qty {{ printing.quantity }} · {{ printing.set_code|upper }} #{{ printing.collector_number }} · {{ printing.finish }} · {{ printing.language }}{% if printing not in card.owned_printings %} · Needs review; excluded from progress and value{% endif %}</p>{% endfor %}
+{% for drop in view.price_drops %}<div class="goal-price-drop">
+<p class="price-drop-flag">{{ drop.version.label }} down £{{ drop.drop }} ({{ drop.percent }}%)</p>
+<p>£{{ drop.before }} → £{{ drop.after }} per copy</p>
+{% if drop.url %}<a href="{{ drop.url }}" target="_blank" rel="noopener noreferrer">View {{ drop.version.label }} on Cardmarket</a>{% endif %}
+</div>{% endfor %}
+<form method="post" action="{{ url_for('main.quick_update_goal_card', slug=goal.slug, goal_card_id=card.id) }}">
 <input type="hidden" name="filter" value="{{ selected_filter }}">
 <input type="hidden" name="page" value="{{ page }}">
 <input type="hidden" name="view" value="{{ selected_view }}">

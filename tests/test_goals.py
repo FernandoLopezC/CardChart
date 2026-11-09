@@ -101,7 +101,7 @@ class GoalTests(unittest.TestCase):
     def add_printing(self, card, finish="nonfoil"):
         printing = GoalCardPrinting(
             goal_card=card,
-            scryfall_id=PRINTING_ID,
+            scryfall_id=next(iter(card.accepted_printing_ids)),
             set_code="tst",
             collector_number="1",
             finish=finish,
@@ -560,15 +560,18 @@ class GoalTests(unittest.TestCase):
         with self.app.app_context():
             goal = self.sync()
             card = goal.cards[0]
-            response = self.app.test_client().post(
+            client = self.app.test_client()
+            client.get(f"/goals/test-goal/cards/{card.id}/edit")
+            with client.session_transaction() as session:
+                token = session["reconciliation_csrf"]
+            response = client.post(
                 f"/goals/test-goal/cards/{card.id}",
-                data={"status": "owned", "scryfall_id": PRINTING_ID, "set_code": "tst",
-                      "collector_number": "1", "language": "ja", "finish": "foil",
+                data={"status": "owned", "version": "nonfoil", "csrf_token": token,
                       "quantity": "1", "acquired_at": "", "notes": ""},
             )
             self.assertEqual(response.status_code, 302)
             self.assertEqual(GoalCard.query.count(), 2)
-            self.assertEqual(card.printings[0].finish, "foil")
+            self.assertEqual(card.printings[0].finish, "nonfoil")
 
     def test_multiple_finishes_are_allowed(self):
         with self.app.app_context():
@@ -630,7 +633,7 @@ class GoalTests(unittest.TestCase):
             "cardchart.importer.load_scryfall_bulk_lookup",
             return_value=BulkLookup(PRINTING_ID),
         ), patch(
-            "cardchart.importer.goal_entry_versions",
+            "cardchart.goal_definitions.goal_entry_versions",
             return_value=self.versioned_definition().entries[0].versions,
         ):
             self.sync()
